@@ -7,14 +7,14 @@
 import warnings
 import os
 import sys
-
+import numpy as np
 from distutils.core import setup, Extension
 
 # class ************************************************************************
 # function *********************************************************************
 example_module = Extension('_array_cos',
-                           sources=['my_cpp_wrap.cxx', 'my_cpp.cpp'],
-                           include_dirs=[numpy.get_include()],
+                           sources=['array_cos_wrap.cxx', 'my_cpp.cpp'],
+                           include_dirs=[np.get_include()],
                            )
 setup(name='array_cos',
       version='0.1',

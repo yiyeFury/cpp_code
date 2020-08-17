@@ -17,5 +17,14 @@
 %apply (double* IN_ARRAY1, int DIM1) {(double * in_array, int size_in)}
 %apply (double* INPLACE_ARRAY1, int DIM1) {(double * out_array, int size_out)}
 
-void array_cos(double *in_array, double *out_array, int size);
+
+/*  Wrapper for cos_doubles that massages the types */
+%inline %{
+    /*  takes as input two numpy arrays */
+    void array_cos_func(double * in_array, int size_in, double * out_array, int size_out) {
+        /*  calls the original funcion, providing only the size of the first */
+        array_cos(in_array, out_array, size_in);
+    }
+%}
+
 int leap_year(int year);
