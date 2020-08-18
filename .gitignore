@@ -1,3 +1,9 @@
-my_cpp
-\!my_cpp/my_cpp/*.cpp
-!my_cpp/my_cpp/*.h
+my_cpp/.vs
+my_cpp/Debug
+my_cpp/*.*
+my_cpp/my_cpp/*
+!/my_cpp/my_cpp/*.cpp
+!/my_cpp/my_cpp/*.h
+
+swig/build
+swig/__pycache__
