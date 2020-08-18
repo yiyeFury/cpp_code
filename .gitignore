@@ -1,3 +1,3 @@
-.idea
-.my_cpp/my_cpp/Debug
-.my_cpp/Debug
+my_cpp/
+!my_cpp/my_cpp/*.cpp
+!my_cpp/my_cpp/*.h
