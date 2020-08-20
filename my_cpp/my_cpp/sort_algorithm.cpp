@@ -3,6 +3,23 @@
 
 using namespace std;
 
+void insertion_sort(int *arr, int num, bool is_ascending)
+{
+	int key, ii, jj;
+	for (jj = 1; jj < num; jj++) {
+		key = arr[jj];
+		ii = jj - 1;
+		while (ii >= 0 && arr[ii] > key) {
+			arr[ii + 1] = arr[ii];
+			ii -= 1;
+		}
+		arr[ii + 1] = key;
+	}
+
+}
+
+
+// merge sort *****************************************************************
 int partition(int *arr, int p, int r)
 {
 	int x, ii;
