@@ -87,6 +87,6 @@ void main()
 	quick_sort(arr, 0, 3);
 	print_array(arr, num);
 	print_array(arr, num);
-	cout << endl;
+	cout << endl << endl;
 	system("pause");
 }
