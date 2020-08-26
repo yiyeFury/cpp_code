@@ -61,3 +61,47 @@ void insertion_sort(T(&arr)[num], bool is_ascending)
 		}
 	}
 }
+
+
+
+/*
+================================================================================
+快速排序
+*/
+template<typename T, unsigned num>
+int partition(T (&arr)[num], int p, int r, bool is_ascending)
+{
+	int x, ii;
+	x = arr[r];  // 主元
+	ii = p;
+	if (is_ascending) {
+		for (int jj = p; jj < r-1; jj++) {
+			if (arr[jj] <= x) {  // 寻找小于主元的值
+				swap(arr[ii], arr[jj]);
+				ii += 1;
+			}
+		}
+	}
+	else {
+		for (int jj = p; jj < r-1; jj++) {
+			if (arr[jj] >= x) {
+				swap(arr[ii], arr[jj]);
+				ii += 1;
+			}
+		}
+	}
+	
+	swap(arr[ii], arr[r]);
+	return ii;
+}
+
+template<typename T, unsigned num>
+void quick_sort(T (&arr)[num], int p, int r, bool is_ascending)
+{
+	int q;
+	if (p < r) {
+		q = partition(arr, p, r, is_ascending);
+		quick_sort(arr, p, q - 1, is_ascending);
+		quick_sort(arr, q + 1, r, is_ascending);
+	}
+}

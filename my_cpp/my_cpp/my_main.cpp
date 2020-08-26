@@ -11,7 +11,7 @@ void main()
 	print_array(arr);
 
 	//insertion_sort(arr, true);
-	swap(arr[0], arr[1]);
+	quick_sort(arr, 0, 4, true);
 	print_array(arr);
 
 	cout << endl;
