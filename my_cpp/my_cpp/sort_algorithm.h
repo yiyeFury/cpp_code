@@ -1,5 +1,5 @@
 #pragma once
-
+#include<math.h>
 
 /*
 ============================================================================
@@ -63,8 +63,7 @@ void insertion_sort(T(&arr)[num], bool is_ascending)
 }
 
 
-
-/*
+/* 
 ================================================================================
 快速排序
 */
@@ -74,16 +73,16 @@ int partition(T (&arr)[num], int p, int r, bool is_ascending)
 	int x, ii;
 	x = arr[r];  // 主元
 	ii = p;
-	if (is_ascending) {
-		for (int jj = p; jj < r-1; jj++) {
+	if (is_ascending) {  // 递增排序
+		for (int jj = p; jj < r; jj++) {  // jj标记当前循环位置
 			if (arr[jj] <= x) {  // 寻找小于主元的值
-				swap(arr[ii], arr[jj]);
+				swap(arr[ii], arr[jj]);  // ii标记待存放小于主元的元素的位置
 				ii += 1;
 			}
 		}
 	}
 	else {
-		for (int jj = p; jj < r-1; jj++) {
+		for (int jj = p; jj < r; jj++) {
 			if (arr[jj] >= x) {
 				swap(arr[ii], arr[jj]);
 				ii += 1;
@@ -91,7 +90,7 @@ int partition(T (&arr)[num], int p, int r, bool is_ascending)
 		}
 	}
 	
-	swap(arr[ii], arr[r]);
+	swap(arr[ii], arr[r]);  // 将主元放入位置，其左边/右边均为小于等于/大于等于它的值
 	return ii;
 }
 
@@ -105,3 +104,62 @@ void quick_sort(T (&arr)[num], int p, int r, bool is_ascending)
 		quick_sort(arr, q + 1, r, is_ascending);
 	}
 }
+
+
+/*
+================================================================================
+归并排序
+*/
+template<typename T, unsigned num>
+void merge(T(&arr)[num], int p, int q, int r, bool is_ascending)
+{
+	int ii = 0, jj=0, kk = 0;
+
+	int n1 = q - p + 1; // 下标范围 [p, q]
+	int n2 = r - q;  // 下标范围 (q, r]
+	T *left = new T[n1];
+	T *right = new T[n2];
+	
+	for (ii = 0; ii < n1; ii++)
+		left[ii] = arr[p + ii];
+
+	for (ii = 0; ii < n2; ii++)
+		right[ii] = arr[q + ii + 1];
+
+	ii = 0, jj = 0;
+	if (is_ascending) {  // 递增排序
+		for (kk = p; kk <= r; kk++) {
+			if ((ii < n1) && (((jj < n2) && (left[ii] <= right[jj])) || (jj >= n2))) {
+				arr[kk] = left[ii];
+				ii++;
+			}
+			else if ((jj < n2) && (((ii < n1) && (right[jj] <= left[ii])) || (ii >= n1))) {
+				arr[kk] = right[jj];
+				jj++;
+			}
+		}
+	}else {
+		for (kk = p; kk <= r; kk++) {
+			if ((ii < n1) && (((jj < n2) && (left[ii] >= right[jj])) || (jj >= n2))) {
+				arr[kk] = left[ii];
+				ii++;
+			}
+			else if ((jj < n2) && (((ii < n1) && (right[jj] >= left[ii])) || (ii >= n1))) {
+				arr[kk] = right[jj];
+				jj++;
+			}
+		}
+	}
+}
+
+template<typename T, unsigned num>
+void merge_sort(T(&arr)[num], int p, int r, bool is_ascending)
+{
+	if (p < r) {
+		int q = floor((p + r) / 2);
+		merge_sort(arr, p, q, is_ascending);
+		merge_sort(arr, q + 1, r, is_ascending);
+		merge(arr, p, q, r, is_ascending);
+	}
+}
+
