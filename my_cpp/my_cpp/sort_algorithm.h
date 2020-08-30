@@ -113,13 +113,13 @@ void quick_sort(T (&arr)[num], int p, int r, bool is_ascending)
 template<typename T, unsigned num>
 void merge(T(&arr)[num], int p, int q, int r, bool is_ascending)
 {
-	int ii = 0, jj=0, kk = 0;
+	int ii = 0, jj = 0, kk = 0;
 
 	int n1 = q - p + 1; // 下标范围 [p, q]
 	int n2 = r - q;  // 下标范围 (q, r]
 	T *left = new T[n1];
 	T *right = new T[n2];
-	
+
 	for (ii = 0; ii < n1; ii++)
 		left[ii] = arr[p + ii];
 
@@ -138,7 +138,8 @@ void merge(T(&arr)[num], int p, int q, int r, bool is_ascending)
 				jj++;
 			}
 		}
-	}else {
+	}
+	else {
 		for (kk = p; kk <= r; kk++) {
 			if ((ii < n1) && (((jj < n2) && (left[ii] >= right[jj])) || (jj >= n2))) {
 				arr[kk] = left[ii];
@@ -163,3 +164,69 @@ void merge_sort(T(&arr)[num], int p, int r, bool is_ascending)
 	}
 }
 
+/*
+================================================================================
+堆排序
+*/
+int parent(int ii)
+{
+	return floor((ii - 1) / 2);
+}
+
+int left(int ii)
+{
+	return 2 * ii + 1;
+}
+
+int right(int ii)
+{
+	return 2 * (ii + 1);
+}
+
+template<typename T, unsigned num>
+void max_heapify(T(&arr)[num], int ii, int heap_size)
+{
+	// ii, 当前节点的位置下标
+	// heap_size, 数组中实际存放的元素数量
+	int ll, rr, largest;
+	ll = left(ii), rr = right(ii);
+
+	largest = ii;
+	// 左子节点存在，且大于父节点
+	if ((ll < heap_size) && (arr[ll] > arr[ii]))
+		largest = ll;
+
+	// 右子节点存在，且大于父节点和左子节点
+	if ((rr < heap_size) && (arr[rr] > arr[largest]))
+		largest = rr;
+
+	// 当前父节点小于左子节点或右子节点，将与父节点置换位置的子节点所在子树，进行重排
+	if (largest != ii) {
+		swap(arr[ii], arr[largest]);
+		max_heapify(arr, largest, heap_size);
+	}
+}
+
+template<typename T, unsigned num>
+void build_max_heap(T(&arr)[num], int heap_size)
+{
+	//int heap_size = num;
+	int num_parents = floor(heap_size / 2);  // 根据数组中元素的数量，计算堆中父节点的个数
+
+	for (int ii = num_parents-1; ii >= 0; --ii)
+		max_heapify(arr, ii, heap_size);
+}
+
+template<typename T, unsigned num>
+void heap_sort(T(&arr)[num])
+{
+	int heap_size = num;  // 初始时，堆中元素个数等于数组个数
+
+	build_max_heap(arr, num);
+	// heap_size-1 堆中最后一个元素的位置下标
+	for (int ii = heap_size - 1; ii > 0; ii--) {
+		swap(arr[0], arr[heap_size - 1]);  // 根节点arr[0] 为堆中的最大元素
+		heap_size--;  // 堆中有效元素 -1
+		max_heapify(arr, 0, heap_size);
+	}
+}

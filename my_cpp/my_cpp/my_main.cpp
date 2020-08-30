@@ -5,27 +5,16 @@
 
 using namespace std;
 
-template<typename T, unsigned num>
-void tmp_test(T (&arr)[num], int p)
-{
-	// const int p = 4;
-	T *a1 = new T[p];
-	for (int ii = 0; ii < num; ii++) {
-		a1[ii] = arr[ii];
-		cout << a1[ii] << endl;
-	}
-		
-}
-
 
 void main()
 {
-	int arr[5] = { 1, 2, 5, 4, 3};
+	int arr[] = { 5, 3, 17, 10, 84, 19, 6, 22, 9};
 	print_array(arr);
 
 	// insertion_sort(arr, true);
 	// quick_sort(arr, 0, 4, false);
-	merge_sort(arr, 0, 4, true);
+	// merge_sort(arr, 0, 4, true);
+	heap_sort(arr);
 	print_array(arr);
 	// const int t = 3;
 	// tmp_test(arr, t);
