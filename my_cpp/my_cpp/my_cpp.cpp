@@ -5,17 +5,7 @@
 #include"my_cpp.h"
 using namespace std;
 
-int leap_year(int year)
-{
-	// 计算是否为闰年
-	if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-		
-}
+
 
 void array_cos(double *in_array, double *out_array, int size)
 {
