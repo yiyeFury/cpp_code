@@ -5,19 +5,21 @@
 
 using namespace std;
 
+int (*just_test())[3]
+{
+	static int b[3] = {1,2,3};
+	int (*a)[3] = &b;
+	return a;
+}
 
 void main()
 {
-	int arr[] = { 5, 3, 17, 10, 84, 19, 6, 22, 9};
-	print_array(arr);
-
-	// insertion_sort(arr, true);
-	// quick_sort(arr, 0, 4, false);
-	// merge_sort(arr, 0, 4, true);
-	heap_sort(arr);
-	print_array(arr);
-	// const int t = 3;
-	// tmp_test(arr, t);
+	int(*arr)[3];
+	arr = just_test();
+	cout << "---------------------" << endl;
+	cout << (*arr)[2];
+	cout << "-----------------------" << endl;
+	cout << (*arr)[0];
 
 	cout << endl;
 	system("pause");

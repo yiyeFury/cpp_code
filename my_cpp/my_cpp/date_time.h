@@ -8,6 +8,9 @@ typedef struct { int year, yDays; }YearDays;
 
 class Date
 {
+private:
+	int year, month, day;
+
 public:
 	// 构造函数
 	Date();
@@ -24,14 +27,13 @@ public:
 	int GetMonth();
 	int GetDay();
 
+	int (*days_in_month(int))[12];
+
 	void ShowDate();
-	int IsLeapYear();
+	bool is_leap_year();
 	int YearDays();
 	void DateFromYearDays(int, int);
 	void DateAddDays(int);
-
-private:
-	int year, month, day;
 };
 
 // 用于计算日期的其它函数（非类成员函数）
