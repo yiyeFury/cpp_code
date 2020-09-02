@@ -9,12 +9,19 @@ using namespace std;
 Date::Date() :year(0), month(0), day(0) {}
 Date::Date(int y, int m, int d) : year(y), month(m), day(d) {}
 
-int (*(Date::days_in_month(int y)))[12]
+int (*(Date::days_in_month()))[12]
 {
 	static int tmp_days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
 	int(*days)[12] = &tmp_days;
-	if (is_leap_year()) 
+	if (is_leap_year()) {
+		cout << endl << "-------------------" << endl << endl;
 		(*days)[1] = 29;
+	}
+	else
+	{
+		(*days)[1] = 28;
+	}
+	cout << endl << year << " " << (*days)[1] << endl << endl;
 	return days;
 }
 
@@ -76,42 +83,49 @@ bool Date::is_leap_year()
 		return false;
 }
 
-
-void Date::ShowDate()  // 输出日期
+int Date::days_of_year()
 {
-	cout << year << " 年 " << month << " 月 " << day << "日" << endl;
+	// 计算年积日
+	int(*mdays)[12] = days_in_month();
+	int tmp_days = 0;
+	for (int ii = 0; ii < month - 1; ii++)
+		tmp_days += (*mdays)[ii];
+	
+	tmp_days += day;
+	return tmp_days;
 }
 
-int Date::YearDays()  // 计算年积日
-{
-	int yearDays = 0;
-	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
-	if (is_leap_year()) monthDays[1] = 29;  //若是闰年，2月有29天
-	for (int i = 0; i < month - 1; i++) {
-		yearDays += monthDays[i];
-	}
 
-	yearDays += day;
-	return(yearDays);
+void Date::add_month(int m)
+{
+	int tmp_year = 0;
+	month += m;
+	tmp_year = month / 12;
+	month %= 12;
+	year += tmp_year;
 }
 
-void Date::DateAddDays(int days)  // 当前日期加上天数，计算出新的日期
-{
-	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
-	if (is_leap_year()) monthDays[1] = 29;  //若是闰年，2月有29天
 
-	for (day = day + days; day > monthDays[month - 1];)
-	{
-		day -= monthDays[month - 1];
+void Date::add_day(int d)
+{
+	int(*mdays)[12] = days_in_month();
+	for (day += d; day > (*mdays)[month - 1];) {
+		day -= (*mdays)[month - 1];
 		month++;
-		if (month > 12)
-		{
-			month -= 12, year++;
-			if (is_leap_year()) monthDays[1] = 29;
-			else monthDays[1] = 28;
+		if (month > 12) {
+			month -= 12;
+			year++;
+			mdays = days_in_month();
 		}
 	}
 }
+
+
+void Date::show_date()  // 输出日期
+{
+	cout << year << "-" << month << "-" << day << endl;
+}
+
 
 YearMonth AddMonth(YearMonth yearMonth, int m)
 {

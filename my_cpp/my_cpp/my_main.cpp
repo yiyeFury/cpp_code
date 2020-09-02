@@ -1,25 +1,18 @@
 #include<iostream>
 
+#include"date_time.h"
 #include"sort_algorithm.h"
 #include"common.h"
 
 using namespace std;
 
-int (*just_test())[3]
-{
-	static int b[3] = {1,2,3};
-	int (*a)[3] = &b;
-	return a;
-}
 
 void main()
 {
-	int(*arr)[3];
-	arr = just_test();
-	cout << "---------------------" << endl;
-	cout << (*arr)[2];
-	cout << "-----------------------" << endl;
-	cout << (*arr)[0];
+	Date d1(2020, 12, 21);
+	d1.show_date();
+	d1.add_day(365);
+	d1.show_date();
 
 	cout << endl;
 	system("pause");

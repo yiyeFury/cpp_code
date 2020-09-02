@@ -27,10 +27,14 @@ public:
 	int GetMonth();
 	int GetDay();
 
-	int (*days_in_month(int))[12];
+	int (*days_in_month())[12];
 
-	void ShowDate();
+	void show_date();
 	bool is_leap_year();
+	int days_of_year();
+	void add_month(int);
+	void add_day(int);
+
 	int YearDays();
 	void DateFromYearDays(int, int);
 	void DateAddDays(int);
