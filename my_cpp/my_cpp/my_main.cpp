@@ -6,13 +6,16 @@
 
 using namespace std;
 
-
 void main()
 {
-	Date d1(2020, 12, 21);
-	d1.show_date();
-	d1.add_day(365);
-	d1.show_date();
+	DateTime dt1(2020, 9, 8, 10, 30, 42);
+	cout << "-----------------------------------------------------------------";
+	cout << endl;
+
+	dt1.show_date_time();
+	
+	cout << endl;
+	cout << "-----------------------------------------------------------------";
 
 	cout << endl;
 	system("pause");

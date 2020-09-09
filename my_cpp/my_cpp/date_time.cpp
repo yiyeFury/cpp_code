@@ -123,7 +123,7 @@ void Date::add_day(int d)
 
 void Date::show_date()  // Êä³öÈÕÆÚ
 {
-	cout << year << "-" << month << "-" << day << endl;
+	cout << year << "-" << month << "-" << day;
 }
 
 
@@ -183,4 +183,49 @@ YearDays YearDaysAddDays(YearDays yearDays, int days)
 		else sumDaysOfYear = 365;
 	}
 	return yearDays;
+}
+
+
+/*
+class Time =====================================================================
+*/
+Time::Time(int h=0, int m=0, int sec=0): hour(h), minute(m), second(sec) {}
+
+void Time::show_time()
+{
+	cout << hour << ":" << minute << ":" << second;
+}
+
+void Time::add_hour(int h)
+{
+	hour += h;
+	hour %= 24;
+}
+
+void Time::add_minute(int m)
+{
+	minute += m;
+	int tmp_h = minute / 60;
+	minute %= 60;
+	add_hour(tmp_h);
+}
+
+void Time::add_second(int s)
+{
+	second += s;
+	second %= 60;
+	int tmp_minute = second / 60;
+	add_minute(tmp_minute);
+}
+
+/*
+DateTime =======================================================================
+*/
+DateTime::DateTime(int year, int month, int day, int hour, int minute, int second): Date(year, month, day), Time(hour, minute, second) {}
+
+void DateTime::show_date_time()
+{
+	show_date();
+	cout << " ";
+	show_time();
 }

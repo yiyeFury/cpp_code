@@ -9,7 +9,7 @@ typedef struct { int year, yDays; }YearDays;
 class Date
 {
 private:
-	int year, month, day;
+	
 
 public:
 	// 构造函数
@@ -17,6 +17,8 @@ public:
 	Date(int, int, int);
 	// 运算符重载
 	Date operator+ (Date);
+
+	int year, month, day;
 
 	// 成员函数
 	void GetYear(int);  // 给数据成员赋值
@@ -44,3 +46,28 @@ public:
 
 YearMonth YearMonthAddMonth(YearMonth, int);
 YearDays YearDaysAddDays(YearDays, int);
+
+class Time
+{
+private:
+	
+public:
+	Time(int, int, int);
+
+	int hour, minute, second;
+
+	void show_time();
+	void add_hour(int);
+	void add_minute(int);
+	void add_second(int);
+};
+
+class DateTime : public Date, public Time
+{
+private:
+public:
+	DateTime(int, int, int, int, int, int);
+
+	void show_date_time();
+
+};
