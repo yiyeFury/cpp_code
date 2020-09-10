@@ -14,14 +14,14 @@ int (*(Date::days_in_month()))[12]
 	static int tmp_days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
 	int(*days)[12] = &tmp_days;
 	if (is_leap_year()) {
-		cout << endl << "-------------------" << endl << endl;
+		// cout << endl << "-------------------" << endl << endl;
 		(*days)[1] = 29;
 	}
 	else
 	{
 		(*days)[1] = 28;
 	}
-	cout << endl << year << " " << (*days)[1] << endl << endl;
+	// cout << endl << year << " " << (*days)[1] << endl << endl;
 	return days;
 }
 
@@ -213,8 +213,8 @@ void Time::add_minute(int m)
 void Time::add_second(int s)
 {
 	second += s;
-	second %= 60;
 	int tmp_minute = second / 60;
+	second %= 60;
 	add_minute(tmp_minute);
 }
 
@@ -228,4 +228,28 @@ void DateTime::show_date_time()
 	show_date();
 	cout << " ";
 	show_time();
+}
+
+void DateTime::add_hour(int h)
+{
+	hour += h;
+	int tmp_days = hour / 24;
+	hour %= 24;
+	add_day(tmp_days);
+}
+
+void DateTime::add_minute(int m)
+{
+	minute += m;
+	int tmp_h = minute / 60;
+	minute %= 60;
+	add_hour(tmp_h);
+}
+
+void DateTime::add_second(int s)
+{
+	second += s;
+	int tmp_minute = second / 60;
+	second %= 60;
+	add_minute(tmp_minute);
 }

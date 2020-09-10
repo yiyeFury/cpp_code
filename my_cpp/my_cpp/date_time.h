@@ -69,5 +69,7 @@ public:
 	DateTime(int, int, int, int, int, int);
 
 	void show_date_time();
-
+	void add_hour(int);
+	void add_minute(int);
+	void add_second(int);
 };
