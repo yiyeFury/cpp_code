@@ -34,3 +34,39 @@ void array_cos(double *in_array, double *out_array, int size)
 //	cout <<endl;
 //	system("pause");
 //}
+
+
+/*
+test ArrayAdd2D
+*/
+//
+
+void vec_add(int *p, int i)
+{
+
+}
+
+void main()
+{
+	const int M = 2, N = 3;
+
+	int a[M][N], b[M][N], c[M][N];
+	
+	for (int ii = 0; ii < M; ii++)
+		for (int jj = 0; jj < N; jj++) {
+			a[ii][jj] = 1;
+			b[ii][jj] = 2;
+			// c[ii][jj] = 0;
+		}
+
+	IntArrayAdd2D(a, b, c);
+	for (int ii = 0; ii < M; ii++) {
+		for (int jj = 0; jj < N; jj++) {
+			cout << "  " << c[ii][jj];
+		}
+		cout << endl;
+	}
+
+
+	system("pause");
+}
