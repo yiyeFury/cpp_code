@@ -5,21 +5,19 @@
 #include"sort_algorithm.h"
 #include"common.h"
 #include"my_cpp.h"
+#include"search_algorithm.h"
 
 
 using namespace std;
 
 //void main()
 //{
-//	const int M = 2, N = 3;
+//	const int M = 5;
 //
-//	int a[M][N] = { 1, 2, 3, 10, 20, 30};
+//	int a[M] = { 1, 2, 3, 10, 20};
+//	int idx;
+//	idx = BinarySearch(a, 3, true);
+//	cout << "index is: " << idx << endl;
 //	
-//	int *p = &a[0][0];
-//	int j = p[1];
-//	cout << "*p:" << *p << endl;;
-//	cout << "j: " << j << endl;
-//		
-//
 //	system("pause");
 //}
