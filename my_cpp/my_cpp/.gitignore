@@ -1,6 +1,4 @@
-Debug
-x64
-*.*
+*
 !*.cpp
 !*.h
 !.gitignore
