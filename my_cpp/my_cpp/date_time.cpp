@@ -25,6 +25,13 @@ int (*(Date::days_in_month()))[12]
 	return days;
 }
 
+/* test for int (*(Date::days_in_month()))[12]
+int(*arr)[12] = days_in_month();
+for (int ii = 0; ii < 12; ii++) {
+cout << *(*arr + ii) << endl;
+}
+*/
+
 // ÔËËã·ûÖØÔØ
 Date Date::operator+ (Date date)
 {

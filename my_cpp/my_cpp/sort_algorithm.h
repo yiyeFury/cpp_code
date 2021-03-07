@@ -6,7 +6,7 @@
 冒泡排序
 */
 template<typename T, unsigned num>
-void bubble_sort(T (&arr)[num], bool is_ascending)
+void BubbleSort(T (&arr)[num], bool is_ascending)
 {
 	int ii, jj;
 	if (is_ascending) {
@@ -31,7 +31,7 @@ void bubble_sort(T (&arr)[num], bool is_ascending)
 插入排序
 */
 template<typename T, unsigned num>
-void insertion_sort(T(&arr)[num], bool is_ascending)
+void InsertionSort(T(&arr)[num], bool is_ascending)
 {
 
 	T key;
@@ -68,7 +68,7 @@ void insertion_sort(T(&arr)[num], bool is_ascending)
 快速排序
 */
 template<typename T, unsigned num>
-int partition(T (&arr)[num], int p, int r, bool is_ascending)
+int QuickSortPartition(T (&arr)[num], int p, int r, bool is_ascending)
 {
 	int x, ii;
 	x = arr[r];  // 主元
@@ -95,7 +95,7 @@ int partition(T (&arr)[num], int p, int r, bool is_ascending)
 }
 
 template<typename T, unsigned num>
-void quick_sort(T (&arr)[num], int p, int r, bool is_ascending)
+void QuickSort(T (&arr)[num], int p, int r, bool is_ascending)
 {
 	int q;
 	if (p < r) {

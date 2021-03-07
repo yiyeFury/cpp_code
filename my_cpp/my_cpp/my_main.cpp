@@ -10,14 +10,11 @@
 
 using namespace std;
 
-//void main()
-//{
-//	const int M = 5;
-//
-//	int a[M] = { 1, 2, 3, 10, 20};
-//	int idx;
-//	idx = BinarySearch(a, 3, true);
-//	cout << "index is: " << idx << endl;
-//	
-//	system("pause");
-//}
+
+void main()
+{
+
+	
+
+	system("pause");
+}
