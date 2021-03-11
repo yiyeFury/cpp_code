@@ -12,20 +12,20 @@ private:
 	
 
 public:
-	// ¹¹Ôìº¯Êı
+	// æ„é€ å‡½æ•°
 	Date();
 	Date(int, int, int);
-	// ÔËËã·ûÖØÔØ
+	// è¿ç®—ç¬¦é‡è½½
 	Date operator+ (Date);
 
 	int year, month, day;
 
-	// ³ÉÔ±º¯Êı
-	void GetYear(int);  // ¸øÊı¾İ³ÉÔ±¸³Öµ
+	// æˆå‘˜å‡½æ•°
+	void GetYear(int);  // ç»™æ•°æ®æˆå‘˜èµ‹å€¼
 	void GetMonth(int);
 	void GetDay(int);
 
-	int GetYear();  // µÃµ½Êı¾İ³ÉÔ±µÄÖµ
+	int GetYear();  // å¾—åˆ°æ•°æ®æˆå‘˜çš„å€¼
 	int GetMonth();
 	int GetDay();
 
@@ -42,7 +42,7 @@ public:
 	void DateAddDays(int);
 };
 
-// ÓÃÓÚ¼ÆËãÈÕÆÚµÄÆäËüº¯Êı£¨·ÇÀà³ÉÔ±º¯Êı£©
+// ç”¨äºè®¡ç®—æ—¥æœŸçš„å…¶å®ƒå‡½æ•°ï¼ˆéç±»æˆå‘˜å‡½æ•°ï¼‰
 
 YearMonth YearMonthAddMonth(YearMonth, int);
 YearDays YearDaysAddDays(YearDays, int);

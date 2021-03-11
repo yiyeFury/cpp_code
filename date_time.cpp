@@ -5,13 +5,13 @@
 using namespace std;
 
 
-// ¹¹Ôìº¯Êı
+// æ„é€ å‡½æ•°
 Date::Date() :year(0), month(0), day(0) {}
 Date::Date(int y, int m, int d) : year(y), month(m), day(d) {}
 
 int (*(Date::days_in_month()))[12]
 {
-	static int tmp_days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // Ò»ÄêÖĞÃ¿¸öÔÂµÄÌìÊı
+	static int tmp_days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // ä¸€å¹´ä¸­æ¯ä¸ªæœˆçš„å¤©æ•°
 	int(*days)[12] = &tmp_days;
 	if (is_leap_year()) {
 		// cout << endl << "-------------------" << endl << endl;
@@ -32,11 +32,11 @@ cout << *(*arr + ii) << endl;
 }
 */
 
-// ÔËËã·ûÖØÔØ
+// è¿ç®—ç¬¦é‡è½½
 Date Date::operator+ (Date date)
 {
 	Date sumDate;
-	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // Ò»ÄêÖĞÃ¿¸öÔÂµÄÌìÊı
+	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // ä¸€å¹´ä¸­æ¯ä¸ªæœˆçš„å¤©æ•°
 
 	sumDate.year = year + date.year;
 	sumDate.month = month + date.month;
@@ -57,7 +57,7 @@ Date Date::operator+ (Date date)
 	return sumDate;
 }
 
-// ¸ø¶ÔÏóµÄÊı¾İ³ÉÔ±µÄ¸³Öµ
+// ç»™å¯¹è±¡çš„æ•°æ®æˆå‘˜çš„èµ‹å€¼
 void Date::GetYear(int y)
 {
 	year = y;
@@ -71,7 +71,7 @@ void Date::GetDay(int d)
 	day = d;
 }
 
-// »ñÈ¡¶ÔÏóµÄÊı¾İ³ÉÔ±µÄÖµ
+// è·å–å¯¹è±¡çš„æ•°æ®æˆå‘˜çš„å€¼
 int Date::GetYear() { return year; }
 int Date::GetMonth() { return month; }
 int Date::GetDay() { return day; }
@@ -79,7 +79,7 @@ int Date::GetDay() { return day; }
 
 bool Date::is_leap_year()
 {
-	// ¼ÆËãÊÇ·ñÎªÈòÄê
+	// è®¡ç®—æ˜¯å¦ä¸ºé—°å¹´
 	bool cond1, cond2;
 	cond1 = (year % 4 == 0) && (year % 100 != 0);
 	cond2 = year % 400 == 0;
@@ -92,7 +92,7 @@ bool Date::is_leap_year()
 
 int Date::days_of_year()
 {
-	// ¼ÆËãÄê»ıÈÕ
+	// è®¡ç®—å¹´ç§¯æ—¥
 	int(*mdays)[12] = days_in_month();
 	int tmp_days = 0;
 	for (int ii = 0; ii < month - 1; ii++)
@@ -128,7 +128,7 @@ void Date::add_day(int d)
 }
 
 
-void Date::show_date()  // Êä³öÈÕÆÚ
+void Date::show_date()  // è¾“å‡ºæ—¥æœŸ
 {
 	cout << year << "-" << month << "-" << day;
 }
@@ -144,13 +144,13 @@ YearMonth AddMonth(YearMonth yearMonth, int m)
 	return(yearMonth);
 }
 
-void Date::DateFromYearDays(int baseYear, int yearDays)  // ¸ù¾İÄêºÍÄê»ıÈÕ£¬¼ÆËãÈÕÆÚ
+void Date::DateFromYearDays(int baseYear, int yearDays)  // æ ¹æ®å¹´å’Œå¹´ç§¯æ—¥ï¼Œè®¡ç®—æ—¥æœŸ
 {
 	year = baseYear;
 	day = yearDays;
 
-	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // Ò»ÄêÖĞÃ¿¸öÔÂµÄÌìÊı
-	if (is_leap_year()) monthDays[1] = 29;  //ÈôÊÇÈòÄê£¬2ÔÂÓĞ29Ìì
+	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // ä¸€å¹´ä¸­æ¯ä¸ªæœˆçš„å¤©æ•°
+	if (is_leap_year()) monthDays[1] = 29;  //è‹¥æ˜¯é—°å¹´ï¼Œ2æœˆæœ‰29å¤©
 
 	for (month = 1; day > monthDays[month - 1]; )
 	{

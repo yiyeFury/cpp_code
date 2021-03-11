@@ -4,21 +4,21 @@ template<typename T, int M>
 int BinarySearch(T(&arr)[M], T dst_val, bool is_ascend=true)
 {
 	/*
-	arr: array£¬ÒÑ¾­ÅÅºÃĞò
-	dst_val: Ä¿±êÖµ
-	is_ascend£º bool£»true for ascending£¬ false for descending
+	arr: arrayï¼Œå·²ç»æ’å¥½åº
+	dst_val: ç›®æ ‡å€¼
+	is_ascendï¼š boolï¼›true for ascendingï¼Œ false for descending
 	*/
 	int low = 0, high = M - 1;
 	int mid;
 
-	if (is_ascend) { // µİÔöÅÅĞò
+	if (is_ascend) { // é€’å¢æ’åº
 		while (low <= high) {
 			mid = (low + high) / 2;
 			if (dst_val == arr[mid]) return mid;
 			else if (dst_val < arr[mid]) high = mid - 1;
 			else low = mid + 1;
 		}
-	}else { // µİ¼õÅÅĞò
+	}else { // é€’å‡æ’åº
 		while (low <= high) {
 			mid = (low + high) / 2;
 			if (dst_val == arr[mid]) return mid;

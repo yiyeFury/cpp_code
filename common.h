@@ -3,7 +3,7 @@
 using namespace std;
 
 /* -----------------------------------------------------------------------------
-´òÓ¡Êı×é
+æ‰“å°æ•°ç»„
 */
 template<typename T, unsigned num>
 void print_array(T(&p)[num])

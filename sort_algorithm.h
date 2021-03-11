@@ -3,22 +3,22 @@
 
 /*
 ================================================================================
-Ã°ÅİÅÅĞò
+å†’æ³¡æ’åº
 */
 template<typename T, unsigned num>
 void BubbleSort(T (&arr)[num], bool is_ascending)
 {
 	int ii, jj;
 	if (is_ascending) {
-		for (ii = 0; ii < num; ii++)  // ÕıÏòÅÅĞò
-			for (jj = num - 1; jj >ii; jj--)  // ÄæÏò±È½Ï´óĞ¡
-				if (arr[jj] < arr[jj - 1])  // Ğ¡ÓÚÔò»»Î»ÖÃ
+		for (ii = 0; ii < num; ii++)  // æ­£å‘æ’åº
+			for (jj = num - 1; jj >ii; jj--)  // é€†å‘æ¯”è¾ƒå¤§å°
+				if (arr[jj] < arr[jj - 1])  // å°äºåˆ™æ¢ä½ç½®
 					swap(arr[jj], arr[jj - 1]);
 	}
 	else {
 		for (ii = 0; ii < num; ii++)
 			for (jj = num - 1; jj >ii; jj--)
-				if (arr[jj] > arr[jj - 1])  // ´óÓÚÔò»»Î»ÖÃ
+				if (arr[jj] > arr[jj - 1])  // å¤§äºåˆ™æ¢ä½ç½®
 					swap(arr[jj], arr[jj - 1]);
 	}
 
@@ -28,7 +28,7 @@ void BubbleSort(T (&arr)[num], bool is_ascending)
 
 /*
 ================================================================================
-²åÈëÅÅĞò
+æ’å…¥æ’åº
 */
 template<typename T, unsigned num>
 void InsertionSort(T(&arr)[num], bool is_ascending)
@@ -36,19 +36,19 @@ void InsertionSort(T(&arr)[num], bool is_ascending)
 
 	T key;
 	int ii, jj;
-	if (is_ascending) {  // ÉıĞò
+	if (is_ascending) {  // å‡åº
 		for (jj = 1; jj < num; jj++) {
 			key = arr[jj];
 			// insert arr[jj] into the sorted sequence arr[0] ~ arr[j-1]
-			ii = jj;  // Ç°Ò»Î»ÖÃ
+			ii = jj;  // å‰ä¸€ä½ç½®
 			while (ii > 0 && arr[ii - 1] > key) {
-				arr[ii] = arr[ii - 1];  // Î»ÖÃºóÒÆÒ»Î»
+				arr[ii] = arr[ii - 1];  // ä½ç½®åç§»ä¸€ä½
 				ii -= 1;
 			}
 			arr[ii] = key;
 		}
 	}
-	else {  // ½µĞò
+	else {  // é™åº
 		for (jj = 1; jj < num; jj++) {
 			key = arr[jj];
 			// insert arr[jj] into the sorted sequence arr[0] ~ arr[j-1]
@@ -65,18 +65,18 @@ void InsertionSort(T(&arr)[num], bool is_ascending)
 
 /* 
 ================================================================================
-¿ìËÙÅÅĞò
+å¿«é€Ÿæ’åº
 */
 template<typename T, unsigned num>
 int QuickSortPartition(T (&arr)[num], int p, int r, bool is_ascending)
 {
 	int x, ii;
-	x = arr[r];  // Ö÷Ôª
+	x = arr[r];  // ä¸»å…ƒ
 	ii = p;
-	if (is_ascending) {  // µİÔöÅÅĞò
-		for (int jj = p; jj < r; jj++) {  // jj±ê¼Çµ±Ç°Ñ­»·Î»ÖÃ
-			if (arr[jj] <= x) {  // Ñ°ÕÒĞ¡ÓÚÖ÷ÔªµÄÖµ
-				swap(arr[ii], arr[jj]);  // ii±ê¼Ç´ı´æ·ÅĞ¡ÓÚÖ÷ÔªµÄÔªËØµÄÎ»ÖÃ
+	if (is_ascending) {  // é€’å¢æ’åº
+		for (int jj = p; jj < r; jj++) {  // jjæ ‡è®°å½“å‰å¾ªç¯ä½ç½®
+			if (arr[jj] <= x) {  // å¯»æ‰¾å°äºä¸»å…ƒçš„å€¼
+				swap(arr[ii], arr[jj]);  // iiæ ‡è®°å¾…å­˜æ”¾å°äºä¸»å…ƒçš„å…ƒç´ çš„ä½ç½®
 				ii += 1;
 			}
 		}
@@ -90,7 +90,7 @@ int QuickSortPartition(T (&arr)[num], int p, int r, bool is_ascending)
 		}
 	}
 	
-	swap(arr[ii], arr[r]);  // ½«Ö÷Ôª·ÅÈëÎ»ÖÃ£¬Æä×ó±ß/ÓÒ±ß¾ùÎªĞ¡ÓÚµÈÓÚ/´óÓÚµÈÓÚËüµÄÖµ
+	swap(arr[ii], arr[r]);  // å°†ä¸»å…ƒæ”¾å…¥ä½ç½®ï¼Œå…¶å·¦è¾¹/å³è¾¹å‡ä¸ºå°äºç­‰äº/å¤§äºç­‰äºå®ƒçš„å€¼
 	return ii;
 }
 
@@ -108,15 +108,15 @@ void QuickSort(T (&arr)[num], int p, int r, bool is_ascending)
 
 /*
 ================================================================================
-¹é²¢ÅÅĞò
+å½’å¹¶æ’åº
 */
 template<typename T, unsigned num>
 void merge(T(&arr)[num], int p, int q, int r, bool is_ascending)
 {
 	int ii = 0, jj = 0, kk = 0;
 
-	int n1 = q - p + 1; // ÏÂ±ê·¶Î§ [p, q]
-	int n2 = r - q;  // ÏÂ±ê·¶Î§ (q, r]
+	int n1 = q - p + 1; // ä¸‹æ ‡èŒƒå›´ [p, q]
+	int n2 = r - q;  // ä¸‹æ ‡èŒƒå›´ (q, r]
 	T *left = new T[n1];
 	T *right = new T[n2];
 
@@ -127,7 +127,7 @@ void merge(T(&arr)[num], int p, int q, int r, bool is_ascending)
 		right[ii] = arr[q + ii + 1];
 
 	ii = 0, jj = 0;
-	if (is_ascending) {  // µİÔöÅÅĞò
+	if (is_ascending) {  // é€’å¢æ’åº
 		for (kk = p; kk <= r; kk++) {
 			if ((ii < n1) && (((jj < n2) && (left[ii] <= right[jj])) || (jj >= n2))) {
 				arr[kk] = left[ii];
@@ -166,7 +166,7 @@ void merge_sort(T(&arr)[num], int p, int r, bool is_ascending)
 
 /*
 ================================================================================
-¶ÑÅÅĞò
+å †æ’åº
 */
 int parent(int ii)
 {
@@ -186,21 +186,21 @@ int right(int ii)
 template<typename T, unsigned num>
 void max_heapify(T(&arr)[num], int ii, int heap_size)
 {
-	// ii, µ±Ç°½ÚµãµÄÎ»ÖÃÏÂ±ê
-	// heap_size, Êı×éÖĞÊµ¼Ê´æ·ÅµÄÔªËØÊıÁ¿
+	// ii, å½“å‰èŠ‚ç‚¹çš„ä½ç½®ä¸‹æ ‡
+	// heap_size, æ•°ç»„ä¸­å®é™…å­˜æ”¾çš„å…ƒç´ æ•°é‡
 	int ll, rr, largest;
 	ll = left(ii), rr = right(ii);
 
 	largest = ii;
-	// ×ó×Ó½Úµã´æÔÚ£¬ÇÒ´óÓÚ¸¸½Úµã
+	// å·¦å­èŠ‚ç‚¹å­˜åœ¨ï¼Œä¸”å¤§äºçˆ¶èŠ‚ç‚¹
 	if ((ll < heap_size) && (arr[ll] > arr[ii]))
 		largest = ll;
 
-	// ÓÒ×Ó½Úµã´æÔÚ£¬ÇÒ´óÓÚ¸¸½ÚµãºÍ×ó×Ó½Úµã
+	// å³å­èŠ‚ç‚¹å­˜åœ¨ï¼Œä¸”å¤§äºçˆ¶èŠ‚ç‚¹å’Œå·¦å­èŠ‚ç‚¹
 	if ((rr < heap_size) && (arr[rr] > arr[largest]))
 		largest = rr;
 
-	// µ±Ç°¸¸½ÚµãĞ¡ÓÚ×ó×Ó½Úµã»òÓÒ×Ó½Úµã£¬½«Óë¸¸½ÚµãÖÃ»»Î»ÖÃµÄ×Ó½ÚµãËùÔÚ×ÓÊ÷£¬½øĞĞÖØÅÅ
+	// å½“å‰çˆ¶èŠ‚ç‚¹å°äºå·¦å­èŠ‚ç‚¹æˆ–å³å­èŠ‚ç‚¹ï¼Œå°†ä¸çˆ¶èŠ‚ç‚¹ç½®æ¢ä½ç½®çš„å­èŠ‚ç‚¹æ‰€åœ¨å­æ ‘ï¼Œè¿›è¡Œé‡æ’
 	if (largest != ii) {
 		swap(arr[ii], arr[largest]);
 		max_heapify(arr, largest, heap_size);
@@ -211,7 +211,7 @@ template<typename T, unsigned num>
 void build_max_heap(T(&arr)[num], int heap_size)
 {
 	//int heap_size = num;
-	int num_parents = floor(heap_size / 2);  // ¸ù¾İÊı×éÖĞÔªËØµÄÊıÁ¿£¬¼ÆËã¶ÑÖĞ¸¸½ÚµãµÄ¸öÊı
+	int num_parents = floor(heap_size / 2);  // æ ¹æ®æ•°ç»„ä¸­å…ƒç´ çš„æ•°é‡ï¼Œè®¡ç®—å †ä¸­çˆ¶èŠ‚ç‚¹çš„ä¸ªæ•°
 
 	for (int ii = num_parents-1; ii >= 0; --ii)
 		max_heapify(arr, ii, heap_size);
@@ -220,13 +220,13 @@ void build_max_heap(T(&arr)[num], int heap_size)
 template<typename T, unsigned num>
 void heap_sort(T(&arr)[num])
 {
-	int heap_size = num;  // ³õÊ¼Ê±£¬¶ÑÖĞÔªËØ¸öÊıµÈÓÚÊı×é¸öÊı
+	int heap_size = num;  // åˆå§‹æ—¶ï¼Œå †ä¸­å…ƒç´ ä¸ªæ•°ç­‰äºæ•°ç»„ä¸ªæ•°
 
 	build_max_heap(arr, num);
-	// heap_size-1 ¶ÑÖĞ×îºóÒ»¸öÔªËØµÄÎ»ÖÃÏÂ±ê
+	// heap_size-1 å †ä¸­æœ€åä¸€ä¸ªå…ƒç´ çš„ä½ç½®ä¸‹æ ‡
 	for (int ii = heap_size - 1; ii > 0; ii--) {
-		swap(arr[0], arr[heap_size - 1]);  // ¸ù½Úµãarr[0] Îª¶ÑÖĞµÄ×î´óÔªËØ
-		heap_size--;  // ¶ÑÖĞÓĞĞ§ÔªËØ -1
+		swap(arr[0], arr[heap_size - 1]);  // æ ¹èŠ‚ç‚¹arr[0] ä¸ºå †ä¸­çš„æœ€å¤§å…ƒç´ 
+		heap_size--;  // å †ä¸­æœ‰æ•ˆå…ƒç´  -1
 		max_heapify(arr, 0, heap_size);
 	}
 }

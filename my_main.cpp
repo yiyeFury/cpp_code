@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
-
+#include <vector>
+#include <numeric>
 #include "sort_algorithm.h"
 
 
@@ -9,12 +10,16 @@ using namespace std;
 
 int main()
 {
-
-	cout<<"Hello World!";
-    int arr[3]={2, 1,3};
-    InsertionSort(arr, false);
-    for (auto &ii:arr) cout<<" "<<ii;
+    vector<int> vec(10, 1);
+    for (auto ii=vec.begin(); ii!= vec.end(); ii++) {
+        cout<<"  "<<*ii;
+    }
     cout<<endl;
+
+    int tmp_sum = accumulate(vec.begin(), vec.end(), 0);
+
+    cout<<"tmp_sum: "<<tmp_sum<<endl;
+
 
 	system("pause");
     return 0;

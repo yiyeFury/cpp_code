@@ -30,7 +30,7 @@ void PrintArray(const T(&arr)[M][N])
 template <typename T, int M, int N>
 void ArrayAdd2D(T(&aa)[M][N], T(&bb)[M][N], T(&cc)[M][N])
 {
-	// 2d数组相加
+	// 2d鏁扮粍鐩稿姞
 	for (int ii = 0; ii < M; ii++)
 		for (int jj = 0; jj < N; jj++)
 			cc[ii][jj] = aa[ii][jj] + bb[ii][jj];
