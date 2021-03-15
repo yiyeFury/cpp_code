@@ -1,6 +1,6 @@
 #include<iostream>
 
-#include"date_time.h"
+#include"my_date_time.h"
 
 using namespace std;
 
@@ -9,88 +9,49 @@ using namespace std;
 Date::Date() :year(0), month(0), day(0) {}
 Date::Date(int y, int m, int d) : year(y), month(m), day(d) {}
 
-int (*(Date::days_in_month()))[12]
+// 显示 和 输入输出函数 ----------------------------------------------------------------------------------------------------
+void Date::ShowDate()  // 输出日期
 {
-	static int tmp_days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
-	int(*days)[12] = &tmp_days;
-	if (is_leap_year()) {
-		// cout << endl << "-------------------" << endl << endl;
-		(*days)[1] = 29;
-	}
-	else
-	{
-		(*days)[1] = 28;
-	}
-	// cout << endl << year << " " << (*days)[1] << endl << endl;
-	return days;
-}
-
-/* test for int (*(Date::days_in_month()))[12]
-int(*arr)[12] = days_in_month();
-for (int ii = 0; ii < 12; ii++) {
-cout << *(*arr + ii) << endl;
-}
-*/
-
-// 运算符重载
-Date Date::operator+ (Date date)
-{
-	Date sumDate;
-	int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
-
-	sumDate.year = year + date.year;
-	sumDate.month = month + date.month;
-
-	for (; sumDate.month > 12; sumDate.year++) sumDate.month -= 12;
-	if (sumDate.is_leap_year()) monthDays[1] = 29;
-	for (sumDate.day = day + date.day; sumDate.day > monthDays[sumDate.month - 1];)
-	{
-		for (sumDate.day -= monthDays[sumDate.month - 1], sumDate.month++; sumDate.month > 12;)
-		{
-			sumDate.month -= 12;
-			sumDate.year++;
-			if (sumDate.is_leap_year()) monthDays[1] = 29;
-			else monthDays[1] = 28;
-		}
-
-	}
-	return sumDate;
+    cout << year << "-" << month << "-" << day;
 }
 
 // 给对象的数据成员的赋值
-void Date::GetYear(int y)
-{
-	year = y;
-}
-void Date::GetMonth(int m)
-{
-	month = m;
-}
-void Date::GetDay(int d)
-{
-	day = d;
-}
+void Date::SetYear(int y) { year = y; }
+
+void Date::SetMonth(int m) { month = m; }
+
+void Date::SetDay(int d) { day = d; }
 
 // 获取对象的数据成员的值
 int Date::GetYear() { return year; }
+
 int Date::GetMonth() { return month; }
+
 int Date::GetDay() { return day; }
 
-
-bool Date::is_leap_year()
+bool Date::IsLeapYear()
 {
-	// 计算是否为闰年
-	bool cond1, cond2;
-	cond1 = (year % 4 == 0) && (year % 100 != 0);
-	cond2 = year % 400 == 0;
+    // 计算是否为闰年
+    bool cond1, cond2;
+    cond1 = (year % 4 == 0) && (year % 100 != 0);
+    cond2 = year % 400 == 0;
 
-	if (cond1 || cond2) 
-		return true;
-	else 
-		return false;
+    if (cond1 || cond2)
+        return true;
+    else
+        return false;
 }
 
-int Date::days_of_year()
+int (*(Date::DaysOfEachMonth()))[12]
+{
+    static int tmp_days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // 一年中每个月的天数
+    int (*days)[12] = &tmp_days;
+	if (IsLeapYear())
+		(*days)[1] = 29;
+	return days;
+}
+
+int Date::DaysOfYear()
 {
 	// 计算年积日
 	int(*mdays)[12] = days_in_month();
@@ -103,7 +64,7 @@ int Date::days_of_year()
 }
 
 
-void Date::add_month(int m)
+void Date::AddMonth(int m)
 {
 	int tmp_year = 0;
 	month += m;
@@ -113,7 +74,7 @@ void Date::add_month(int m)
 }
 
 
-void Date::add_day(int d)
+void Date::AddDay(int d)
 {
 	int(*mdays)[12] = days_in_month();
 	for (day += d; day > (*mdays)[month - 1];) {
@@ -127,13 +88,33 @@ void Date::add_day(int d)
 	}
 }
 
-
-void Date::show_date()  // 输出日期
+// 运算符重载
+Date Date::operator+ (Date date)
 {
-	cout << year << "-" << month << "-" << day;
+    Date sumDate;
+    int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
+
+    sumDate.year = year + date.year;
+    sumDate.month = month + date.month;
+
+    for (; sumDate.month > 12; sumDate.year++) sumDate.month -= 12;
+    if (sumDate.is_leap_year()) monthDays[1] = 29;
+    for (sumDate.day = day + date.day; sumDate.day > monthDays[sumDate.month - 1];)
+    {
+        for (sumDate.day -= monthDays[sumDate.month - 1], sumDate.month++; sumDate.month > 12;)
+        {
+            sumDate.month -= 12;
+            sumDate.year++;
+            if (sumDate.is_leap_year()) monthDays[1] = 29;
+            else monthDays[1] = 28;
+        }
+
+    }
+    return sumDate;
 }
 
 
+// 非类成员函数
 YearMonth AddMonth(YearMonth yearMonth, int m)
 {
 	yearMonth.month += m;
@@ -194,7 +175,7 @@ YearDays YearDaysAddDays(YearDays yearDays, int days)
 
 
 /*
-class Time =====================================================================
+class Time =============================================================================================================
 */
 Time::Time(int h=0, int m=0, int sec=0): hour(h), minute(m), second(sec) {}
 
@@ -226,7 +207,7 @@ void Time::add_second(int s)
 }
 
 /*
-DateTime =======================================================================
+DateTime ===============================================================================================================
 */
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second): Date(year, month, day), Time(hour, minute, second) {}
 
