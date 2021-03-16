@@ -36,38 +36,43 @@ public:
 	void AddMonth(int);
 	void AddDay(int);
 
-	int YearDays();
 	void DateFromYearDays(int, int);
-	void DateAddDays(int);
 };
 
 // 用于计算日期的其它函数（非类成员函数）
-YearMonth YearMonthAddMonth(YearMonth, int);
-YearDays YearDaysAddDays(YearDays, int);
+//YearMonth YearMonthAddMonth(YearMonth, int);
+//YearDays YearDaysAddDays(YearDays, int);
 
 class Time
 {
 private:
 	
 public:
-	Time(int, int, int);
+	Time(int=0, int=0, int=0);
 
-	int hour, minute, second;
+	int hour_, minute_, second_;
 
-	void show_time();
-	void add_hour(int);
-	void add_minute(int);
-	void add_second(int);
+	void ShowTime();
+    void SetHour(int);
+    void SetMinute(int);
+    void SetSecond(int);
+
+	int GetHour();
+	int GetMinute();
+	int GetSecond();
+
+	void AddHour(int);
+	void AddMinute(int);
+	void AddSecond(int);
 };
 
 class DateTime : public Date, public Time
 {
 private:
 public:
-	DateTime(int, int, int, int, int, int);
+	DateTime(int=2000, int=1, int=1, int=0, int=0, int=0);
 
-	void show_date_time();
-	void add_hour(int);
-	void add_minute(int);
-	void add_second(int);
+	void ShowDateTime();
+	void AddHour(int);
+
 };
