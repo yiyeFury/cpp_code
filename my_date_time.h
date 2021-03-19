@@ -18,7 +18,7 @@ public:
 	// 运算符重载
 	Date operator+ (Date);
 
-	int year, month, day;
+	int year_, month_, day_;
 
 	// 成员函数
     void ShowDate();
@@ -74,5 +74,7 @@ public:
 
 	void ShowDateTime();
 	void AddHour(int);
+	void AddMinute(int);
+	void AddSecond(int);
 
 };

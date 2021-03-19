@@ -13,6 +13,9 @@ int main()
 {
 
 
+    DateTime dt(2020, 12, 31, 23, 59, 55);
+    dt.AddSecond(10);
+    dt.ShowDateTime();
 
     cout<<endl;
 //	system("pause");

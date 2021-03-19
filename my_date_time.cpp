@@ -6,35 +6,35 @@ using namespace std;
 
 
 // 构造函数
-Date::Date() :year(2000), month(1), day(1) {}
-Date::Date(int y, int m, int d) : year(y), month(m), day(d) {}
+Date::Date() :year_(2000), month_(1), day_(1) {}
+Date::Date(int y, int m, int d) : year_(y), month_(m), day_(d) {}
 
 // 显示 和 输入输出函数 ----------------------------------------------------------------------------------------------------
 void Date::ShowDate()  // 输出日期
 {
-    cout << year << "-" << month << "-" << day;
+    cout << year_ << "-" << month_ << "-" << day_;
 }
 
 // 给对象的数据成员的赋值
-void Date::SetYear(int y) { year = y; }
+void Date::SetYear(int y) { year_ = y; }
 
-void Date::SetMonth(int m) { month = m; }
+void Date::SetMonth(int m) { month_ = m; }
 
-void Date::SetDay(int d) { day = d; }
+void Date::SetDay(int d) { day_ = d; }
 
 // 获取对象的数据成员的值
-int Date::GetYear() { return year; }
+int Date::GetYear() { return year_; }
 
-int Date::GetMonth() { return month; }
+int Date::GetMonth() { return month_; }
 
-int Date::GetDay() { return day; }
+int Date::GetDay() { return day_; }
 
 bool Date::IsLeapYear()
 {
     // 计算是否为闰年
     bool cond1, cond2;
-    cond1 = (year % 4 == 0) && (year % 100 != 0);
-    cond2 = year % 400 == 0;
+    cond1 = (year_ % 4 == 0) && (year_ % 100 != 0);
+    cond2 = year_ % 400 == 0;
 
     if (cond1 || cond2)
         return true;
@@ -56,10 +56,10 @@ int Date::DaysOfYear()
 	// 计算年积日
 	int(*mdays)[12] = DaysOfEachMonth();
 	int tmp_days = 0;
-	for (int ii = 0; ii < month - 1; ii++)  // 计算整月日数
+	for (int ii = 0; ii < month_ - 1; ii++)  // 计算整月日数
 		tmp_days += (*mdays)[ii];
 	
-	tmp_days += day;
+	tmp_days += day_;
 	return tmp_days;
 }
 
@@ -69,11 +69,11 @@ void Date::AddMonth(int m)
 
 	tmp_year = m / 12;
 
-	year += tmp_year;
-    month += m-12*tmp_year;
-    if (month > 12) {
-        year++;
-        month -= 12;
+	year_ += tmp_year;
+    month_ += m-12*tmp_year;
+    if (month_ > 12) {
+        year_++;
+        month_ -= 12;
     }
 
 }
@@ -81,12 +81,12 @@ void Date::AddMonth(int m)
 void Date::AddDay(int d)
 {
 	int(*mdays)[12] = DaysOfEachMonth();
-	for (day += d; day > (*mdays)[month - 1];) {
-		day -= (*mdays)[month - 1];
-		month++;
-		if (month > 12) {
-			month -= 12;
-			year++;
+	for (day_ += d; day_ > (*mdays)[month_ - 1];) {
+		day_ -= (*mdays)[month_ - 1];
+		month_++;
+		if (month_ > 12) {
+			month_ -= 12;
+			year_++;
 			mdays = DaysOfEachMonth();
 		}
 	}
@@ -98,17 +98,17 @@ Date Date::operator+ (Date date)
     Date sumDate;
     int monthDays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };  // 一年中每个月的天数
 
-    sumDate.year = year + date.year;
-    sumDate.month = month + date.month;
+    sumDate.year_ = year_ + date.year_;
+    sumDate.month_ = month_ + date.month_;
 
-    for (; sumDate.month > 12; sumDate.year++) sumDate.month -= 12;
+    for (; sumDate.month_ > 12; sumDate.year_++) sumDate.month_ -= 12;
     if (sumDate.IsLeapYear()) monthDays[1] = 29;
-    for (sumDate.day = day + date.day; sumDate.day > monthDays[sumDate.month - 1];)
+    for (sumDate.day_ = day_ + date.day_; sumDate.day_ > monthDays[sumDate.month_ - 1];)
     {
-        for (sumDate.day -= monthDays[sumDate.month - 1], sumDate.month++; sumDate.month > 12;)
+        for (sumDate.day_ -= monthDays[sumDate.month_ - 1], sumDate.month_++; sumDate.month_ > 12;)
         {
-            sumDate.month -= 12;
-            sumDate.year++;
+            sumDate.month_ -= 12;
+            sumDate.year_++;
             if (sumDate.IsLeapYear()) monthDays[1] = 29;
             else monthDays[1] = 28;
         }
@@ -243,4 +243,20 @@ void DateTime::AddHour(int hour)
 	int tmp_days = hour_ / 24;
 	hour_ %= 24;
 	AddDay(tmp_days);
+}
+
+void DateTime::AddMinute(int minute)
+{
+    minute_ += minute;
+    int tmp_h = minute_ / 60;
+    minute_ %= 60;
+    AddHour(tmp_h);
+}
+
+void DateTime::AddSecond(int s)
+{
+    second_ += s;
+    int tmp_minute = second_ / 60;
+    second_ %= 60;
+    AddMinute(tmp_minute);
 }
