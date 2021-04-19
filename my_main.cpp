@@ -13,14 +13,33 @@ using namespace std;
 
 int main()
 {
+    const int M=2, N=5;
+    double val = 0.0;
 
-    int a[5] = {1,2,3,4,5};
-    double m, v;
-    m = sample_mean(a);
-    cout<<"mean: "<<m<<endl;
+    double arr[M][N];
+    for (int ii=0;ii<M;ii++) {
+        for (int jj=0;jj<N;jj++) {
+            arr[ii][jj] = val;
+            val ++;
+        }
+    }
 
-    v = sample_variance(a);
-    cout<<"variance: "<<v<<endl;
+    double cov_mat[N][N];
+    CovarianceMatrix(arr, cov_mat);
+    for (int ii=0;ii<N;ii++) {
+        for (int jj=0;jj<N;jj++) {
+            cout<<cov_mat[ii][jj]<<"           ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+
+    for (int ii =0;ii<M;ii++) {
+        for (int jj=0;jj<N;jj++) {
+            cout<<arr[ii][jj]<<"            ";
+        }
+        cout<<endl;
+    }
 
 
     cout<<endl;
