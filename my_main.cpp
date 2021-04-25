@@ -14,21 +14,12 @@ using namespace std;
 
 int main()
 {
-    const int M=4, N=5;
-    double val = 0.0;
+    tuple<int, int> tuple2(10, 20);
 
-    double aa[M][N];
-    for (int ii=0;ii<M;ii++) {
-        for (int jj=0;jj<N;jj++) {
-            val++;
-            aa[ii][jj] = val;
-        }
-    }
+    auto a = get<0>(tuple2);
+    auto b = get<1>(tuple2);
 
-    PrintArray2D(aa);
-
-    double bb[3] = {1,2,3};
-    PrintArray1D(bb);
+    cout<<setw(10)<<a<<setw(5)<<b<<endl;
 
     cout<<endl;
 //	system("pause");
