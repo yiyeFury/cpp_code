@@ -14,12 +14,17 @@ using namespace std;
 
 int main()
 {
-    tuple<int, int> tuple2(10, 20);
+    tuple<size_t, size_t, size_t> three_d{1,2,3};
 
-    auto a = get<0>(tuple2);
-    auto b = get<1>(tuple2);
+    tuple<string, int, double> item1("ISBN", 2, 20.00);
+    auto item = make_tuple("ISBN", 2, 20.00);
 
-    cout<<setw(10)<<a<<setw(5)<<b<<endl;
+    auto book = get<0>(item);
+    auto cnt = get<1>(item);
+
+    typedef decltype(item) trans;
+    size_t sz = tuple_size<trans>::value;
+    tuple_element<1, trans>::type cnt1 = get<1>(item);
 
     cout<<endl;
 //	system("pause");
