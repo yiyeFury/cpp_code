@@ -12,6 +12,28 @@
 
 using namespace std;
 
+int Factorial(int n)
+{
+    /*计算阶乘*/
+    if (n==0)
+        return 1;
+    else
+        return n*Factorial(n-1);
+}
+
+template<int M>
+int FibonacciSequence(int (&fib)[M])
+{
+    for(int ii=0;ii<M;ii++) {
+        if (ii == 0)
+            fib[ii] = 0;
+        else if (ii==1)
+            fib[ii] = 1;
+        else
+            fib[ii] = fib[ii-1] + fib[ii-2];
+    }
+}
+
 template<typename T, int N>
 double sample_mean(const T (&arr)[N])
 {
