@@ -22,7 +22,7 @@ int Factorial(int n)
 }
 
 template<int M>
-int FibonacciSequence(int (&fib)[M])
+void FibonacciSequence(int (&fib)[M])
 {
     for(int ii=0;ii<M;ii++) {
         if (ii == 0)

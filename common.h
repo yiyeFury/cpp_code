@@ -34,20 +34,3 @@ void PrintArray(const T(&arr)[M][N])
 }
 
 
-template <typename T, int M>
-void ArrayAdd(const T(&aa)[M], const T(&bb)[M], T(&cc)[M])
-{
-    // 2d数组相加
-    for (int ii = 0; ii < M; ii++)
-        cc[ii] = aa[ii] + bb[ii];
-}
-
-
-template <typename T, int M, int N>
-void ArrayAdd(const T(&aa)[M][N], const T(&bb)[M][N], T(&cc)[M][N])
-{
-    // 2d数组相加
-    for (int ii = 0; ii < M; ii++)
-        for (int jj = 0; jj < N; jj++)
-            cc[ii][jj] = aa[ii][jj] + bb[ii][jj];
-}
