@@ -1,7 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include<iostream>
 #include<math.h>
-#include<Python.h>
 #include"my_cpp.h"
 using namespace std;
 
