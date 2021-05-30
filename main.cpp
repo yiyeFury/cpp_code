@@ -14,24 +14,32 @@
 
 using namespace std;
 
+template<int M>
+void Test(const char (&aa)[M])
+{
+    int cnt = 0;
+    for (auto ii=begin(aa);ii!=end(aa); ii++) {
+        cnt ++;
+        cout<<setw(5)<<*ii;
+    }
+    cout<<endl<<"number is: "<<cnt<<endl;
+}
 
 int main()
 {
+    char a1[] = {'C', '+', '+'};  // 列表初始化，没有空字符
+    char a2[] = {'C', '+', '+', '\0'};  // 列表初始化，含有显式的空字符
+    char a3[] = "C++";  // 自动添加表示字符串结束的空字符
 
-    const int M=3, N=2, K=4;
-    float aa[M][N];
-    float bb[N][M];
-    float c=0;
-    for (int ii = 0;ii<M;ii++) {
-        for(int jj = 0;jj<N;jj++) {
-            aa[ii][jj] = c++;
-        }
-    }
+    Test(a1);
+    Test(a2);
+    Test(a3);
 
-    MatrixTranspose(aa, bb);
 
-    PrintArray(aa);
-    PrintArray(bb);
+//    PrintArray(a1);
+//    PrintArray(a2);
+//    PrintArray(a3);
+
 
     cout<<endl;
 //	system("pause");
