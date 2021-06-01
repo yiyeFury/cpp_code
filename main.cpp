@@ -11,6 +11,7 @@
 #include "common.h"
 #include "my_cpp.h"
 #include "basic_matrix.h"
+#include "solar_position.h"
 
 using namespace std;
 
@@ -18,21 +19,11 @@ using namespace std;
 
 int main()
 {
-    int a1[5][10];
-    int cnt = 0;
-    for (auto &row:a1) {
-        for (auto &col:row) {
-            col = ++cnt;
-        }
-    }
+    int n1, n2;
+    n1 = DayOfYear(2020, 3, 1);
+    n2 = DayOfYear(2021, 2, 28);
 
-    for (auto &row:a1) {
-        for (auto col:row) {
-            cout<<setw(5)<<col;
-        }
-    }
-
-
+    cout<<n1<<endl<<n2;
     cout<<endl;
 //	system("pause");
     return 0;
