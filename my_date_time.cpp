@@ -4,6 +4,18 @@
 
 using namespace std;
 
+bool IsLeapYear(int y)
+{
+    // 计算是否为闰年
+    bool cond1, cond2;
+    cond1 = (y % 4 == 0) && (y % 100 != 0);
+    cond2 = y % 400 == 0;
+
+    if (cond1 || cond2)
+        return true;
+    else
+        return false;
+}
 
 // 构造函数
 Date::Date() :year_(2000), month_(1), day_(1) {}
@@ -29,24 +41,11 @@ int Date::GetMonth() { return month_; }
 
 int Date::GetDay() { return day_; }
 
-bool Date::IsLeapYear()
-{
-    // 计算是否为闰年
-    bool cond1, cond2;
-    cond1 = (year_ % 4 == 0) && (year_ % 100 != 0);
-    cond2 = year_ % 400 == 0;
-
-    if (cond1 || cond2)
-        return true;
-    else
-        return false;
-}
-
 int (*(Date::DaysOfEachMonth()))[12]
 {
     static int tmp_days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // 一年中每个月的天数
     int (*days)[12] = &tmp_days;
-	if (IsLeapYear())
+	if (IsLeapYear(year_))
 		(*days)[1] = 29;
 	return days;
 }
@@ -102,14 +101,14 @@ Date Date::operator+ (Date date)
     sumDate.month_ = month_ + date.month_;
 
     for (; sumDate.month_ > 12; sumDate.year_++) sumDate.month_ -= 12;
-    if (sumDate.IsLeapYear()) monthDays[1] = 29;
+    if (IsLeapYear(sumDate.year_)) monthDays[1] = 29;
     for (sumDate.day_ = day_ + date.day_; sumDate.day_ > monthDays[sumDate.month_ - 1];)
     {
         for (sumDate.day_ -= monthDays[sumDate.month_ - 1], sumDate.month_++; sumDate.month_ > 12;)
         {
             sumDate.month_ -= 12;
             sumDate.year_++;
-            if (sumDate.IsLeapYear()) monthDays[1] = 29;
+            if (IsLeapYear(sumDate.year_)) monthDays[1] = 29;
             else monthDays[1] = 28;
         }
 

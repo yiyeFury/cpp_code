@@ -6,6 +6,8 @@ typedef struct {
 
 typedef struct { int year, yDays; }YearDays;
 
+bool IsLeapYear(int);
+
 class Date
 {
 private:
@@ -30,7 +32,6 @@ public:
 	int GetMonth();
 	int GetDay();
 
-    bool IsLeapYear();
 	int (*DaysOfEachMonth())[12];
 	int DaysOfYear();
 	void AddMonth(int);

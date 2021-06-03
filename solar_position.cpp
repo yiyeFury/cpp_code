@@ -2,6 +2,7 @@
 // Created by xie on 2021/6/1.
 //
 #include "solar_position.h"
+#include "my_date_time.h"
 
 
 double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)
@@ -37,18 +38,6 @@ double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)
     return jd;
 }
 
-bool IsLeapYear(int y)
-{
-    // 计算是否为闰年
-    bool cond1, cond2;
-    cond1 = (y % 4 == 0) && (y % 100 != 0);
-    cond2 = y % 400 == 0;
-
-    if (cond1 || cond2)
-        return true;
-    else
-        return false;
-}
 
 int DayOfYear(int y, int m, int d)
 {

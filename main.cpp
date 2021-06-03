@@ -4,6 +4,7 @@
 #include <list>
 #include <numeric>
 #include <algorithm>
+#include <math.h>
 
 #include "sort_algorithm.h"
 #include "my_date_time.h"
@@ -12,6 +13,7 @@
 #include "my_cpp.h"
 #include "basic_matrix.h"
 #include "solar_position.h"
+#include "numerical_analysis.h"
 
 using namespace std;
 
@@ -19,11 +21,15 @@ using namespace std;
 
 int main()
 {
-    int n1, n2;
-    n1 = DayOfYear(2020, 3, 1);
-    n2 = DayOfYear(2021, 2, 28);
+    int x[] = {11, 12, 13};
+    double y[3], dst_y;
+    for (int ii=0;ii<3;ii++)
+        y[ii] = log(x[ii]);
 
-    cout<<n1<<endl<<n2;
+    PrintArray(y);
+    dst_y = LagrangeInterpolation(x, y, 11.5);
+    cout<<dst_y<<endl;
+
     cout<<endl;
 //	system("pause");
     return 0;
