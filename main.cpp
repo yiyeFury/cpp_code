@@ -21,14 +21,8 @@ using namespace std;
 
 int main()
 {
-    int x[] = {11, 12, 13};
-    double y[3], dst_y;
-    for (int ii=0;ii<3;ii++)
-        y[ii] = log(x[ii]);
 
-    PrintArray(y);
-    dst_y = LagrangeInterpolation(x, y, 11.5);
-    cout<<dst_y<<endl;
+
 
     cout<<endl;
 //	system("pause");
