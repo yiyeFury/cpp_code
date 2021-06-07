@@ -4,7 +4,7 @@
 #include <list>
 #include <numeric>
 #include <algorithm>
-#include <math.h>
+#include <cmath>  // include <math.h>
 
 #include "sort_algorithm.h"
 #include "my_date_time.h"
@@ -21,7 +21,9 @@ using namespace std;
 
 int main()
 {
-
+    cout<<M_PI<<endl;
+    cout<<M_1_PI<<endl;
+    cout<<180.0/M_PI*atan2(-1, -1);
 
 
     cout<<endl;
