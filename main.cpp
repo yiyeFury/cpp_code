@@ -14,6 +14,7 @@
 #include "basic_matrix.h"
 #include "solar_position.h"
 #include "numerical_analysis.h"
+#include "coordinate_conversion.h"
 
 using namespace std;
 
@@ -21,9 +22,10 @@ using namespace std;
 
 int main()
 {
-    cout<<M_PI<<endl;
-    cout<<M_1_PI<<endl;
-    cout<<180.0/M_PI*atan2(-1, -1);
+    SphericalCoordinate s1;
+    Cartesian3D c1;
+    c1 = s1.SphericalToCartesian(20.0, 100, 20);
+    cout<<setw(20)<<c1.x<<setw(20)<<c1.y<<setw(20)<<c1.z<<endl;
 
 
     cout<<endl;

@@ -8,18 +8,11 @@
 #endif //CPP_CODE_MY_MATHMATICS_H
 
 #include<iostream>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
-int Factorial(int n)
-{
-    /*计算阶乘*/
-    if (n==0)
-        return 1;
-    else
-        return n*Factorial(n-1);
-}
+int Factorial(int n);
 
 template<int M>
 void FibonacciSequence(int (&fib)[M])
@@ -33,6 +26,23 @@ void FibonacciSequence(int (&fib)[M])
             fib[ii] = fib[ii-1] + fib[ii-2];
     }
 }
+
+template<typename T1>
+double degree_to_radiance(T1 deg)
+{
+    // 将 角度 计算为 弧度
+    double rad = M_PI*deg/180.0;
+    return rad;
+}
+
+template<typename T1>
+double radiance_to_degree(T1 rad)
+{
+    // 由弧度 计算 角度
+    double deg = rad*180.0/M_PI;
+    return deg;
+}
+
 
 template<typename T, int N>
 double sample_mean(const T (&arr)[N])
