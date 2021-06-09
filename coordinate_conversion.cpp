@@ -6,6 +6,44 @@
 #include "basic_math.h"
 #include "coordinate_conversion.h"
 
+
+void ReferenceEllipsoid::CalculateParameters()
+{
+    f = (a - b)/a;
+    fe = sqrt(a*a-b*b)/a;
+    se = sqrt(a*a - b*b)/b;
+}
+
+
+void ReferenceEllipsoid::CalculateAuxiliaryParameters(double B)
+{
+    c = a*a/b;
+
+    double B_rad = degree_to_radiance(B);
+    W = sqrt(1-fe*fe*pow(sin(B_rad), 2));
+    V = sqrt(1+pow(se*cos(B_rad), 2));
+}
+
+double ReferenceEllipsoid::CalculateCurvatureRadiusMeridian(double B)
+{
+    double B_rad, W, M;
+    B_rad = degree_to_radiance(B);
+    W = sqrt(1-fe*fe*pow(sin(B_rad), 2));
+    M = a*(1-fe*fe)/pow(W, 3);
+    return M;
+
+}
+
+double ReferenceEllipsoid::CalculateCurvatureRadiusPrimeVertical(double B)
+{
+    double B_rad, W, N;
+    B_rad = degree_to_radiance(B);
+    W = sqrt(1-fe*fe*pow(sin(B_rad), 2));
+    N = a/W;
+    return N;
+}
+
+
 SphericalCoord SphericalCoordinate::CartesianToSpherical(const double &x, const double &y, const double &z)
 {
     SphericalCoord coord;

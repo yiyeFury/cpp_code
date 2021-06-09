@@ -18,6 +18,23 @@ typedef struct {
 }SphericalCoord;
 
 
+class ReferenceEllipsoid
+{
+public:
+    double a;  // semi-major axis
+    double b;  // semi-minor axis
+    double f;  // flattening
+    double fe;  // first eccentricity
+    double se;  // second eccentricity
+    double c;  //
+    double W;
+    double V;
+    void CalculateParameters();
+    void CalculateAuxiliaryParameters(double B);
+    double CalculateCurvatureRadiusMeridian(double B);
+    double CalculateCurvatureRadiusPrimeVertical(double B);
+};
+
 class SphericalCoordinate
 {
 public:
