@@ -45,46 +45,72 @@ double radiance_to_degree(T1 rad)
 
 
 template<typename T, int N>
-double sample_mean(const T (&arr)[N])
+double CalculateMean(const T (&arr)[N], const int dof=N)
 {
-    // 计算样本均值
+    /*
+     * dof: degree of freedom
+     */
+    // 计算均值
     double m, tmp_val=0.0;
     for (int ii=0;ii<N;ii++)
         tmp_val += arr[ii];
-    m = tmp_val / N;
+    m = tmp_val / dof;
     return m;
 }
 
 template<typename T, int N>
-double sample_variance(const T (&arr)[N])
+double CalculateVariance(const T (&arr)[N], const int dof=N-1)
 {
     // 计算样本方差
     double v, m, tmp_val=0.0;
-    m = sample_mean(arr);
+    m = CalculateMean(arr, dof);
     for (int ii=0;ii<N;ii++)
         tmp_val += pow(arr[ii]-m, 2);
-    v = tmp_val/(N-1);
+    v = tmp_val/dof;
     return v;
 }
 
 template<typename T, int N>
-double sample_covariance(const T (&arr1)[N], const T (&arr2)[N])
+double CalculateCovariance(const T (&arr1)[N], const T (&arr2)[N], const int dof=N-1)
 {
     double m1, m2;
-    m1 = sample_mean(arr1);
-    m2 = sample_mean(arr2);
+    m1 = CalculateMean(arr1);
+    m2 = CalculateMean(arr2);
     double tmp_val, dst;
     for (int ii=0;ii<N;ii++) {
         tmp_val += (arr1[ii] - m1)*(arr2[ii] - m2);
     }
 
-    dst = tmp_val / (N-1);
+    dst = tmp_val / dof;
     return dst;
 }
 
-template<typename T, int M, int N>
-void CovarianceMatrix(const T (&sample_data)[M][N], double (&cov_mat)[N][N])
+template<typename T1, typename T2, typename T3>
+double CorrelationCoefficient(const T1 (&arr1)[N], const T2 (&arr2)[N], const T3 dof)
 {
+    /*
+     * 计算相关系数
+     */
+    double cov;  // 计算协方差
+    cov = CalculateCovariance(arr1, arr2, dof);
+
+    double var1, var2;  // 计算方差
+    var1 = CalculateVariance(arr1, dof);
+    var2 = CalculateVariance(arr2, dof);
+
+    double cor;
+    cor = cov/sqrt(var1*var2);
+    return cor;
+}
+
+template<typename T, int M, int N>
+void CovarianceMatrix(const T (&sample_data)[M][N], double (&cov_mat)[N][N], const int dof=M-1)
+{
+    /*
+     * 计算协方差矩阵
+     * M, 样本数
+     * N，特征数
+     */
     double tmp_val;
     double tmp_mean[N];
 
@@ -108,7 +134,7 @@ void CovarianceMatrix(const T (&sample_data)[M][N], double (&cov_mat)[N][N])
             // 计算协方差
             for (int ii = 0; ii < M; ii++)
                 tmp_val += (sample_data[ii][rr] - tmp_mean[rr]) * (sample_data[ii][cc] - tmp_mean[cc]);
-            cov_mat[rr][cc] = tmp_val / (M - 1);
+            cov_mat[rr][cc] = tmp_val / dof;
         }
     }
 
