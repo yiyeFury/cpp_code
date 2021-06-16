@@ -126,7 +126,7 @@ SphericalCoord SphericalCoordinate::CartesianToSpherical(const double &x, const 
     lon_rad = atan2(y, x);
     coord.lon = radiance_to_degree(lon_rad);
 
-    colat_rad = acos(z/radius);  // zenith angle or colatitude
+    colat_rad = acos(z/coord.radius);  // zenith angle or colatitude
     colat_deg = radiance_to_degree(colat_rad);
     coord.lat = 90.0 - colat_deg;
     return coord;

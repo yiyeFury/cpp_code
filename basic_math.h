@@ -85,7 +85,7 @@ double CalculateCovariance(const T (&arr1)[N], const T (&arr2)[N], const int dof
     return dst;
 }
 
-template<typename T1, typename T2, typename T3>
+template<typename T1, typename T2, typename T3, int N>
 double CorrelationCoefficient(const T1 (&arr1)[N], const T2 (&arr2)[N], const T3 dof)
 {
     /*

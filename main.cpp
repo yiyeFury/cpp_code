@@ -8,13 +8,14 @@
 
 #include "sort_algorithm.h"
 #include "my_date_time.h"
-#include "basic_math.h"
+//#include "basic_math.h"
 #include "common.h"
 #include "my_cpp.h"
 #include "basic_matrix.h"
 #include "solar_position.h"
 #include "numerical_analysis.h"
 #include "coordinate_conversion.h"
+#include "DIP.h"
 
 using namespace std;
 
@@ -22,11 +23,18 @@ using namespace std;
 
 int main()
 {
-    SphericalCoordinate s1;
-    Cartesian3D c1;
-    c1 = s1.SphericalToCartesian(20.0, 100, 20);
-    cout<<setw(20)<<c1.x<<setw(20)<<c1.y<<setw(20)<<c1.z<<endl;
+    const int M=4, N=5;
+    int src[M][N], dst[M][N];
+    int cnt = 0;
+    for (auto &r:src) {
+        for (auto &c:r) {
+            c=cnt++;
+        }
+    }
 
+    reflection(src, dst, 0, 1);
+    PrintArray(src);
+    PrintArray(dst);
 
     cout<<endl;
 //	system("pause");
