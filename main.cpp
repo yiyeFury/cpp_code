@@ -23,18 +23,12 @@ using namespace std;
 
 int main()
 {
-    const int M=4, N=5;
-    int src[M][N], dst[M][N];
-    int cnt = 0;
-    for (auto &r:src) {
-        for (auto &c:r) {
-            c=cnt++;
-        }
-    }
+    int a, b=10;
+    int c=1,d=0;
 
-    reflection(src, dst, 0, 1);
-    PrintArray(src);
-    PrintArray(dst);
+    bool tmp=b>10;
+    a = tmp?c:d;
+    cout<<a<<endl;
 
     cout<<endl;
 //	system("pause");
