@@ -33,4 +33,12 @@ void PrintArray(const T(&arr)[M][N])
     cout << endl;
 }
 
+template<typename T, int M>
+void CopyArray(const T (src_arr)[M], T (&dst_arr)[M])
+{
+    for (int ii=0;ii<M;ii++) {
+        dst_arr[ii] = src_arr[ii];
+    }
+}
+
 
