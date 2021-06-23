@@ -16,6 +16,7 @@
 #include "numerical_analysis.h"
 #include "coordinate_conversion.h"
 #include "DIP.h"
+#include "linear_regression.h"
 
 using namespace std;
 

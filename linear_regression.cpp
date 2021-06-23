@@ -6,22 +6,24 @@
 #include "linear_regression.h"
 #include "common.h"
 
-T LinearRegression<T>::Hypothesis(const T (&x)[M], const T (&theta)[M])
+template<typename T1, typename T2, typename T3, int M, int N>
+double LinearRegression<T1, T2, T3, M, N>::Hypothesis(const T1 (&x)[M], const T2 (&theta)[M])
 {
     /*
      * x: expanded, x_0 = 1
      */
-    T h = T(0);
+    double h = 0.0;
     for (int ii=0;ii<M;ii++) {
         h += theta[ii]*x[ii];
     }
     return h;
 }
 
-
-T LinearRegression<T>::CostFunction(const T (&x)[M][N], const T (&theta)[N], const T (&y)[M])
+template<typename T1, typename T2, typename T3, int M, int N>
+double LinearRegression<T1, T2, T3, M, N>::CostFunction(const T1 (&x)[M][N], const T2 (&theta)[N],
+                                                        const T3 (&y)[M])
 {
-    T dst_val, tmp_val=0, h;
+    double dst_val, tmp_val=0.0, h;
     for (int ii=0;ii <M;ii++) {
         h = Hypothesis(x[ii], theta);
         tmp_val += pow(h- y[ii], 2)
@@ -31,24 +33,35 @@ T LinearRegression<T>::CostFunction(const T (&x)[M][N], const T (&theta)[N], con
 }
 
 
-LinearRegression<T>::GradientDescent(const T (&design_matrix)[M][N], const T (&y)[M],
-                                     const T (&src_theta)[N], T (&dst_theta)[N],
-                                     const T alpha)
+template<typename T1, typename T2, typename T3, int M, int N>
+void LinearRegression<T1, T2, T3, M, N>::GradientDescent(const T1 (&design_matrix)[M][N], const T3 (&y)[M],
+                                                         const T2 (&src_theta)[N], T2 (&dst_theta)[N],
+                                                         float alpha)
 {
     /*
-     * M : the number of examples
-     * N : the number of features + 1
      * alpha: learning rate
      */
-    T tmp_theta[N];
+    T2 tmp_theta[N];
     CopyArray(src_theta, tmp_theta);
 
-    T h;
-    for (int ii=0;ii<M;ii++) {
+    double h, tmp_val;
+    double alpha_m = alpha/M;
+    while (True) {
+        for (int jj=0;jj<N;jj++) {
+            tmp_val = 0.0;
+            for (int ii=0;ii<M;ii++) {
+                h = Hypothesis(design_matrix[ii], tmp_theta);
+                tmp_val += (h-y[ii])*design_matrix[ii][jj];
+            }
+            dst_theta[jj] = tmp_theta[jj] - tmp_val*alpha_m;
+        }
+        // todo: 设立终止条件
 
-
-        dst_theta[ii];
+        // 本次 迭代 未终止，准备下一次
+        CopyArray(dst_theta, tmp_theta);
     }
+
+
 
 
 }
