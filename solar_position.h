@@ -5,7 +5,7 @@
 #ifndef CPP_CODE_SOLAR_POSITION_H
 #define CPP_CODE_SOLAR_POSITION_H
 
-#endif //CPP_CODE_SOLAR_POSITION_H
+
 
 /*
  Solar Position Algorithm for Solar Radiation Applications
@@ -27,3 +27,5 @@
 double CalculateJulianDay(int y, int m, int d, int hh, int mm, int ss);
 bool IsLeapYear(int y);
 int DayOfYear(int y, int m, int d);
+
+#endif //CPP_CODE_SOLAR_POSITION_H

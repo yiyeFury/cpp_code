@@ -5,8 +5,6 @@
 #ifndef CPP_CODE_BASIC_MATRIX_H
 #define CPP_CODE_BASIC_MATRIX_H
 
-#endif //CPP_CODE_BASIC_MATRIX_H
-
 
 template <typename T, int M>
 void ArrayAdd(const T(&aa)[M], const T(&bb)[M], T(&cc)[M])
@@ -52,3 +50,5 @@ void MatrixTranspose(const T (&aa)[M][N], T(&bb)[N][M])
         }
     }
 }
+
+#endif //CPP_CODE_BASIC_MATRIX_H

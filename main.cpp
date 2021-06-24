@@ -21,15 +21,8 @@
 using namespace std;
 
 
-
 int main()
 {
-    int a, b=10;
-    int c=1,d=0;
-
-    bool tmp=b>10;
-    a = tmp?c:d;
-    cout<<a<<endl;
 
     cout<<endl;
 //	system("pause");

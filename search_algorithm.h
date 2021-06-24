@@ -5,8 +5,6 @@
 #ifndef CPP_CODE_SEARCH_ALGORITHM_H
 #define CPP_CODE_SEARCH_ALGORITHM_H
 
-#endif //CPP_CODE_SEARCH_ALGORITHM_H
-
 template<typename T, int M>
 int BinarySearch(T(&arr)[M], T dst_val, bool is_ascend=true)
 {
@@ -35,3 +33,5 @@ int BinarySearch(T(&arr)[M], T dst_val, bool is_ascend=true)
     }
     return -1;
 }
+
+#endif //CPP_CODE_SEARCH_ALGORITHM_H

@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef CPP_CODE_COMMON_H
+#define CPP_CODE_COMMON_H
+
 #include<iostream>
 #include<iomanip>
 
@@ -41,4 +45,4 @@ void CopyArray(const T (src_arr)[M], T (&dst_arr)[M])
     }
 }
 
-
+#endif //CPP_CODE_LINEAR_REGRESSION_H

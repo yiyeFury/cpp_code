@@ -5,7 +5,7 @@
 #ifndef CPP_CODE_GEODESY_H
 #define CPP_CODE_GEODESY_H
 
-#endif //CPP_CODE_GEODESY_H
+
 
 #include <cmath>
 #include "basic_math.h"
@@ -46,3 +46,6 @@ double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
     d = radius*central_angle;
     return d;
 }
+
+
+#endif //CPP_CODE_GEODESY_H
