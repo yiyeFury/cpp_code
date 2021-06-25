@@ -5,7 +5,6 @@
 #ifndef CPP_CODE_NUMERICAL_ANALYSIS_H
 #define CPP_CODE_NUMERICAL_ANALYSIS_H
 
-#endif //CPP_CODE_NUMERICAL_ANALYSIS_H
 
 template<typename T1, typename T2, typename T3, int M>
 double LagrangeInterp(const T1 (&src_x)[M], const T2(&src_y)[M], const T3 dst_x)
@@ -61,3 +60,5 @@ double NewtonInterp(const T1 (&src_x)[M], const T2 (&src_y)[M], const T3 dst_x)
     }
     return dst_y;
 }
+
+#endif //CPP_CODE_NUMERICAL_ANALYSIS_H

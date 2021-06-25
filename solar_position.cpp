@@ -2,7 +2,7 @@
 // Created by xie on 2021/6/1.
 //
 #include "solar_position.h"
-#include "my_date_time.h"
+#include "time_conversion.h"
 
 
 double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)

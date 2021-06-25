@@ -1,6 +1,7 @@
 #pragma once
 
-
+#ifndef CPP_CODE_SORT_ALGORITHM_H
+#define CPP_CODE_SORT_ALGORITHM_H
 
 #include<math.h>
 
@@ -233,3 +234,5 @@ void heap_sort(T(&arr)[num])
 		max_heapify(arr, 0, heap_size);
 	}
 }
+
+#endif // CPP_CODE_SORT_ALGORITHM_H

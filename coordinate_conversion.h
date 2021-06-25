@@ -5,8 +5,6 @@
 #ifndef CPP_CODE_COORDINATE_CONVERSION_H
 #define CPP_CODE_COORDINATE_CONVERSION_H
 
-
-
 #include <cmath>
 
 typedef struct {

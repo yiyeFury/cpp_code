@@ -5,7 +5,7 @@
 #ifndef CPP_CODE_DIP_H
 #define CPP_CODE_DIP_H
 
-#endif //CPP_CODE_DIP_H
+
 
 #include <string>
 #include <vector>
@@ -174,3 +174,5 @@ void erosion(const T1 (&src)[rows][columns], T1 (&dst)[rows][columns],
         }
     }
 }
+
+#endif //CPP_CODE_DIP_H

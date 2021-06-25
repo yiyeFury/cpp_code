@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef CPP_CODE_TIME_CONVERSION_H
+#define CPP_CODE_TIME_CONVERSION_H
+
 typedef struct {
 	int year, month;
 }YearMonth;
@@ -79,3 +82,5 @@ public:
 	void AddSecond(int);
 
 };
+
+#endif // CPP_CODE_TIME_CONVERSION_H
