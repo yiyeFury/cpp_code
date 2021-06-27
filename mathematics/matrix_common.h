@@ -2,8 +2,8 @@
 // Created by xie on 2021/5/18.
 //
 
-#ifndef CPP_CODE_BASIC_MATRIX_H
-#define CPP_CODE_BASIC_MATRIX_H
+#ifndef CPP_CODE_MATRIX_COMMON_H
+#define CPP_CODE_MATRIX_COMMON_H
 
 
 template <typename T, int M>
@@ -51,4 +51,4 @@ void MatrixTranspose(const T (&aa)[M][N], T(&bb)[N][M])
     }
 }
 
-#endif //CPP_CODE_BASIC_MATRIX_H
+#endif //CPP_CODE_MATRIX_COMMON_H

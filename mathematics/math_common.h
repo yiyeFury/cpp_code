@@ -2,8 +2,8 @@
 // Created by xie on 2021/4/18.
 //
 
-#ifndef CPP_CODE_BASIC_MATH_H
-#define CPP_CODE_BASIC_MATH_H
+#ifndef CPP_CODE_MATH_COMMON_H
+#define CPP_CODE_MATH_COMMON_H
 
 
 
@@ -140,4 +140,4 @@ void CovarianceMatrix(const T (&sample_data)[M][N], double (&cov_mat)[N][N], con
 
 }
 
-#endif //CPP_CODE_BASIC_MATH_H
+#endif //CPP_CODE_MATH_COMMON_H

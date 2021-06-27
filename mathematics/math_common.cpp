@@ -2,7 +2,7 @@
 // Created by admin on 2021/6/8.
 //
 
-#include "basic_math.h"
+#include "math_common.h"
 
 int Factorial(int n)
 {

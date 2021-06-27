@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CPP_CODE_SORT_ALGORITHM_H
-#define CPP_CODE_SORT_ALGORITHM_H
+#ifndef CPP_CODE_SORT_H
+#define CPP_CODE_SORT_H
 
 #include<math.h>
 
@@ -235,4 +235,4 @@ void heap_sort(T(&arr)[num])
 	}
 }
 
-#endif // CPP_CODE_SORT_ALGORITHM_H
+#endif // CPP_CODE_SORT_H

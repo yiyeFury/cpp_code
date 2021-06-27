@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "basic_math.h"
+#include "mathematics/math_common.h"
 #include "coordinate_conversion.h"
 
 ReferenceEllipsoid::ReferenceEllipsoid(double a, double b):a_(a),b_(b)

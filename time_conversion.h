@@ -9,7 +9,10 @@ typedef struct {
 
 typedef struct { int year, yDays; }YearDays;
 
-bool IsLeapYear(int);
+
+double CalculateJulianDay(int y, int m, int d, int hh, int mm, int ss);
+bool IsLeapYear(int y);
+int DayOfYear(int y, int m, int d);
 
 class Date
 {

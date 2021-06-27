@@ -8,7 +8,7 @@
 
 
 #include <cmath>
-#include "basic_math.h"
+#include "mathematics/math_common.h"
 
 template<typename T>
 double HaversineFunction(T theta)
