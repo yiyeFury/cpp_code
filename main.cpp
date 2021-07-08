@@ -19,21 +19,24 @@
 #include "ML/linear_regression.h"
 #include "DSA/maximum_subarray.h"
 
+#include <opencv2/opencv.hpp>
+
 using namespace std;
+using namespace cv;
 
 
 
-
-int main()
-{
-    int arr[] = {1, -1, 2, 3, 5, -1, 0};
-    MaxSubArray<int> max_sub;
-
-    max_sub = FindMaximumSubArray(arr, 0, 6, -2);
-    cout<<setw(10)<<max_sub.low_idx<<setw(10)<<max_sub.high_idx<<setw(10)<<max_sub.sum<<endl;
-    cout<<setw(10)<<arr[max_sub.low_idx]<<setw(10)<<arr[max_sub.high_idx];
-
-    cout<<endl;
-//	system("pause");
-    return 0;
-}
+//int main()
+//{
+//    string img_file = "C:/Users/xie/Desktop/curry.jpg";
+//    Mat img = imread(img_file);
+//
+//    namedWindow("image", WINDOW_AUTOSIZE);
+//    imshow("image", img);
+//    waitKey(0);
+//    destroyAllWindows();
+//
+//    cout<<endl;
+//	  // system("pause");
+//    return 0;
+//}
