@@ -7,7 +7,7 @@
  * https://docs.opencv.org/master/d5/d98/tutorial_mat_operations.html
  */
 
-#include <string>
+//#include <string>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -27,10 +27,14 @@ void ShowImage(string img_file, string win_title="win_title")
 
 int main()
 {
-    string img_file = "C:/Users/xie/Desktop/curry.jpg";
+//    string img_file = "C:/Users/xie/Desktop/curry.jpg";
+    string img_file = "C:/Users/admin/Desktop/curry.jpg";
+    cout<<"show"<<endl;
+
     ShowImage(img_file);
 
+    cout<<"show done"<<endl;
     cout<<endl;
-//	system("pause");
+	system("pause");
     return 0;
 }

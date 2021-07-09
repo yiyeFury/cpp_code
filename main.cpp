@@ -19,16 +19,16 @@
 #include "ML/linear_regression.h"
 #include "DSA/maximum_subarray.h"
 
-#include <opencv2/opencv.hpp>
-
-using namespace std;
-using namespace cv;
-
+//
+//#include <opencv2/opencv.hpp>
+//
+//using namespace std;
+//using namespace cv;
 
 
 //int main()
 //{
-//    string img_file = "C:/Users/xie/Desktop/curry.jpg";
+//    string img_file = "C:/Users/admin/Desktop/curry.jpg";
 //    Mat img = imread(img_file);
 //
 //    namedWindow("image", WINDOW_AUTOSIZE);
@@ -36,6 +36,7 @@ using namespace cv;
 //    waitKey(0);
 //    destroyAllWindows();
 //
+//    cout<<"end"<<endl;
 //    cout<<endl;
 //	  // system("pause");
 //    return 0;
