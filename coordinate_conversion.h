@@ -42,6 +42,7 @@ public:
     double CalculateGeodeticLatitude(Cartesian3D cartesian3d, double precison_thr=0.001);
 };
 
+
 class SphericalCoordinate
 {
 public:

@@ -26,18 +26,15 @@
 //using namespace cv;
 
 
-//int main()
-//{
-//    string img_file = "C:/Users/admin/Desktop/curry.jpg";
-//    Mat img = imread(img_file);
-//
-//    namedWindow("image", WINDOW_AUTOSIZE);
-//    imshow("image", img);
-//    waitKey(0);
-//    destroyAllWindows();
-//
-//    cout<<"end"<<endl;
-//    cout<<endl;
-//	  // system("pause");
-//    return 0;
-//}
+#include "DSA/stack.h"
+
+int main()
+{
+   Stack<int> s1;
+   cout<<s1.Empty();
+
+   cout<<"end"<<endl;
+   cout<<endl;
+	  // system("pause");
+   return 0;
+}
