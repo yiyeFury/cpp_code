@@ -14,11 +14,11 @@
 using namespace std;
 using namespace cv;
 
-int main()
-{
-    ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
-
-    cout<<endl;
-    // system("pause");
-    return 0;
-}
+// int main()
+// {
+//     ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
+//
+//     cout<<endl;
+//     // system("pause");
+//     return 0;
+// }

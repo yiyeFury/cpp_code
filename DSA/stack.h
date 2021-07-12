@@ -12,9 +12,9 @@ public:
     Stack();
     Stack(int, int);
     
-    int top_=0;  // 当前元素数量
-    int capacity_=10;  // 栈中可容纳数量
-    // T data_[5];
+    int top_;  // 当前元素数量
+    int capacity_;  // 栈中可容纳数量
+    vector<T> data_;
     
     bool Empty();
     void Push(T val);
@@ -37,7 +37,27 @@ Stack<T>::Stack(int t, int c): top_(t), capacity_(c)
 template<typename T>
 bool Stack<T>::Empty()
 {
-    return (top_==0)?true:false;
+    return (top_ == 0) ? true : false;
+}
+
+template<typename T>
+void Stack<T>::Push(T val)
+{
+    data_.push_back(val);
+    top_ += 1;
+}
+
+template<typename T>
+T Stack<T>::Pop()
+{
+    if (top_ == 0) {
+        cout<<"underflow"<<endl;
+        return -999;
+    }
+    T val = data_[top_-1];
+    data_.pop_back();
+    top_ -= 1;
+    return val;
 }
 
 

@@ -22,19 +22,30 @@
 //
 //#include <opencv2/opencv.hpp>
 //
-//using namespace std;
+using namespace std;
 //using namespace cv;
 
 
-// #include "DSA/stack.h"
-//
-// int main()
-// {
-//    Stack<int> s1;
-//    cout<<s1.Empty();
-//
-//    cout<<"end"<<endl;
-//    cout<<endl;
-// 	  // system("pause");
-//    return 0;
-// }
+#include "DSA/stack.h"
+
+int main()
+{
+   cout<<"Start\n";
+   
+   int p = 10;
+   
+   using arr = int[10];  // typedef int arr[10];
+   int *pia = new arr;
+   
+   int cnt = 0;
+   for (int ii=0;ii<p;ii++)
+       *(pia+ii) = cnt++;
+    
+    for (int ii=0;ii<p;ii++)
+        cout<<setw(10)<<*(pia+ii);
+
+   cout<<"\nend\n"<<endl;
+   cout<<endl;
+	  // system("pause");
+   return 0;
+}
