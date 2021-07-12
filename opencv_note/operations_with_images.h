@@ -5,8 +5,9 @@
 #ifndef CPP_CODE_OPERATIONS_WITH_IMAGES_H
 #define CPP_CODE_OPERATIONS_WITH_IMAGES_H
 
+#include <vector>
 #include <string>
-#include <ostream>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
@@ -18,5 +19,6 @@ using namespace cv;
 void ShowImage(string img_file, string win_title="win_title");
 void SmoothImage(Mat src);
 void ImagePyramid(Mat src);
+void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
 
 #endif //CPP_CODE_OPERATIONS_WITH_IMAGES_H

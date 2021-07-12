@@ -26,15 +26,15 @@
 //using namespace cv;
 
 
-#include "DSA/stack.h"
-
-int main()
-{
-   Stack<int> s1;
-   cout<<s1.Empty();
-
-   cout<<"end"<<endl;
-   cout<<endl;
-	  // system("pause");
-   return 0;
-}
+// #include "DSA/stack.h"
+//
+// int main()
+// {
+//    Stack<int> s1;
+//    cout<<s1.Empty();
+//
+//    cout<<"end"<<endl;
+//    cout<<endl;
+// 	  // system("pause");
+//    return 0;
+// }
