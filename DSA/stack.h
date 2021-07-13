@@ -9,27 +9,30 @@
 template<typename T>
 class Stack {
 public:
-    Stack();
-    Stack(int, int);
-    
-    int top_;  // 当前元素数量
+    int top_=0;  // 当前元素数量
     int capacity_;  // 栈中可容纳数量
     vector<T> data_;
+
+public:
+    Stack();
+    Stack(int);
     
+public:
     bool Empty();
+    bool Full();
     void Push(T val);
     T Pop();
 
 };
 
 template<typename T>
-Stack<T>::Stack(): top_(0), capacity_(10)
+Stack<T>::Stack(): capacity_(10)
 {
 
 }
 
 template<typename T>
-Stack<T>::Stack(int t, int c): top_(t), capacity_(c)
+Stack<T>::Stack(int c): capacity_(c)
 {
 
 }
@@ -41,8 +44,19 @@ bool Stack<T>::Empty()
 }
 
 template<typename T>
+bool Stack<T>::Full() {
+    return top_ == capacity_;
+}
+
+
+template<typename T>
 void Stack<T>::Push(T val)
 {
+    if (Full()) {
+        string s1 = "Stack is full";
+        cout<<endl<<s1<<endl;
+        return;
+    }
     data_.push_back(val);
     top_ += 1;
 }
