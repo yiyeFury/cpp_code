@@ -15,18 +15,17 @@ using namespace std;
 
 
 #include "DSA/stack.h"
+#include "DSA/queue.h"
+
+
+
 
 int main()
 {
     cout << "Start\n";
     
-    Stack<int> sta;
-    cout<<sta.top_<<endl;
-    cout<<sta.capacity_<<endl;
-    
-    sta.Push(19);
-    sta.Push(20);
-    cout<<sta.Pop();
+    Queue<int> q;
+    vector<int> vec;
     
     
     cout << "\nend\n" << endl;
