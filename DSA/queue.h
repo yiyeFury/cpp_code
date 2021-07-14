@@ -12,15 +12,19 @@ template<class T>
 class Queue
 {
 public:
-    int length_;  // 队列的长度，即队列中能存储的 元素 数量
-    int head_=-1;  // 首元素位置下标
+    
+    int head_=0;  // 首元素位置下标
     int tail_=0;  // 尾元素后一位位置下标
+    int size_ = 0;  // 队列中 当前存储的 元素数量
+    int length_;  // 队列的长度，即队列中 最多能存储的 元素 数量
+    T fill_value_;
     
     vector<T> data_;
 
 public:
     Queue();
-    Queue(int);
+    Queue(int, T);
+    ~Queue();
 
 public:
     bool Empty();
@@ -30,26 +34,32 @@ public:
 };
 
 template<class T>
-Queue<T>::Queue(): length_(10), data_(length_)
+Queue<T>::Queue(): length_(10), fill_value_(T(-1)), data_(length_, fill_value_)
 {
 
 }
 
 template<class T>
-Queue<T>::Queue(int len): length_(len)
+Queue<T>::Queue(int len, T val): length_(len), fill_value_(val)
 {
-    data_(length_);
+    data_(length_, fill_value_);
+}
+
+template<class T>
+Queue<T>::~Queue()
+{
+
 }
 
 template<class T>
 bool Queue<T>::Empty()
 {
-    return (head_ < 0) || (head_==tail_);
+    return size_ == 0;
 }
 
 template<class T>
 bool Queue<T>::Full() {
-    return tail_-head_==length_;
+    return size_ == length_;
 }
 
 template<class T>
@@ -59,21 +69,29 @@ void Queue<T>::Enqueue(T val)
         cout<<"tail reach the end";
         return;
     }
-    tail_++;
+    size_++;
     data_[tail_++]=val;
 }
 
 template<class T>
 T Queue<T>::Dequeue() {
     if (Empty()) {
-        string s1 = "Queue is empty";
+        string s1 = "error: Queue is empty";
         cout<<endl<<s1<<endl;
-        return T(-1);
+        return fill_value_;
     }
+    size_--;
+
     T val = data_[head_];
-    data_[head_++]=0;
+    data_[head_++]=fill_value_;
     return val;
 }
 
+
+template<class T>
+class Deque: public Queue<T>
+{
+
+};
 
 #endif //CPP_CODE_QUEUE_H
