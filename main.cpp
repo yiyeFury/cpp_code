@@ -24,12 +24,8 @@ int main()
 {
     cout << "Start\n";
     
-    Queue<int> q;
-    q.Enqueue(10);
-    q.Enqueue(20);
-    int a = q.Dequeue();
-
-    cout<<a<<endl;
+    cout<<5 % 2;
+    
     
     // for (int ii=0;ii<q.size_;ii++) {
     //     cout<<setw(5)<<q.data_[ii];
