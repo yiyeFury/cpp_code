@@ -6,18 +6,36 @@
 #define CPP_CODE_LINEAR_REGRESSION_H
 
 
+class LinearRegression
+{
+    /*
+     * x: design matrix
+     * y:
+     * M : no. of training samples
+     * N : 1 + no. of features
+     */
+public:
+    LinearRegression();
+    ~LinearRegression();
 
-/*
- * T1 x: design matrix
- * T2 y:
- * T3 theta
- * M : the number of training samples
- * N : the number of features + 1
- */
+public:
+    template<typename T1, typename T2, int M, int N>
+    double Hypothesis(const T1 (&x)[M], const T2 (&theta)[M]);
+    
+    template<typename T1, typename T2, typename T3, int M, int N>
+    void GradientDescent(const T1 (&)[M][N], const T3 (&y)[M],
+                         const T2 (&src_theta)[N], T2 (&dst_theta)[N],
+                         float alpha);
 
+};
+
+
+LinearRegression::LinearRegression() {}
+
+LinearRegression::~LinearRegression() {}
 
 template<typename T1, typename T2, int M, int N>
-double Hypothesis(const T1 (&x)[M], const T2 (&theta)[M])
+double LinearRegression::Hypothesis(const T1 (&x)[M], const T2 (&theta)[M])
 {
     /*
      * x: expanded, x_0 = 1
@@ -29,22 +47,11 @@ double Hypothesis(const T1 (&x)[M], const T2 (&theta)[M])
     return h;
 }
 
-template<typename T1, typename T2, typename T3, int M, int N>
-double CostFunction(const T1 (&x)[M][N], const T2 (&theta)[N], const T3 (&y)[M])
-{
-    double dst_val, tmp_val=0.0, h;
-    for (int ii=0;ii <M;ii++) {
-        h = Hypothesis(x[ii], theta);
-        tmp_val += pow(h- y[ii], 2);
-    }
-    dst_val = tmp_val/2/M;
-    return dst_val;
-}
-
 
 template<typename T1, typename T2, typename T3, int M, int N>
-void GradientDescent(const T1 (&design_matrix)[M][N], const T3 (&y)[M],
-                     const T2 (&src_theta)[N], T2 (&dst_theta)[N], float alpha)
+void LinearRegression::GradientDescent(const T1 (&design_matrix)[M][N], const T3 (&y)[M],
+                                       const T2 (&src_theta)[N], T2 (&dst_theta)[N],
+                                       float alpha)
 {
     /*
      * alpha: learning rate

@@ -14,8 +14,7 @@ using namespace std;
 //using namespace cv;
 
 
-#include "DSA/stack.h"
-#include "DSA/queue.h"
+#include "ML/linear_regression.h"
 
 
 
@@ -24,13 +23,10 @@ int main()
 {
     cout << "Start\n";
     
-    cout<<5 % 2;
+    LinearRegression lr1;
     
-    
-    // for (int ii=0;ii<q.size_;ii++) {
-    //     cout<<setw(5)<<q.data_[ii];
-    // }
-    
+    int a=1;
+    cout<<-a<<endl;
     
     cout << "\nend\n" << endl;
     cout << endl;
