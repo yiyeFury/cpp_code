@@ -6,8 +6,8 @@
 #define CPP_CODE_LOGISTIC_REGRESSION_H
 #include <cmath>
 
-// #include "common.h"
-#include "ML/linear_regression.h"
+#include "../common.h"
+#include "linear_regression.h"
 
 class LogisticRegression //: public LinearRegression
         {

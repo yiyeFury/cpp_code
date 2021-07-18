@@ -6,6 +6,7 @@
 #define CPP_CODE_LINEAR_REGRESSION_H
 
 #include <cmath>
+#include "../common.h"
 
 class LinearRegression
 {

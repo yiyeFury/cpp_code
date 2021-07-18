@@ -14,15 +14,16 @@ using namespace std;
 //using namespace cv;
 
 
-#include "ML/linear_regression.h"
-
+// #include "ML/linear_regression.h"
+// #include "ML/logistic_regression.h"
+#include "DSA/linked_list.h"
 
 
 int main()
 {
     cout << "Start\n";
     
-    LinearRegression lr1;
+    LinkedList ll1;
     
     int a=1;
     cout<<-a<<endl;
