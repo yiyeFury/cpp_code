@@ -23,10 +23,10 @@ int main()
 {
     cout << "Start\n";
     
-    LinkedList ll1;
-    
-    int a=1;
-    cout<<-a<<endl;
+    int *p(new int (42));
+    auto q=p;  // p和q指向相同的内存
+    delete p;
+    p= nullptr;
     
     cout << "\nend\n" << endl;
     cout << endl;
