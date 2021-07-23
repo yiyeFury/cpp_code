@@ -23,10 +23,9 @@ int main()
 {
     cout << "Start\n";
     
-    int *p(new int (42));
-    auto q=p;  // p和q指向相同的内存
-    delete p;
-    p= nullptr;
+    float aa = NAN;
+    cout<<isnan(NAN)<<endl;
+    cout<<(aa==NAN)<<endl;
     
     cout << "\nend\n" << endl;
     cout << endl;
