@@ -37,6 +37,8 @@ double GreatCircleDistanceHaversine(T lon1, T lat1, T lon2, T lat2, T radius)
 template<typename T>
 double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
 {
+    double lon1_rad, lon2_rad;
+    double lat1_rad, lat2_rad;
     double delta_lon_rad, central_angle, d;
     lon1_rad = degree_to_radiance(lon1), lat1_rad = degree_to_radiance(lat1);
     lon2_rad = degree_to_radiance(lon2), lat2_rad = degree_to_radiance(lat2);

@@ -7,6 +7,7 @@
 
 // successive correction method (SCM)
 #include <cmath>
+#include <vector>
 
 #include "geodesy.h"
 
@@ -34,7 +35,7 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
     // 粗匹配，根据经纬度 筛选, 特殊考虑：1)北极：2)经度 0 和 360 接边
     // 精确匹配，计算大圆距离
     
-    float R=6378.137  // km, wgs84 地球半径
+    float R=6378.137;  // km, wgs84 地球半径
     
     float degress_radius = 1.5*search_radius / 100.0;
     // 粗匹配时需要特殊考虑的位置
@@ -48,7 +49,7 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
     
     float dist;  // 计算距离
     float weight, weight_sum;  // 记录权重
-    float weight_val,, weight_val_sum;  // 记录权重与观测值得乘积
+    float weight_val, weight_val_sum;  // 记录权重与观测值得乘积
     
     bool is_lon_cross;
     // 循环遍历
@@ -64,7 +65,7 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
             lon_left_bound = lons[c] - degress_radius;
             if (lon_left_bound < 0) {  // 经度边界出现小于0
                 lon_left_bound += 360;
-                is_lon_cross = true
+                is_lon_cross = true;
             }
     
             lon_right_bound = lons[c] + degress_radius;
@@ -93,12 +94,12 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
             lat_bottom_bound = lats[r] - degress_radius;
             // 纬度查找
             for (ii=0;ii<M;ii++) {  // 暂不考虑极区 纬度范围 80~-80
-                if ((lats[ii] >= lat_bottom_bound) && (lats[ii] <= lat_up_bound)) {
+                if ((lats[ii] >= lat_bottom_bound) && (lats[ii] <= lat_top_bound)) {
                     lat_idx.push_back(ii);
                 }
             }
     
-            if ((lon_idx.size==0) || (lat_idx==0)) {  // 粗匹配未找到点
+            if ((lon_idx.size()==0) || (lat_idx.size()==0)) {  // 粗匹配未找到点
                 continue;
             }
             
