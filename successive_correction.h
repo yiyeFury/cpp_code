@@ -8,6 +8,8 @@
 // successive correction method (SCM)
 #include <cmath>
 
+#include "geodesy.h"
+
 float WeightFunction(float R, float r);
 
 template<int M, int N, int D>
@@ -32,6 +34,8 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
     // 粗匹配，根据经纬度 筛选, 特殊考虑：1)北极：2)经度 0 和 360 接边
     // 精确匹配，计算大圆距离
     
+    float R=6378.137  // km, wgs84 地球半径
+    
     float degress_radius = 1.5*search_radius / 100.0;
     // 粗匹配时需要特殊考虑的位置
     float lat_up_limit = 90.0 - degress_radius;
@@ -39,7 +43,13 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
     float lon_right_limit = 360.0 - degress_radius;
     
     float lon_left_bound, lon_right_bound, lat_top_bound, lat_bottom_bound;
-    int ii;
+    int ii, jj;
+    int cnt;  // 统计 当前范围内有效点个数
+    
+    float dist;  // 计算距离
+    float weight, weight_sum;  // 记录权重
+    float weight_val,, weight_val_sum;  // 记录权重与观测值得乘积
+    
     bool is_lon_cross;
     // 循环遍历
     for (int r=0;r<M;r++) {
@@ -82,18 +92,41 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
             lat_top_bound = lats[r] + degress_radius;
             lat_bottom_bound = lats[r] - degress_radius;
             // 纬度查找
-            for (ii=0;ii<M;ii++) {
+            for (ii=0;ii<M;ii++) {  // 暂不考虑极区 纬度范围 80~-80
                 if ((lats[ii] >= lat_bottom_bound) && (lats[ii] <= lat_up_bound)) {
                     lat_idx.push_back(ii);
                 }
             }
     
-            if ((lon_idx.size==0) || (lat_idx==0)) {
+            if ((lon_idx.size==0) || (lat_idx==0)) {  // 粗匹配未找到点
                 continue;
             }
             
             // 根据粗匹配结果，计算大圆距离，精确距离匹配
+            cnt = 0;  // 记录单前点 匹配到的有效点数量
+            weight_sum = 0.0, weight_val_sum = 0.0;
+            for (auto &ii: lat_idx) {
+                for (auto &jj: lon_idx) {
+                    // 当前位置，观测场 为无效值
+                    if (isnan(obs_data[ii][jj])) continue;
+                    // double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
+                    dist  = GreatCircleDistance(lons[r], lats[c], lons[jj], lats[ii], R);
+                    
+                    // 位于搜索半径之外
+                    if (dist > search_radius) continue;
+                    
+                    // WeightFunction(float R, float r)
+                    weight = WeightFunction(R, dist);
+                    weight_val = weight*(obs_data[ii][jj] - bkg_data[r][c]);
+                    
+                    weight_val_sum += weight_val;
+                    weight_sum += weight;
+                    cnt++;
+                }
+                
+            }
             
+            if (cnt > 0) dst_data[r][c] = bkg_data[r][c] + weight_val_sum/weight_sum;
             
             
         }

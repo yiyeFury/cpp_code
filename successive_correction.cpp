@@ -13,6 +13,7 @@ float WeightFunction(float R, float r)
     double R2 = pow(R, 2);
     double r2 = pow(r, 2);
     
-    w = max(0.0, (R2-r2)/(R2+r2));
+    // w = max(0.0, (R2-r2)/(R2+r2));
+    w = (R2-r2)/(R2+r2);
     return w;
 }
