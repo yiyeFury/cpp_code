@@ -6,25 +6,25 @@
 #define CPP_CODE_HASH_TABLE_H
 
 
-struct Node{
-    char *key;
-    char *value;
-};
+typedef  struct {
+    int key;
+    char value;
+}Node;
 
-class HashTable
+class DirectAddressTable
 {
 public:
-    const int kHashSize_;
+    const int kTableSize_;
     Node *node_[10];
 public:
-    HashTable();
-    HashTable(int len);
-    ~HashTable();
+    DirectAddressTable();
+    DirectAddressTable(int len);
+    ~DirectAddressTable();
 
 public:
-    Node Search();
-    void Insert();
-    void Delete();
+    Node *Search();
+    void Insert(Node *n);
+    void Delete(Node n);
     
 };
 

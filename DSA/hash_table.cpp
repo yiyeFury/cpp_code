@@ -7,26 +7,49 @@
 using namespace std;
 
 
-HashTable::HashTable(): kHashSize_(10)
-{
-    for (int ii=0;ii <kHashSize_;ii++)
-        node_[ii]= nullptr;
-}
-
-
-HashTable::HashTable(int len): kHashSize_(len)
+DirectAddressTable::DirectAddressTable(): kTableSize_(10)
 {
     for (int ii=0;ii <10;ii++)
         node_[ii]= nullptr;
 }
 
-HashTable::~HashTable()
+
+DirectAddressTable::DirectAddressTable(int len): kTableSize_(len)
+{
+    for (int ii=0;ii <10;ii++)
+        node_[ii]= nullptr;
+}
+
+DirectAddressTable::~DirectAddressTable()
 {}
 
+void DirectAddressTable::Insert(Node *n)
+{
+    node_[n->key] = n;
+}
 
-// int main()
-// {
-//     HashTable hs1;
-//     cout<<hs1.kHashSize_<<endl;
-//     return 0;
-// }
+void DirectAddressTable::Delete(Node n)
+{
+    node_[n.key] = nullptr;
+}
+
+
+int main()
+{
+    Node n1, n2;
+    n1.key = 2;
+    n1.value = 's';
+    
+    n2.key = 3;
+    n2.value = 'a';
+    
+    Node *pn=&n1, *pn2=&n2;
+    
+    DirectAddressTable dat1;
+    
+    dat1.Insert(pn);
+    dat1
+    
+    cout<<dat1.node_[2]->value<<endl;
+    return 0;
+}
