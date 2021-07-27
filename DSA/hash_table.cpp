@@ -24,9 +24,9 @@ HashTable::~HashTable()
 {}
 
 
-int main()
-{
-    HashTable hs1;
-    cout<<hs1.kHashSize_<<endl;
-    return 0;
-}
+// int main()
+// {
+//     HashTable hs1;
+//     cout<<hs1.kHashSize_<<endl;
+//     return 0;
+// }

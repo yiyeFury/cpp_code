@@ -16,19 +16,17 @@ using namespace std;
 
 // #include "ML/linear_regression.h"
 // #include "ML/logistic_regression.h"
-#include "DSA/linked_list.h"
+// #include "DSA/linked_list.h"
 
 
-// int main()
-// {
-//     cout << "Start\n";
-//
-//     float aa = NAN;
-//     cout<<isnan(NAN)<<endl;
-//     cout<<(aa==NAN)<<endl;
-//
-//     cout << "\nend\n" << endl;
-//     cout << endl;
-//     // system("pause");
-//     return 0;
-// }
+int main()
+{
+    cout << "Start\n";
+
+    
+
+    cout << "\nend\n" << endl;
+    cout << endl;
+    // system("pause");
+    return 0;
+}
