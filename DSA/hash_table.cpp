@@ -34,22 +34,22 @@ void DirectAddressTable::Delete(Node n)
 }
 
 
-int main()
-{
-    Node n1, n2;
-    n1.key = 2;
-    n1.value = 's';
-    
-    n2.key = 3;
-    n2.value = 'a';
-    
-    Node *pn=&n1, *pn2=&n2;
-    
-    DirectAddressTable dat1;
-    
-    dat1.Insert(pn);
-    dat1
-    
-    cout<<dat1.node_[2]->value<<endl;
-    return 0;
-}
+// int main()
+// {
+//     Node n1, n2;
+//     n1.key = 2;
+//     n1.value = 's';
+//
+//     n2.key = 3;
+//     n2.value = 'a';
+//
+//     Node *pn=&n1, *pn2=&n2;
+//
+//     DirectAddressTable dat1;
+//
+//     dat1.Insert(pn);
+//     dat1
+//
+//     cout<<dat1.node_[2]->value<<endl;
+//     return 0;
+// }

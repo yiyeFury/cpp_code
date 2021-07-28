@@ -10,14 +10,18 @@
 #include <vector>
 
 #include "geodesy.h"
+#include "common.h"
+
+using namespace std;
+
 
 float WeightFunction(float R, float r);
 
-template<int M, int N, int D>
+template<int M, int N>
 void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)[M][N],
                           float (&dst_data)[M][N],
                           const float (&lats)[M], const float (&lons)[N],
-                          const float search_radius, const float fill_value=NAN)
+                          const float search_radius, const float influence_radius, const float fill_value=NAN)
 {
     /*
      * 进行 逐步订正计算
@@ -51,12 +55,15 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
     float weight, weight_sum;  // 记录权重
     float weight_val, weight_val_sum;  // 记录权重与观测值得乘积
     
-    bool is_lon_cross;
+    // PrintArray(lats);
     // 循环遍历
     for (int r=0;r<M;r++) {
         for (int c=0;c<N;c++) {
+            
+            // if (r!=0 || c!=N-1) continue;
+            
             vector<int> lat_idx, lon_idx;
-            is_lon_cross = false;
+            
             if (isnan(bkg_data[r][c])) {  // 背景场为无效值，跳过
                 continue;
             }
@@ -65,17 +72,15 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
             lon_left_bound = lons[c] - degress_radius;
             if (lon_left_bound < 0) {  // 经度边界出现小于0
                 lon_left_bound += 360;
-                is_lon_cross = true;
             }
     
             lon_right_bound = lons[c] + degress_radius;
             if (lon_right_bound > 360) {
                 lon_right_bound -= 360;
-                is_lon_cross= true;
             }
     
             // 经度查找
-            if (is_lon_cross) {
+            if (lon_right_bound < lon_left_bound) {
         
                 for (ii=0;ii<N;ii++) {
                     if ((lons[ii] >= lon_left_bound) || (lons[ii] <= lon_right_bound)) {
@@ -106,19 +111,21 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
             // 根据粗匹配结果，计算大圆距离，精确距离匹配
             cnt = 0;  // 记录单前点 匹配到的有效点数量
             weight_sum = 0.0, weight_val_sum = 0.0;
-            for (auto &ii: lat_idx) {
-                for (auto &jj: lon_idx) {
+            for (auto &tmp_ii: lat_idx) {
+                for (auto &tmp_jj: lon_idx) {
                     // 当前位置，观测场 为无效值
-                    if (isnan(obs_data[ii][jj])) continue;
+                    if (isnan(obs_data[tmp_ii][tmp_jj])) continue;
                     // double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
-                    dist  = GreatCircleDistance(lons[r], lats[c], lons[jj], lats[ii], R);
-                    
+                    // cout<<r<<"   "<<c<<"   "<<tmp_jj<<"   "<<tmp_ii<<endl;
+                    // cout<<lons[c]<<"   "<<lats[r]<<"   "<<lons[tmp_jj]<<"   "<<lats[tmp_ii]<<endl;
+                    dist  = GreatCircleDistance(lons[c], lats[r], lons[tmp_jj], lats[tmp_ii], R);
+                    // cout<<"dist: "<<dist<<endl;
                     // 位于搜索半径之外
                     if (dist > search_radius) continue;
                     
                     // WeightFunction(float R, float r)
-                    weight = WeightFunction(R, dist);
-                    weight_val = weight*(obs_data[ii][jj] - bkg_data[r][c]);
+                    weight = WeightFunction(influence_radius, dist);
+                    weight_val = weight*(obs_data[tmp_ii][tmp_jj] - bkg_data[r][c]);
                     
                     weight_val_sum += weight_val;
                     weight_sum += weight;
@@ -126,7 +133,6 @@ void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)
                 }
                 
             }
-            
             if (cnt > 0) dst_data[r][c] = bkg_data[r][c] + weight_val_sum/weight_sum;
             
             
