@@ -23,8 +23,6 @@ using namespace std;
 // {
 //     cout << "Start\n";
 //
-//
-//
 //     cout << "\nend\n" << endl;
 //     cout << endl;
 //     // system("pause");
