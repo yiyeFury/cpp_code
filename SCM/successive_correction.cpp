@@ -66,7 +66,7 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
                           float fill_value)
 {
     /*
-     * 进行 逐步订正计算
+     * 逐步订正计算: 单次订正计算
      * M: no. of rows
      * N: no. of columns
      * bkg_data: 背景场数据
@@ -159,6 +159,7 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
                 for (auto &tmp_jj: lon_idx) {
                     // 当前位置，观测场 为无效值
                     if (isnan(*(obs_data+tmp_ii*bkg_cols+tmp_jj))) continue;
+                    if (isnan(*(bkg_data+tmp_ii*bkg_cols+tmp_jj))) continue;
                     // double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
                     // cout<<r<<"   "<<c<<"   "<<tmp_jj<<"   "<<tmp_ii<<endl;
                     // cout<<lons[c]<<"   "<<lats[r]<<"   "<<lons[tmp_jj]<<"   "<<lats[tmp_ii]<<endl;
