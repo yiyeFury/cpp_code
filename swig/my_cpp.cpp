@@ -7,7 +7,7 @@ using namespace std;
 
 int leap_year(int year)
 {
-	// ¼ÆËãÊÇ·ñÎªÈòÄê
+	// è®¡ç®—æ˜¯å¦ä¸ºé—°å¹´
 	if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
 		return 1;
 	}
@@ -25,19 +25,19 @@ void array_cos(double *in_array, double *out_array, int size)
 	}
 }
 
-void main() {
-	/*int yy = 2016;
-	int flag = 0;
-	flag = leap_year(yy);*/
-
-	double aa[3] = { 1.0, 0.0, 3.1415926 }, bb[3];
-	int ss = 3;
-	array_cos(aa, bb, ss);
-
-	for (int ii = 0; ii < ss; ii++) {
-		cout << bb[ii]<<endl;
-	}
-
-	cout <<endl;
-	system("pause");
-}
+// void main() {
+// 	/*int yy = 2016;
+// 	int flag = 0;
+// 	flag = leap_year(yy);*/
+//
+// 	double aa[3] = { 1.0, 0.0, 3.1415926 }, bb[3];
+// 	int ss = 3;
+// 	array_cos(aa, bb, ss);
+//
+// 	for (int ii = 0; ii < ss; ii++) {
+// 		cout << bb[ii]<<endl;
+// 	}
+//
+// 	cout <<endl;
+// 	system("pause");
+// }
