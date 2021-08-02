@@ -22,8 +22,12 @@ using namespace std;
 int main()
 {
     cout << "Start\n";
-    cerr << "This is an error";
-
+    // cerr << "This is an error";
+    
+    throw runtime_error("This is runtime error!");
+    
+    cout<<endl<<endl;
+    
     cout << "\nend\n" << endl;
     cout << endl;
     // system("pause");
