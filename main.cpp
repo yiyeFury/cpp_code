@@ -8,9 +8,10 @@
 #include <memory>
 
 #include "common.h"
-
+#include <Eigen/Dense>
 
 using namespace std;
+using namespace Eigen;
 //using namespace cv;
 
 
@@ -22,9 +23,9 @@ using namespace std;
 int main()
 {
     cout << "Start\n";
-    // cerr << "This is an error";
     
-    throw runtime_error("This is runtime error!");
+    Matrix<float, 2, Dynamic> A;
+    
     
     cout<<endl<<endl;
     
