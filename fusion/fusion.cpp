@@ -112,6 +112,8 @@ float CorrelationErrorOI(float lon1, float lat1, float lon2, float lat2,
     lon_dist = GreatCircleDistance(lon1, lat1, lon2, lat1, R);
     lat_dist = GreatCircleDistance(lon1, lat1, lon1, lat2, R);
     val = exp(-(pow(lon_dist, 2)/pow(lon_scale, 2))-(pow(lat_dist, 2)/pow(lat_scale, 2)));
+    // cout<<lon_dist<<" "<<lat_dist<<" "<<val<<endl;
+    // cout<<lon1<<" "<< lat1<<" "<< lon2<<" "<< lat2<<endl;
     return val;
 }
 
@@ -119,7 +121,7 @@ float CorrelationErrorOI(float lon1, float lat1, float lon2, float lat2,
 void CorrelationErrorMatrixBkgOI(const float *lats, int rows,
                                  const float *lons, int cols,
                                  const vector<int> lat_idx, const vector<int> lon_idx,
-                                 Matrix<float, Dynamic, Dynamic> corr_mat,
+                                 Matrix<float, Dynamic, Dynamic> &corr_mat,
                                  const float lat_scale, const float lon_scale)
 {
     /*
@@ -143,6 +145,7 @@ void CorrelationErrorMatrixBkgOI(const float *lats, int rows,
             corr_mat(jj, ii) = corr_mat(ii, jj);
         }
     }
+    // cout<<endl<<endl<<corr_mat<<endl<<endl;
 }
 
 
@@ -150,7 +153,7 @@ void CorrelationErrorVectorBkgOI(const float *lats, int rows,
                                  const float *lons, int cols,
                                  const vector<int> lat_idx, const vector<int> lon_idx,
                                  const float pt_lat, const float pt_lon,
-                                 Matrix<float, Dynamic, 1> corr_vec,
+                                 Matrix<float, Dynamic, 1> &corr_vec,
                                  const float lat_scale, const float lon_scale)
 {
     /*
@@ -166,7 +169,7 @@ void CorrelationErrorVectorBkgOI(const float *lats, int rows,
 }
 
 void CorrelationErrorMatrixObsOI(const vector<int> lat_idx, const vector<int> lon_idx,
-                                 Matrix<float, Dynamic, Dynamic> corr_mat_obs)
+                                 Matrix<float, Dynamic, Dynamic> &corr_mat_obs)
 {
     int num_pts = lat_idx.size();
     // corr_mat_obs.setZero(num_pts, num_pts);
@@ -194,6 +197,7 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                           float lat_scale=150.0, float lon_scale=300.0,
                           float lam=1.0, float sig=1.0)
 {
+    
     int rows=bkg_rows, cols=bkg_cols;
     
     float degree_radius = 1.5*search_radius/100.0;
@@ -208,19 +212,13 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
     // 循环遍历
     for (int r=0;r<rows;r++) {
         for (int c=0;c<cols;c++) {
-            // if (r!=0 || c!=N-1) continue;
-    
-            // cout <<"Here is: "<<r<<" row, "<<c<<" column"<<endl;
-            
             vector<int> tmp_lon_idx, tmp_lat_idx;  // 采用经纬度进行粗匹配，记录窗口内点的经纬度下标
             vector<int> lat_idx, lon_idx;  // 记录匹配到的点的经纬度下标
             if (isnan(*(bkg_data + r * cols + c))) {  // 背景场为无效值，跳过
-                // cout <<"background data is nan: "<<r<<" row, "<<c<<" column"<<endl;
                 continue;
             }
             
             // 经纬度 窗口粗匹配
-            // cout<<"\nDegree Window\n\n";
             SpaceMatchDegreeWindow(lats, rows,
                                    lons, cols,
                                    lats[r], lons[c],
@@ -228,7 +226,6 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                                    tmp_lat_idx, tmp_lon_idx);
             
             if ((tmp_lon_idx.size() == 0) || (tmp_lat_idx.size() == 0)) {  // 粗匹配未找到点
-                // cout <<"no coarse match found: "<<r<<" row, "<<c<<" column"<<endl;
                 continue;
             }
             
@@ -252,9 +249,7 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
             if (num_pts == 0) continue;
             
             // 计算最优插值 ------------------------------------------------------
-            // cout<<"\nOptimum Interpolation\n\n";
             // 初估场误差协方差--有效格点
-            // cout<<"\nCorrelationErrorMatrixBkgOI\n\n";
             Matrix<float, Dynamic, Dynamic> corr_mat_bkg(num_pts, num_pts);
             CorrelationErrorMatrixBkgOI(lats, rows,
                                         lons, cols,
@@ -262,7 +257,6 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                                         lat_scale, lon_scale);
             
             // 初估场误差协方差--分析格点与有效格点
-            // cout<<"\nCorrelationErrorVectorBkgOI\n\n";
             Matrix<float, Dynamic, 1> corr_vec(num_pts);
             CorrelationErrorVectorBkgOI(lats, rows,
                                         lons, cols,
@@ -272,27 +266,19 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                                         lat_scale, lon_scale);
             
             // 观测场误差协相关
-            cout<<"\nCorrelationErrorMatrixObsOI\n\n";
             Matrix<float, Dynamic, Dynamic> corr_mat_obs(num_pts, num_pts);
             CorrelationErrorMatrixObsOI(lat_idx, lon_idx,
                                         corr_mat_obs);
             
             // 求解权重
-            // cout<<"\nSolve\n\n";
             Matrix<float, Dynamic, 1> weight(num_pts);
-            cout<<corr_mat_bkg.rows()<<"  "<<corr_mat_bkg.cols()<<endl;
-            cout<<corr_mat_obs.rows()<<"  "<<corr_mat_bkg.cols()<<endl;
     
             Matrix<float, Dynamic, Dynamic> tmp_mat(num_pts, num_pts);
             tmp_mat = corr_mat_bkg+corr_mat_obs;
             
             weight = tmp_mat.lu().solve(corr_vec);
-            cout<<tmp_mat<<endl<<endl;
-            
-            cout<<corr_vec<<endl;
             
             // 计算分析误差最小方差
-            // cout<<"\nerror calculate\n\n";
             tmp_val = 0.0;
             for (ii=0;ii<num_pts;ii++) {
                 tmp_val += weight(ii)*corr_vec(ii);
@@ -300,12 +286,12 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
             *(error_variance + r * cols + c) = pow(sig, 2) * (1 - tmp_val);
             
             // 插值计算
-            // cout<<"\ninterpolation\n\n";
             tmp_val = 0.0;
             for (ii = 0; ii < num_pts; ii++) {
                 tmp_val += weight(ii) * (*(obs_data + lat_idx[ii] * cols + lon_idx[ii]) -
                                          *(bkg_data + lat_idx[ii] * cols + lon_idx[ii]));
             }
+            cout<<endl<<*(bkg_data + r * cols + c)<<"  "<<tmp_val<<endl;
             
             *(dst_data + r * cols + c) = *(bkg_data + r * cols + c) + tmp_val;
         }
@@ -318,38 +304,41 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
 int main()
 {
     cout << "\nStart\n\n";
-    
+
     const int M = 3, N = 4;
-    float bkg_data[M][N], obs_data[M][N], dst_data[M][N], error_variance[M][N];
+    float bkg_data[M*N], obs_data[M*N], dst_data[M*N], error_variance[M*N];
     float lats[M], lons[N];
-    
+
     float search_radius=200;
     float lat_scale=150;
     float lon_scale=300;
     float lam=1.0, sig=1.0;
     float fill_value = NAN;
-    
+
     int ii, jj, cnt=0;
     for (ii=0;ii<M;ii++) {
         for (jj=0;jj<N;jj++) {
-            bkg_data[ii][jj] = 1.0;
-            obs_data[ii][jj] = (++cnt)*1.0;
-            dst_data[ii][jj] = 0.0;
-            error_variance[ii][jj] = 0.0;
+            bkg_data[ii*N+jj] = 1.0;
+            obs_data[ii*N+jj] = (++cnt)*1.0;
+            dst_data[ii*N+jj] = 0.0;
+            error_variance[ii*N+jj] = 0.0;
         }
     }
-    
+
     for (ii=0;ii<M;ii++) {
         lats[ii] = 60.0 - 0.25*ii;
     }
     for (ii=0;ii<N;ii++) {
         lons[ii] = 120.0 + 0.25*ii;
     }
-    
-    OptimumInterpolation(bkg_data[N], M, N,
-                         obs_data[N], M, N,
-                         dst_data[N], M, N,
-                         error_variance[N], M, N,
+
+    PrintArray(bkg_data);
+    PrintArray(obs_data);
+
+    OptimumInterpolation(bkg_data, M, N,
+                         obs_data, M, N,
+                         dst_data, M, N,
+                         error_variance, M, N,
                          lats, M,
                          lons, N,
                          fill_value,

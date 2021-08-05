@@ -28,13 +28,13 @@ float CorrelationErrorOI(float lon1, float lat1, float lon2, float lat2,
                          float lon_scale=150.0, float lat_scale=300.0);
 
 void CorrelationErrorMatrixObsOI(const vector<int> lat_idx, const vector<int> lon_idx,
-                                 Matrix<float, Dynamic, Dynamic> corr_mat);
+                                 Matrix<float, Dynamic, Dynamic> &corr_mat);
 
 
 void CorrelationErrorMatrixBkgOI(const float *lats, int rows,
                                  const float *lons, int cols,
                                  const vector<int> lat_idx, const vector<int> lon_idx,
-                                 Matrix<float, Dynamic, Dynamic> corr_mat,
+                                 Matrix<float, Dynamic, Dynamic> &corr_mat,
                                  const float lat_scale = 150.0, const float lon_scale = 300.0);
 
 
@@ -42,7 +42,7 @@ void CorrelationErrorVectorBkgOI(const float *lats, int rows,
                                  const float *lons, int cols,
                                  const vector<int> lat_idx, const vector<int> lon_idx,
                                  const float pt_lat, const float pt_lon,
-                                 Matrix<float, Dynamic, 1> corr_vec,
+                                 Matrix<float, Dynamic, 1> &corr_vec,
                                  const float lat_scale = 150.0, const float lon_scale = 300.0);
 
 
