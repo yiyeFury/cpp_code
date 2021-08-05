@@ -23,6 +23,17 @@ using namespace Eigen;
 //
 //     cout<<A;
 //
+//     Matrix<float, Dynamic, Dynamic> m1, m2, m3;
+//     m1.setIdentity(3, 3);
+//     cout<<m1<<endl;
+//
+//     m2.setOnes(3, 3);
+//     cout<<m2<<endl;
+//
+//     m3 = m1+m2;
+//     cout<<m3<<endl;
+//
+//
 //     cout << "\n\nend\n" << endl;
 //     // system("pause");
 //     return 0;

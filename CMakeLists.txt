@@ -25,7 +25,7 @@ set(EIGEN_DIR_SRCS "E:/eigen/eigen-3.3.9/Eigen")
 include_directories(${EIGEN_DIR_SRCS})
 target_link_libraries(cpp_code ${EIGEN_DIR_SRCS})
 
-# OpenCV ***********************************************************************
+# OpenCV 已编译 *****************************************************************
 # D:/Software/opencv/opencv-4.5.2-cmake-mingw64-build/install 编译后的 opencv install路径
 set(OpenCV_DIR D:/Software/opencv/opencv-4.5.2-cmake-mingw64-build/install)
 FIND_PACKAGE(OpenCV REQUIRED)

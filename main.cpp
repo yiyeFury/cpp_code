@@ -15,12 +15,9 @@ using namespace std;
 
 // int main()
 // {
-//     cout << "Start\n";
+//     cout << "\nStart\n\n";
 //
-//     cout<<endl<<endl;
-//
-//     cout << "\nend\n" << endl;
-//     cout << endl;
+//     cout << "\n\nend\n" << endl;
 //     // system("pause");
 //     return 0;
 // }
