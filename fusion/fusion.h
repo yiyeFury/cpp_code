@@ -5,6 +5,7 @@
 #ifndef CPP_CODE_FUSION_H
 #define CPP_CODE_FUSION_H
 
+#include <vector>
 #include <cmath>
 #include <Dense>
 #include "fusion.h"
@@ -56,6 +57,17 @@ void CorrelationErrorVectorBkgOI(const float *lats, int rows,
 //                           float search_radius,
 //                           float lat_scale=150.0, float lon_scale=300.0,
 //                           float lam=1.0, float sig=1.0);
+
+void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
+                          const float *obs_data, int obs_rows, int obs_cols,
+                          float *dst_data, int dst_rows, int dst_cols,
+                          float *error_variance, int err_rows, int err_cols,
+                          float *lats, int lats_size,
+                          float *lons, int lons_size,
+                          float fill_value,
+                          float search_radius,
+                          float lat_scale, float lon_scale,
+                          float lam, float sig);
 
 
 

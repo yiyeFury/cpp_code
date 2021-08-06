@@ -9,7 +9,6 @@
 #include <LU>
 
 #include "fusion.h"
-#include "../common.h"
 
 using namespace std;
 using namespace Eigen;
@@ -112,8 +111,6 @@ float CorrelationErrorOI(float lon1, float lat1, float lon2, float lat2,
     lon_dist = GreatCircleDistance(lon1, lat1, lon2, lat1, R);
     lat_dist = GreatCircleDistance(lon1, lat1, lon1, lat2, R);
     val = exp(-(pow(lon_dist, 2)/pow(lon_scale, 2))-(pow(lat_dist, 2)/pow(lat_scale, 2)));
-    // cout<<lon_dist<<" "<<lat_dist<<" "<<val<<endl;
-    // cout<<lon1<<" "<< lat1<<" "<< lon2<<" "<< lat2<<endl;
     return val;
 }
 
@@ -145,7 +142,6 @@ void CorrelationErrorMatrixBkgOI(const float *lats, int rows,
             corr_mat(jj, ii) = corr_mat(ii, jj);
         }
     }
-    // cout<<endl<<endl<<corr_mat<<endl<<endl;
 }
 
 
@@ -194,10 +190,16 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                           float *lons, int lons_size,
                           float fill_value,
                           float search_radius,
-                          float lat_scale=150.0, float lon_scale=300.0,
-                          float lam=1.0, float sig=1.0)
+                          float lat_scale, float lon_scale,
+                          float lam, float sig)
 {
-    
+    /*
+     * todo: 设置默认值测试
+     * float lat_scale=150.0
+     * float lon_scale=300.0
+     * float lam=1.0
+     * float sig=1.0
+     */
     int rows=bkg_rows, cols=bkg_cols;
     
     float degree_radius = 1.5*search_radius/100.0;
@@ -232,9 +234,9 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
             // 根据粗匹配结果，计算大圆距离，精确距离匹配
             for (auto &tmp_ii: tmp_lat_idx) {
                 for (auto &tmp_jj: tmp_lon_idx) {
-                    // 当前位置，观测场 为无效值
-                    if (isnan(*(obs_data + tmp_ii * cols + tmp_jj))) continue;
-                    if (isnan(*(bkg_data + tmp_ii * cols + tmp_jj))) continue;
+                    // 观测场、背景场 均为有效值
+                    if (isnan(*(obs_data + tmp_ii * cols + tmp_jj)) || isnan(*(bkg_data + tmp_ii * cols + tmp_jj)))
+                        continue;
                     
                     dist = GreatCircleDistance(lons[c], lats[r], lons[tmp_jj], lats[tmp_ii], R);
                     // 点 位于 距离之内
@@ -291,7 +293,6 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
                 tmp_val += weight(ii) * (*(obs_data + lat_idx[ii] * cols + lon_idx[ii]) -
                                          *(bkg_data + lat_idx[ii] * cols + lon_idx[ii]));
             }
-            cout<<endl<<*(bkg_data + r * cols + c)<<"  "<<tmp_val<<endl;
             
             *(dst_data + r * cols + c) = *(bkg_data + r * cols + c) + tmp_val;
         }
@@ -301,54 +302,54 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
 
 
 // *********************************************************************************************************************
-int main()
-{
-    cout << "\nStart\n\n";
-
-    const int M = 3, N = 4;
-    float bkg_data[M*N], obs_data[M*N], dst_data[M*N], error_variance[M*N];
-    float lats[M], lons[N];
-
-    float search_radius=200;
-    float lat_scale=150;
-    float lon_scale=300;
-    float lam=1.0, sig=1.0;
-    float fill_value = NAN;
-
-    int ii, jj, cnt=0;
-    for (ii=0;ii<M;ii++) {
-        for (jj=0;jj<N;jj++) {
-            bkg_data[ii*N+jj] = 1.0;
-            obs_data[ii*N+jj] = (++cnt)*1.0;
-            dst_data[ii*N+jj] = 0.0;
-            error_variance[ii*N+jj] = 0.0;
-        }
-    }
-
-    for (ii=0;ii<M;ii++) {
-        lats[ii] = 60.0 - 0.25*ii;
-    }
-    for (ii=0;ii<N;ii++) {
-        lons[ii] = 120.0 + 0.25*ii;
-    }
-
-    PrintArray(bkg_data);
-    PrintArray(obs_data);
-
-    OptimumInterpolation(bkg_data, M, N,
-                         obs_data, M, N,
-                         dst_data, M, N,
-                         error_variance, M, N,
-                         lats, M,
-                         lons, N,
-                         fill_value,
-                         search_radius,
-                         lat_scale, lon_scale,
-                         lam, sig);
-    PrintArray(dst_data);
-
-    cout << "\n\nend\n" << endl;
-    // system("pause");
-    return 0;
-}
+// int main()
+// {
+//     cout << "\nStart\n\n";
+//
+//     const int M = 3, N = 4;
+//     float bkg_data[M*N], obs_data[M*N], dst_data[M*N], error_variance[M*N];
+//     float lats[M], lons[N];
+//
+//     float search_radius=200;
+//     float lat_scale=150;
+//     float lon_scale=300;
+//     float lam=1.0, sig=1.0;
+//     float fill_value = NAN;
+//
+//     int ii, jj, cnt=0;
+//     for (ii=0;ii<M;ii++) {
+//         for (jj=0;jj<N;jj++) {
+//             bkg_data[ii*N+jj] = 1.0;
+//             obs_data[ii*N+jj] = (++cnt)*1.0;
+//             dst_data[ii*N+jj] = 0.0;
+//             error_variance[ii*N+jj] = 0.0;
+//         }
+//     }
+//
+//     for (ii=0;ii<M;ii++) {
+//         lats[ii] = 60.0 - 0.25*ii;
+//     }
+//     for (ii=0;ii<N;ii++) {
+//         lons[ii] = 120.0 + 0.25*ii;
+//     }
+//
+//     PrintArray(bkg_data);
+//     PrintArray(obs_data);
+//
+//     OptimumInterpolation(bkg_data, M, N,
+//                          obs_data, M, N,
+//                          dst_data, M, N,
+//                          error_variance, M, N,
+//                          lats, M,
+//                          lons, N,
+//                          fill_value,
+//                          search_radius,
+//                          lat_scale, lon_scale,
+//                          lam, sig);
+//     PrintArray(dst_data);
+//
+//     cout << "\n\nend\n" << endl;
+//     // system("pause");
+//     return 0;
+// }
 
