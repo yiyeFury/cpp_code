@@ -28,10 +28,11 @@ public:
     bool Empty();
     bool Full();
     
-    DoublyLinkedNode *Search(int k);
+    void InsertHead(DoublyLinkedNode *tmp_node);
     void Insert(DoublyLinkedNode *prev_node, DoublyLinkedNode *tmp_Node);
     void Delete(DoublyLinkedNode *node);
     
+    DoublyLinkedNode *Search(int k);
 
 };
 
