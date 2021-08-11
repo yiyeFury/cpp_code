@@ -34,6 +34,7 @@ bool DoublyLinkedList::Full()
 
 void DoublyLinkedList::InsertHead(DoublyLinkedNode *tmp_node)
 {
+    // 在 head 前插入节点；即新插入的节点作为 head
     if (Full()) return;
     else if (Empty()) {
         head_ = tmp_node;
@@ -137,14 +138,29 @@ DoublyLinkedNode *DoublyLinkedList::Search(int k)
     return nullptr;
 }
 
+void DoublyLinkedList::Print()
+{
+    if (Empty()) {
+        cout<<"Linked list is empty."<<endl;
+        return;
+    }
+    DoublyLinkedNode *tmp_node;
+    tmp_node = head_;
+    for (int ii=0;ii<size_;ii++) {
+        cout<<"   "<<tmp_node->key;
+        tmp_node = tmp_node->next;
+    }
+    
+}
 
-// int main()
-// {
-//     cout << "\nStart\n\n";
-//
-//
-//
-//     cout << "\n\nend\n" << endl;
-//     // system("pause");
-//     return 0;
-// }
+
+int main()
+{
+    cout << "\nStart\n\n";
+
+
+
+    cout << "\n\nend\n" << endl;
+    // system("pause");
+    return 0;
+}

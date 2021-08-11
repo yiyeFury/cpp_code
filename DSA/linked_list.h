@@ -27,6 +27,7 @@ public:
 public:
     bool Empty();
     bool Full();
+    void Print();
     
     void InsertHead(DoublyLinkedNode *tmp_node);
     void Insert(DoublyLinkedNode *prev_node, DoublyLinkedNode *tmp_Node);
