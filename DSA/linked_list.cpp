@@ -52,6 +52,7 @@ void DoublyLinkedList::InsertHead(DoublyLinkedNode *tmp_node)
         tmp_node -> next = old_head;
         old_head -> prev = head_;
     }
+    size_++;
     
 }
 
@@ -154,13 +155,11 @@ void DoublyLinkedList::Print()
 }
 
 
-int main()
-{
-    cout << "\nStart\n\n";
-
-
-
-    cout << "\n\nend\n" << endl;
-    // system("pause");
-    return 0;
-}
+// int main()
+// {
+//     cout << "\nStart\n\n";
+//
+//     cout << "\n\nend\n" << endl;
+//     // system("pause");
+//     return 0;
+// }
