@@ -7,12 +7,12 @@
 
 using namespace std;
 
-DoublyLinkedList::DoublyLinkedList(): head_(nullptr), tail_(nullptr), size_(0), length_(10)
+DoublyLinkedList::DoublyLinkedList(): head_(nullptr), tail_(nullptr), size_(0), capacity_(10)
 {
 
 }
 
-DoublyLinkedList::DoublyLinkedList(int len): head_(nullptr), tail_(nullptr), size_(0), length_(len)
+DoublyLinkedList::DoublyLinkedList(int len): head_(nullptr), tail_(nullptr), size_(0), capacity_(len)
 {
 
 }
@@ -28,7 +28,7 @@ bool DoublyLinkedList::Empty()
 
 bool DoublyLinkedList::Full()
 {
-    return size_ == length_;
+    return size_ == capacity_;
 }
 
 

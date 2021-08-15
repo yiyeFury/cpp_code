@@ -18,7 +18,7 @@ public:
     DoublyLinkedNode* head_;
     DoublyLinkedNode* tail_;
     int size_;  // 链表当前元素的数量
-    int length_;  // 链表的长度，即最多能存储的数量
+    int capacity_;  // 链表的长度，即最多能存储的数量
     
 public:
     DoublyLinkedList();
