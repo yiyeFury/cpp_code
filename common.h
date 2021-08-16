@@ -24,6 +24,13 @@ void PrintArray(const T(&arr)[M])
 }
 
 
+template<typename T>
+void PrintArray(const T *arr, int M) {
+    for (int ii=0;ii<M;ii++) {
+        cout<<"   "<<arr[ii];
+    }
+}
+
 template<typename T, int M, int N>
 void PrintArray(const T(&arr)[M][N])
 {
@@ -35,6 +42,16 @@ void PrintArray(const T(&arr)[M][N])
         cout << endl;
     }
     cout << endl;
+}
+
+template<typename T>
+void PrintArray(const T* arr, int M, int N) {
+    for (int ii=0;ii<M;ii++) {
+        for (int jj=0;jj<N;jj++) {
+            cout << "   " <<*(arr+ii*N+jj);
+        }
+        cout<<endl;
+    }
 }
 
 template<typename T, int M>

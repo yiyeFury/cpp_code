@@ -6,31 +6,31 @@
 #include <algorithm>
 #include <cmath>  // include <math.h>
 #include <memory>
+#include <omp.h>
 
 #include "common.h"
+#include "SCM/successive_correction.h"
 
 using namespace std;
 //using namespace cv;
-
-void print_2d(int *pts, int m, int n)
-{
-    for (int ii=0;ii<m;ii++) {
-        for(int jj=0;jj<n;jj++)
-            cout<<"      "<<*(pts+ii*n+jj);
-        cout<<endl;
-    }
-    
-}
 
 
 // int main()
 // {
 //     cout << "\nStart\n\n";
 //
-//     int aa[4] = {1,2, 3,4};
-//     print_2d(aa, 2, 2);
+//     float *pt;
+//     for (int ii=0;ii<4;ii++) {
+//         for (int jj=0;jj<3;jj++) {
+//             *(pt+ii*3+jj) = ii*10+jj;
+//         }
+//
+//     }
+//
+//     PrintArray(pt, 4, 3);
 //
 //     cout << "\n\nend\n" << endl;
 //     // system("pause");
 //     return 0;
 // }
+

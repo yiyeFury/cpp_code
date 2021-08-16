@@ -12,11 +12,12 @@ aux_source_directory(mathematics MATH_DIR_SRCS)
 aux_source_directory(opencv_note OPENCV_NOTE_DIR_SRCS)
 aux_source_directory(DSA DSA_DIR_SRCS)
 aux_source_directory(fusion FUSION_DIR_SRCS)
+aux_source_directory(SCM SCM_DIR_SRCS)
 
 
 
 # 指定生成目标
-add_executable(cpp_code ${DIR_SRCS} ${MATH_DIR_SRCS} ${DSA_DIR_SRCS} ${ML_DIR_SRCS} ${DIP_DIR_SRCS} ${OPENCV_NOTE_DIR_SRCS} ${FUSION_DIR_SRCS})
+add_executable(cpp_code ${DIR_SRCS} ${MATH_DIR_SRCS} ${DSA_DIR_SRCS} ${ML_DIR_SRCS} ${DIP_DIR_SRCS} ${OPENCV_NOTE_DIR_SRCS} ${SCM_DIR_SRCS})
 #add_executable(cpp_code main.cpp sort_algorithm.h search_algorithm.h)
 
 # Eigen，未编译 ******************************************************************
@@ -30,5 +31,14 @@ target_link_libraries(cpp_code ${EIGEN_DIR_SRCS})
 set(OpenCV_DIR D:/Software/opencv/opencv-4.5.2-cmake-mingw64-build/install)
 FIND_PACKAGE(OpenCV REQUIRED)
 TARGET_LINK_LIBRARIES(cpp_code ${OpenCV_LIBS})
+
+# openMP 配置
+FIND_PACKAGE(OpenMP REQUIRED)
+if (OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif ()
+
 
 

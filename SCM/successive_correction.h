@@ -18,6 +18,7 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
                           float *lons, int lons_size,
                           float search_radius,
                           float influence_radius,
-                          float fill_value);
+                          float fill_value,
+                          int num_thread);
 
 #endif //CPP_CODE_SUCCESSIVE_CORRECTION_H

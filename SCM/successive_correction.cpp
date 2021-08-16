@@ -2,11 +2,14 @@
 // Created by admin on 2021/7/23.
 //
 #define PY_SSIZE_T_CLEAN
-#include <Python.h>
+// #include <Python.h>
 #include <cmath>
 #include <vector>
-// #include <iostream>
+#include <omp.h>
+#include <iostream>
+
 #include "successive_correction.h"
+#include "../common.h"
 
 using namespace std;
 
@@ -63,7 +66,8 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
                           float *lons, int lons_size,
                           float search_radius,
                           float influence_radius,
-                          float fill_value)
+                          float fill_value,
+                          int num_thread)
 {
     /*
      * 逐步订正计算: 单次订正计算
@@ -75,6 +79,7 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
      * lats: 纬度数组 90 ~ -90
      * lons: 经度数组 0~360
      * search_radius: 搜索半径(比较大圆距离), km
+     * num_thread: 并行计算线程 数
      */
     
     // 搜索匹配
@@ -99,9 +104,13 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
     
     // PrintArray(lats);
     // 循环遍历
-    float tmp_bkg_data;
-    for (int r=0;r<bkg_rows;r++) {
-        for (int c=0;c<bkg_cols;c++) {
+    
+    int r, c;
+    #pragma omp parallel for num_threads(num_thread)
+    for (r=0;r<bkg_rows;r++)
+    {
+        for (c=0;c<bkg_cols;c++)
+        {
             // if (r!=0 || c!=N-1) continue;
             
             vector<int> lat_idx, lon_idx;
@@ -194,51 +203,53 @@ void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
 }
 
 
+int main()
+{
 
-// int main()
-// {
-//     // void SuccessiveCorrection(const float (&bkg_data)[M][N], const float (&obs_data)[M][N],
-//     //                           float (&dst_data)[M][N],
-//     //                           const float (&lats)[M], const float (&lons)[N],
-//     //                           const float search_radius, const float fill_value=NAN);
-//
-//     const int kROW=4, kCOLUMN=5;
-//
-//     float bkg_data[kROW][kCOLUMN];
-//     float obs_data[kROW][kCOLUMN];
-//     float dst_data[kROW][kCOLUMN];
-//
-//     float lats[kROW] = {10.0, 9.0, 8.0, 7.0};
-//     float lons[kCOLUMN] = {21.0, 22.0, 23.0, 24.0, 25.0};
-//     float search_radius = 200.0;
-//     float influence_radius = 500.0;
-//
-//     float val = 1.0;
-//
-//     for (int ii=0;ii<kROW;ii++) {
-//         for (int jj=0;jj<kCOLUMN;jj++) {
-//             bkg_data[ii][jj] = val;
-//             obs_data[ii][jj] = val+1.0;
-//             dst_data[ii][jj] = 100.0;
-//
-//         }
-//     }
-//
-//     SuccessiveCorrection(bkg_data, obs_data, dst_data,
-//                          lats, lons,
-//                          search_radius, influence_radius);
-//
-//     cout<<"\nbackground data\n";
-//     PrintArray(bkg_data);
-//
-//     cout<<"\n\nobservation data\n";
-//     PrintArray(obs_data);
-//
-//     cout<<"\n\nresult\n";
-//     PrintArray(dst_data);
-//
-//     double d1 = GreatCircleDistance(180.0, 45.0, 181.0, 46.0, 6378.137);
-//     cout<<"\ntest: "<<d1<<endl;
-//
-//     return 0;
-// }
+    const int kROW=4, kCOLUMN=5;
+
+    float *bkg_data;
+    float *obs_data;
+    float *dst_data;
+
+    float lats[kROW] = {10.0, 9.0, 8.0, 7.0};
+    float lons[kCOLUMN] = {21.0, 22.0, 23.0, 24.0, 25.0};
+    float search_radius = 200.0;
+    float influence_radius = 500.0;
+
+    float val = 1.0;
+    
+    for (int ii = 0; ii < kROW; ii++) {
+        for (int jj = 0; jj < kCOLUMN; jj++) {
+            *(bkg_data + ii * kCOLUMN + jj) = val;
+            *(obs_data + ii * kCOLUMN + jj) = val + 1.0;
+            *(dst_data + ii * kCOLUMN + jj) = 100.0;
+            
+        }
+    }
+
+
+    SuccessiveCorrection(bkg_data, kROW, kCOLUMN,
+            obs_data, kROW, kCOLUMN,
+            dst_data, kROW, kCOLUMN,
+            lats, kROW,
+            lons, kCOLUMN,
+            search_radius,
+            influence_radius,
+            99.9,
+            4);
+
+
+    cout<<"\nbackground data\n";
+    PrintArray(bkg_data, kROW, kCOLUMN);
+
+    cout<<"\n\nobservation data\n";
+    PrintArray(obs_data, kROW, kCOLUMN);
+
+    cout<<"\n\nresult\n";
+    PrintArray(dst_data, kROW, kCOLUMN);
+
+    return 0;
+}
+
+

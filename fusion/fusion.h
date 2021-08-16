@@ -8,7 +8,7 @@
 #include <vector>
 #include <cmath>
 #include <Dense>
-#include "fusion.h"
+
 
 using namespace std;
 using namespace Eigen;
