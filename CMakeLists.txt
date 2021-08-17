@@ -12,12 +12,11 @@ aux_source_directory(mathematics MATH_DIR_SRCS)
 aux_source_directory(opencv_note OPENCV_NOTE_DIR_SRCS)
 aux_source_directory(DSA DSA_DIR_SRCS)
 aux_source_directory(fusion FUSION_DIR_SRCS)
-aux_source_directory(SCM SCM_DIR_SRCS)
-
+#aux_source_directory(SCM SCM_DIR_SRCS)
 
 
 # 指定生成目标
-add_executable(cpp_code ${DIR_SRCS} ${MATH_DIR_SRCS} ${DSA_DIR_SRCS} ${ML_DIR_SRCS} ${DIP_DIR_SRCS} ${OPENCV_NOTE_DIR_SRCS} ${SCM_DIR_SRCS})
+add_executable(cpp_code ${DIR_SRCS} ${MATH_DIR_SRCS} ${DSA_DIR_SRCS} ${ML_DIR_SRCS} ${DIP_DIR_SRCS} ${OPENCV_NOTE_DIR_SRCS} ${FUSION_DIR_SRCS})
 #add_executable(cpp_code main.cpp sort_algorithm.h search_algorithm.h)
 
 # Eigen，未编译 ******************************************************************

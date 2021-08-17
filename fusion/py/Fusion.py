@@ -62,7 +62,13 @@ class _SwigNonDynamicMeta(type):
 
 
 
-def OptimumInterpolationFunc(bkg_data, obs_data, dst_data, error_variance, lats, lons, fill_value, search_radius, lat_scale, lon_scale, lam, sig):
-    return _Fusion.OptimumInterpolationFunc(bkg_data, obs_data, dst_data, error_variance, lats, lons, fill_value, search_radius, lat_scale, lon_scale, lam, sig)
+def SuccessiveCorrectionFunc(bkg_data, obs_data, dst_data, lats, lons, search_radius, influence_radius, fill_value, num_thread):
+    return _Fusion.SuccessiveCorrectionFunc(bkg_data, obs_data, dst_data, lats, lons, search_radius, influence_radius, fill_value, num_thread)
+
+def OptimumInterpolationFunc(bkg_data, obs_data, dst_data, error_variance, lats, lons, search_radius, lat_scale, lon_scale, lam, sig, fill_value, num_thread):
+    return _Fusion.OptimumInterpolationFunc(bkg_data, obs_data, dst_data, error_variance, lats, lons, search_radius, lat_scale, lon_scale, lam, sig, fill_value, num_thread)
+
+def GreatCircleDistance(lon1, lat1, lon2, lat2, radius):
+    return _Fusion.GreatCircleDistance(lon1, lat1, lon2, lat2, radius)
 
 

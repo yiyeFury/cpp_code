@@ -2,18 +2,25 @@
 // Created by admin on 2021/8/5.
 //
 
+#define PY_SSIZE_T_CLEAN
+// #include <Python.h>
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <omp.h>
 #include <Dense>
 #include <LU>
-
 #include "fusion.h"
+#include "../common.h"
 
 using namespace std;
 using namespace Eigen;
 
 
+/*
+ * *********************************************************************************************************************
+ * common function
+ */
 float degree_to_radiance(float deg)
 {
     // 将 角度 计算为 弧度
@@ -99,6 +106,174 @@ void SpaceMatchDegreeWindow(float *lats, int rows,
 }
 
 
+/*
+ * *********************************************************************************************************************
+ * successive correction
+ */
+float WeightFunction(float rr, float r)
+{
+/*
+ * 经验权重函数
+ */
+float w;
+double R2 = pow(rr, 2);
+double r2 = pow(r, 2);
+
+// w = max(0.0, (R2-r2)/(R2+r2));
+w = (R2-r2)/(R2+r2);
+return w;
+}
+
+
+void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
+                          float *obs_data, int obs_rows, int obs_cols,
+                          float *dst_data, int dst_rows, int dst_cols,
+                          float *lats, int lats_size,
+                          float *lons, int lons_size,
+                          float search_radius,
+                          float influence_radius,
+                          float fill_value,
+                          int num_thread)
+{
+    /*
+     * 逐步订正计算: 单次订正计算
+     * M: no. of rows
+     * N: no. of columns
+     * bkg_data: 背景场数据
+     * obs_data: 观测场数据
+     * dst_data: 逐步订正 插值结果
+     * lats: 纬度数组 90 ~ -90
+     * lons: 经度数组 0~360
+     * search_radius: 搜索半径(比较大圆距离), km
+     * num_thread: 并行计算线程 数
+     */
+    
+    // 搜索匹配
+    // 粗匹配，根据经纬度 筛选, 特殊考虑：1)北极：2)经度 0 和 360 接边
+    // 精确匹配，计算大圆距离
+    
+    // float R=6378.137;  // km, wgs84 地球半径
+    
+    float degress_radius = 1.5*search_radius / 100.0;
+    // 粗匹配时需要特殊考虑的位置
+    // float lat_up_limit = 90.0 - degress_radius;
+    // float lon_left_limit = 0.0 + degress_radius;
+    // float lon_right_limit = 360.0 - degress_radius;
+    
+    float lon_left_bound, lon_right_bound, lat_top_bound, lat_bottom_bound;
+    int ii, jj;
+    int cnt;  // 统计 当前范围内有效点个数
+    
+    float dist;  // 计算距离
+    float weight, weight_sum;  // 记录权重
+    float weight_val, weight_val_sum;  // 记录权重与观测值得乘积
+    
+    // PrintArray(lats);
+    // 循环遍历
+    
+    int r, c;
+#pragma omp parallel for num_threads(num_thread) private(c, lon_left_bound, lon_right_bound, lat_top_bound, lat_bottom_bound, ii, jj, cnt, dist, weight, weight_sum, weight_val, weight_val_sum)
+    for (r=0;r<bkg_rows;r++)
+    {
+        // int tmp_id = omp_get_thread_num();
+        // cout<<"id: "<<tmp_id<<endl;
+        
+        for (c=0;c<bkg_cols;c++)
+        {
+            // if (r!=0 || c!=N-1) continue;
+            
+            vector<int> lat_idx, lon_idx;
+            
+            if (isnan(*(bkg_data+r*bkg_cols+c))) {  // 背景场为无效值，跳过
+                // cout <<"background data is nan: "<<r<<" row, "<<c<<" column"<<endl;
+                continue;
+            }
+            
+            // 粗匹配
+            lon_left_bound = lons[c] - degress_radius;
+            if (lon_left_bound < 0) {  // 经度边界出现小于0
+                lon_left_bound += 360;
+            }
+            
+            lon_right_bound = lons[c] + degress_radius;
+            if (lon_right_bound > 360) {
+                lon_right_bound -= 360;
+            }
+            
+            // 经度查找
+            if (lon_right_bound < lon_left_bound) {
+                
+                for (ii=0;ii<bkg_cols;ii++) {
+                    if ((lons[ii] >= lon_left_bound) || (lons[ii] <= lon_right_bound)) {
+                        lon_idx.push_back(ii);
+                    }
+                }
+            } else {
+                for (ii=0;ii<bkg_cols;ii++) {
+                    if ((lons[ii] >= lon_left_bound) && (lons[ii] <= lon_right_bound)) {
+                        lon_idx.push_back(ii);
+                    }
+                }
+            }
+            
+            lat_top_bound = lats[r] + degress_radius;
+            lat_bottom_bound = lats[r] - degress_radius;
+            // 纬度查找
+            for (ii=0;ii<bkg_rows;ii++) {  // 暂不考虑极区 纬度范围 80~-80
+                if ((lats[ii] >= lat_bottom_bound) && (lats[ii] <= lat_top_bound)) {
+                    lat_idx.push_back(ii);
+                }
+            }
+            
+            if ((lon_idx.size()==0) || (lat_idx.size()==0)) {  // 粗匹配未找到点
+                // cout <<"no coarse match found: "<<r<<" row, "<<c<<" column"<<endl;
+                continue;
+            }
+            
+            // 根据粗匹配结果，计算大圆距离，精确距离匹配
+            cnt = 0;  // 记录单前点 匹配到的有效点数量
+            weight_sum = 0.0, weight_val_sum = 0.0;
+            for (auto &tmp_ii: lat_idx) {
+                for (auto &tmp_jj: lon_idx) {
+                    // 当前位置，观测场 为无效值
+                    if (isnan(*(obs_data+tmp_ii*bkg_cols+tmp_jj))) continue;
+                    if (isnan(*(bkg_data+tmp_ii*bkg_cols+tmp_jj))) continue;
+                    // double GreatCircleDistance(T lon1, T lat1, T lon2, T lat2, T radius)
+                    // cout<<r<<"   "<<c<<"   "<<tmp_jj<<"   "<<tmp_ii<<endl;
+                    // cout<<lons[c]<<"   "<<lats[r]<<"   "<<lons[tmp_jj]<<"   "<<lats[tmp_ii]<<endl;
+                    dist  = GreatCircleDistance(lons[c], lats[r], lons[tmp_jj], lats[tmp_ii], R);
+                    // cout<<"dist: "<<dist<<endl;
+                    // 位于搜索半径之外
+                    // cout<<"dist is: "<<dist<<", lon: "<<lons[c]<<", lat: "<<lats[r]<<", match lon: "<<lons[tmp_jj]<<", match lat: "<<lats[tmp_ii]<<endl;
+                    if (dist > search_radius) continue;
+                    
+                    // WeightFunction(float R, float r)
+                    weight = WeightFunction(influence_radius, dist);
+                    weight_val = weight*(*(obs_data+tmp_ii*bkg_cols+tmp_jj) - *(bkg_data+tmp_ii*bkg_cols+tmp_jj));
+                    
+                    weight_val_sum += weight_val;
+                    weight_sum += weight;
+                    cnt++;
+                }
+            }
+            
+            if (cnt > 0) {
+                // cout<<"no. of match: "<<cnt<<", row: "<<r<<", column: "<<c<<endl;
+                *(dst_data+r*bkg_cols+c) = *(bkg_data+r*bkg_cols+c) + weight_val_sum/weight_sum;
+            }
+            // else {
+            //     cout <<"no match found: "<<r<<" row, "<<c<<" column"<<endl;
+            // }
+        }
+    }
+    
+}
+
+
+/*
+ * *********************************************************************************************************************
+ * optimum interpolation
+ */
 float CorrelationErrorOI(float lon1, float lat1, float lon2, float lat2,
                          float lon_scale, float lat_scale)
 {
@@ -182,16 +357,17 @@ void CorrelationErrorMatrixObsOI(const vector<int> lat_idx, const vector<int> lo
 }
 
 
-void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
-                          const float *obs_data, int obs_rows, int obs_cols,
+void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
+                          float *obs_data, int obs_rows, int obs_cols,
                           float *dst_data, int dst_rows, int dst_cols,
                           float *error_variance, int err_rows, int err_cols,
                           float *lats, int lats_size,
                           float *lons, int lons_size,
-                          float fill_value,
                           float search_radius,
                           float lat_scale, float lon_scale,
-                          float lam, float sig)
+                          float lam, float sig,
+                          float fill_value,
+                          int num_thread)
 {
     /*
      * todo: 设置默认值测试
@@ -212,10 +388,17 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
     float tmp_val;
     
     // 循环遍历
-    for (int r=0;r<rows;r++) {
-        for (int c=0;c<cols;c++) {
+    int r, c;
+#pragma omp parallel for num_threads(num_thread) private(r, ii, jj, cnt, dist, num_pts, tmp_val)
+    for (c = 0; c < cols; c++)
+    {
+        // int tmp_id = omp_get_thread_num();
+        // cout<<"id: "<<tmp_id<<endl;
+        for (r = 0; r < rows; r++)
+        {
             vector<int> tmp_lon_idx, tmp_lat_idx;  // 采用经纬度进行粗匹配，记录窗口内点的经纬度下标
             vector<int> lat_idx, lon_idx;  // 记录匹配到的点的经纬度下标
+            
             if (isnan(*(bkg_data + r * cols + c))) {  // 背景场为无效值，跳过
                 continue;
             }
@@ -301,55 +484,90 @@ void OptimumInterpolation(const float *bkg_data, int bkg_rows, int bkg_cols,
 }
 
 
-// *********************************************************************************************************************
+/*
+ * *********************************************************************************************************************
+ * test
+ */
+
 // int main()
 // {
-//     cout << "\nStart\n\n";
 //
-//     const int M = 3, N = 4;
-//     float bkg_data[M*N], obs_data[M*N], dst_data[M*N], error_variance[M*N];
-//     float lats[M], lons[N];
+//     const int kROW=3, kCOLUMN=4;
+//     int ii, jj;
 //
-//     float search_radius=200;
-//     float lat_scale=150;
-//     float lon_scale=300;
-//     float lam=1.0, sig=1.0;
-//     float fill_value = NAN;
+//     float search_radius;
 //
-//     int ii, jj, cnt=0;
-//     for (ii=0;ii<M;ii++) {
-//         for (jj=0;jj<N;jj++) {
-//             bkg_data[ii*N+jj] = 1.0;
-//             obs_data[ii*N+jj] = (++cnt)*1.0;
-//             dst_data[ii*N+jj] = 0.0;
-//             error_variance[ii*N+jj] = 0.0;
+//     float lats[kROW];
+//     float lons[kCOLUMN];
+//
+//     float bkg_data[kROW*kCOLUMN];
+//     float obs_data[kROW*kCOLUMN];
+//     float dst_data[kROW*kCOLUMN];
+//     float error_variance[kROW*kCOLUMN];
+//
+//     for (ii=0;ii<kROW;ii++) {
+//         lats[ii] = 60.0 - ii*0.25;
+//     }
+//
+//     for (jj=0;jj<kCOLUMN;jj++) {
+//         lons[jj] = 100.0 + jj*0.25;
+//     }
+//
+//     for (ii = 0; ii < kROW; ii++) {
+//         for (jj = 0; jj < kCOLUMN; jj++) {
+//             bkg_data[ii * kCOLUMN + jj] = 1.0;
+//             obs_data[ii * kCOLUMN + jj] = ii * 2 + jj;
+//             dst_data[ii * kCOLUMN + jj] = 0.0;
+//             error_variance[ii * kCOLUMN + jj] = 0.0;
 //         }
 //     }
 //
-//     for (ii=0;ii<M;ii++) {
-//         lats[ii] = 60.0 - 0.25*ii;
-//     }
-//     for (ii=0;ii<N;ii++) {
-//         lons[ii] = 120.0 + 0.25*ii;
-//     }
+//     cout<<"\nbackground data\n";
+//     PrintArray(bkg_data, kROW, kCOLUMN);
 //
-//     PrintArray(bkg_data);
-//     PrintArray(obs_data);
+//     cout<<"\n\nobservation data\n";
+//     PrintArray(obs_data, kROW, kCOLUMN);
 //
-//     OptimumInterpolation(bkg_data, M, N,
-//                          obs_data, M, N,
-//                          dst_data, M, N,
-//                          error_variance, M, N,
-//                          lats, M,
-//                          lons, N,
-//                          fill_value,
+//     // test for OI
+//     cout<<"\nOI\n\n";
+//     search_radius=200.0;
+//     float lat_scale=150.0;
+//     float lon_scale=300.0;
+//     float lam=1.0, sig=1.0;
+//     OptimumInterpolation(bkg_data, kROW, kCOLUMN,
+//                          obs_data, kROW, kCOLUMN,
+//                          dst_data, kROW, kCOLUMN,
+//                          error_variance, kROW, kCOLUMN,
+//                          lats, kROW,
+//                          lons, kCOLUMN,
 //                          search_radius,
 //                          lat_scale, lon_scale,
-//                          lam, sig);
-//     PrintArray(dst_data);
+//                          lam, sig,
+//                          99.9,
+//                          4);
 //
-//     cout << "\n\nend\n" << endl;
-//     // system("pause");
+//     cout<<"\n\nOI result\n";
+//     PrintArray(dst_data, kROW, kCOLUMN);
+//
+//     cout<<"\nOI error variance\n";
+//     PrintArray(error_variance, kROW, kCOLUMN);
+//
+//     // test for SCM
+//     search_radius = 200.0;
+//     float influence_radius = 500.0;
+//     SuccessiveCorrection(bkg_data, kROW, kCOLUMN,
+//             obs_data, kROW, kCOLUMN,
+//             dst_data, kROW, kCOLUMN,
+//             lats, kROW,
+//             lons, kCOLUMN,
+//             search_radius,
+//             influence_radius,
+//             99.9,
+//             4);
+//
+//     cout<<"\n\nSCM result\n";
+//     PrintArray(dst_data, kROW, kCOLUMN);
+//
 //     return 0;
 // }
 
