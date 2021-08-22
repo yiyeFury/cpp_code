@@ -6,22 +6,30 @@
 #define CPP_CODE_TREE_H
 
 typedef struct BinaryTreeNode {
-    BinaryNode *left = nullptr;
-    BinaryNode *right = nullptr;
-    BinaryNode *parent = nullptr;
+    BinaryTreeNode *left = nullptr;
+    BinaryTreeNode *right = nullptr;
+    BinaryTreeNode *parent = nullptr;
     int key;
     int data;
-}BinaryNode;
+}BinaryTreeNode;
 
-class Tree
+class BinaryTree
 {
 public:
-    Node *root_ = nullptr;
+    BinaryTreeNode *root_ = nullptr;
     int size_;
     int capacity_;
 public:
     Tree();
     ~Tree();
+
+public:
+    bool Empty();
+    void InorderTreeWalk();
+    BinaryTreeNode* Search(int kk);
+    BinaryTreeNode *Minimum(BinaryTreeNode *node);
+    BinaryTreeNode *Maximum(BinaryTreeNode *node);
+    void Insert(BinaryTreeNode *node);
 };
 
 
