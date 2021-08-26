@@ -2,7 +2,9 @@
 // Created by xie on 2021/8/22.
 //
 
+#include <iostream>
 #include "tree.h"
+using namespace std;
 
 bool BinaryTree::Empty()
 {
@@ -13,7 +15,7 @@ void BinaryTree::InorderTreeWalk(BinaryTreeNode *node)
 {
     if (node != nullptr) {
         InorderTreeWalk(node->left);
-        cout<<"   "<<node.key;
+        cout<<"   "<<node->key;
         InorderTreeWalk(node->right);
     }
 }

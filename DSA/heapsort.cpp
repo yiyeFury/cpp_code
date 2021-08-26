@@ -3,25 +3,18 @@
 //
 
 #include "heapsort.h"
+#include "../common.h"
 
-int Parent(int ii)
-{
-    // ii >= 1
-    int idx_parent(0);  // 树的根节点是A[0]
-    if (ii > 0) iParent = (++ii) / 2 - 1;
-    return idx_parent;
-}
 
-int Left(int ii)
+int main()
 {
-    // 计算左子树的下标
-    return 2 * ii + 1;
-}
+    int arr[5] = {5, 3, 2, 1, 4};
+    Heapsort<int, 5> hs;
+    hs.Sort(arr, 5);
+    PrintArray(arr);
 
-int Right(int ii)
-{
-    // 计算右子树的下标
-    return 2 * ii + 2;
+
+    return 0;
 }
 
 

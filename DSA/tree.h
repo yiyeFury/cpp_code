@@ -20,13 +20,13 @@ public:
     int size_;
     int capacity_;
 public:
-    Tree();
-    ~Tree();
+    BinaryTree();
+    ~BinaryTree();
 
 public:
     bool Empty();
-    void InorderTreeWalk();
-    BinaryTreeNode* Search(int kk);
+    void InorderTreeWalk(BinaryTreeNode *node);
+    BinaryTreeNode* Search(BinaryTreeNode *node, int kk);
     BinaryTreeNode *Minimum(BinaryTreeNode *node);
     BinaryTreeNode *Maximum(BinaryTreeNode *node);
     void Insert(BinaryTreeNode *node);
