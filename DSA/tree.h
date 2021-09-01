@@ -5,6 +5,7 @@
 #ifndef CPP_CODE_TREE_H
 #define CPP_CODE_TREE_H
 
+
 typedef struct BinaryTreeNode {
     BinaryTreeNode *left = nullptr;
     BinaryTreeNode *right = nullptr;
@@ -12,6 +13,7 @@ typedef struct BinaryTreeNode {
     int key;
     int data;
 }BinaryTreeNode;
+
 
 class BinaryTree
 {
