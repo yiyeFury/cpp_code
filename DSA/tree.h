@@ -34,5 +34,12 @@ public:
     void Insert(BinaryTreeNode *node);
 };
 
+class BinarySearchTree: public BinaryTree
+{
+public:
+    BinarySearchTree();
+    ~BinarySearchTree();
+};
+
 
 #endif //CPP_CODE_TREE_H

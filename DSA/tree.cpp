@@ -6,6 +6,15 @@
 #include "tree.h"
 using namespace std;
 
+
+/* /////////////////////////////////////////////////////////////////////////////
+ * BinaryTree
+ */
+
+
+BinaryTree::BinaryTree():size_(0)
+{}
+
 bool BinaryTree::Empty()
 {
     return root_ == nullptr;
@@ -56,6 +65,11 @@ void BinaryTree::Insert(BinaryTreeNode *node)
         if (node->key < x->key) x = x->left;
         else x = x->right;
     }
-    
-    
 }
+
+
+/* /////////////////////////////////////////////////////////////////////////////
+ * BinarySearchTree
+ */
+BinarySearchTree::BinarySearchTree():BinaryTree()
+{}
