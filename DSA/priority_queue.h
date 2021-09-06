@@ -45,7 +45,7 @@ void HeapIncreaseKey(T (&arr)[NUM], int idx, T key)
     
     arr[idx] = key;
     while ((idx > 0) & (arr[heap_obj.Parent(idx)] < arr[idx])) {
-        swap(arr[idx], arr[heap_obj.Parent(idx));
+        swap(arr[idx], arr[heap_obj.Parent(idx)]);
         idx = heap_obj.Parent(idx);
     }
     

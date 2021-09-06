@@ -14,6 +14,7 @@ using namespace std;
 
 BinaryTree::BinaryTree():size_(0)
 {}
+BinaryTree::~BinaryTree() {}
 
 bool BinaryTree::Empty()
 {
@@ -26,6 +27,8 @@ bool BinaryTree::Empty()
  */
 BinarySearchTree::BinarySearchTree():BinaryTree()
 {}
+
+BinarySearchTree::~BinarySearchTree() {}
 
 void BinarySearchTree::InorderTreeWalk(BinaryTreeNode *node)
 {
@@ -90,7 +93,7 @@ void BinarySearchTree::Insert(BinaryTreeNode *node)
         else x = x->right;
     }
     
-    node->parent = y;
+    node->parent = y;  // node 作为 y 的子节点
     if (y== nullptr) {
         root_ = node;
     } else if (node->key < y->key) {
@@ -106,9 +109,9 @@ void BinarySearchTree::Transplant(BinaryTreeNode *u, BinaryTreeNode *v)
      */
     if (u->parent == nullptr) {
         root_ = v;
-    } else if (u == u->parent->left) {
+    } else if (u == u->parent->left) {  // 左子树
         u->parent->left = v;
-    } else u->parent->right = v;
+    } else u->parent->right = v;  // 右子树
     
     if (v != nullptr) v->parent = u->parent;
 }
@@ -129,6 +132,29 @@ void BinarySearchTree::Delete(BinaryTreeNode *node)
         }
         Transplant(node, y);
         y->left = node->left;
-        y->left = y;
+        y->left->parent = y;
     }
 }
+
+
+/* /////////////////////////////////////////////////////////////////////////////
+ * test
+ */
+
+// int main()
+// {
+//     BinarySearchTree bst1;
+//     BinaryTreeNode n1,n2, n3, n4, n5;
+//     n1.key = 10;
+//     n2.key = 1;
+//     n3.key = 5;
+//     n4.key = 2;
+//     n5.key = 3;
+//
+//     bst1.Insert(&n1);
+//     bst1.Insert(&n2);
+//     bst1.Insert(&n3);
+//     bst1.Insert(&n4);
+//     bst1.Insert(&n5);
+//     bst1.InorderTreeWalk(bst1.root_);
+// }
