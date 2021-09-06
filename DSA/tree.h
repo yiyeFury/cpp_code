@@ -27,18 +27,26 @@ public:
 
 public:
     bool Empty();
-    void InorderTreeWalk(BinaryTreeNode *node);
-    BinaryTreeNode* Search(BinaryTreeNode *node, int kk);
-    BinaryTreeNode *Minimum(BinaryTreeNode *node);
-    BinaryTreeNode *Maximum(BinaryTreeNode *node);
-    void Insert(BinaryTreeNode *node);
+    
 };
+
 
 class BinarySearchTree: public BinaryTree
 {
 public:
     BinarySearchTree();
     ~BinarySearchTree();
+public:
+    void InorderTreeWalk(BinaryTreeNode *node);
+    BinaryTreeNode* Search(BinaryTreeNode *node, int kk);
+    BinaryTreeNode *Minimum(BinaryTreeNode *node);
+    BinaryTreeNode *Maximum(BinaryTreeNode *node);
+    BinaryTreeNode *Successor(BinaryTreeNode *node);
+    
+    void Insert(BinaryTreeNode *node);
+    
+    void Transplant(BinaryTreeNode *u, BinaryTreeNode *v);
+    void Delete(BinaryTreeNode *node);
 };
 
 
