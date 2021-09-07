@@ -18,6 +18,15 @@ using namespace std;
 // {
 //     cout << "\nStart\n\n";
 //
+//     int a = 5;
+//     const int m = a;
+//     int arr[m];
+//
+//     for (int ii=0;ii<a;ii++) {
+//         arr[ii] = ii+1;
+//     }
+//
+//     PrintArray(arr, a);
 //
 //     // system("pause");
 //     return 0;
