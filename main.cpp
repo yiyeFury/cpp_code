@@ -14,6 +14,8 @@
 using namespace std;
 //using namespace cv;
 
+
+//
 // int main()
 // {
 //     cout << "\nStart\n\n";
@@ -26,7 +28,7 @@ using namespace std;
 //         arr[ii] = ii+1;
 //     }
 //
-//     PrintArray(arr, a);
+//
 //
 //     // system("pause");
 //     return 0;
