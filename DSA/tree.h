@@ -7,23 +7,30 @@
 
 using namespace std;
 
-template<typename T1, typename T2>
+template<typename T>
 struct BinaryTreeNode {
-    BinaryTreeNode *left = nullptr;
-    BinaryTreeNode *right = nullptr;
-    BinaryTreeNode *parent = nullptr;
-    T1 key;
-    T2 data;
+    BinaryTreeNode *left_ = nullptr;
+    BinaryTreeNode *right_ = nullptr;
+    BinaryTreeNode *parent_ = nullptr;
+    T key_;
 };
 
-typedef BinaryTreeNode<int, int> BTNodeInt;
-template<typename T1, typename T2> using BTNode = BinaryTreeNode<T1, T2>;
+typedef BinaryTreeNode<int> BTNodeInt;
+template<typename T1> using BTNode = BinaryTreeNode<T1>;
 
-template<typename T1, typename T2>
+
+template<typename T>
+struct RedBlackTreeNode: BinaryTreeNode<T>
+{
+    char color_ = 'b';  // r for red and b for black
+};
+
+
+template<typename T>
 class BinaryTree
 {
 public:
-    BinaryTreeNode<T1, T2> *root_ = nullptr;
+    BinaryTreeNode<T> *root_ = nullptr;
     int size_;
     int capacity_;
 public:
@@ -36,37 +43,51 @@ public:
 };
 
 
-template<typename T1, typename T2>
-class BinarySearchTree: public BinaryTree<T1, T2>
+template<typename T>
+class BinarySearchTree: public BinaryTree<T>
 {
 public:
     BinarySearchTree();
     ~BinarySearchTree();
 public:
-    void InorderTreeWalk(BinaryTreeNode<T1, T2> *node);
-    BinaryTreeNode<T1, T2> *Search(BinaryTreeNode<T1, T2> *node, int kk);
-    BinaryTreeNode<T1, T2> *Minimum(BinaryTreeNode<T1, T2> *node);
-    BinaryTreeNode<T1, T2> *Maximum(BinaryTreeNode<T1, T2> *node);
-    BinaryTreeNode<T1, T2> *Successor(BinaryTreeNode<T1, T2> *node);
+    void InorderTreeWalk(BinaryTreeNode<T> *node);
+    BinaryTreeNode<T> *Search(BinaryTreeNode<T> *node, int kk);
+    BinaryTreeNode<T> *Minimum(BinaryTreeNode<T> *node);
+    BinaryTreeNode<T> *Maximum(BinaryTreeNode<T> *node);
+    BinaryTreeNode<T> *Successor(BinaryTreeNode<T> *node);
     
-    void Insert(BinaryTreeNode<T1, T2> *node);
+    void Insert(BinaryTreeNode<T> *node);
     
-    void Transplant(BinaryTreeNode<T1, T2> *u, BinaryTreeNode<T1, T2> *v);
-    void Delete(BinaryTreeNode<T1, T2> *node);
+    void Transplant(BinaryTreeNode<T> *u, BinaryTreeNode<T> *v);
+    void Delete(BinaryTreeNode<T> *node);
+};
+
+template<typename T>
+class RedBlackTree
+{
+public:
+    RedBlackTreeNode<T> root_;
+
+public:
+    RedBlackTree();
+    ~RedBlackTree();
+
+public:
+    void LeftRotate(RedBlackTreeNode<T> *node);
 };
 
 /* /////////////////////////////////////////////////////////////////////////////
  * BinaryTree
  */
 
-template<typename T1, typename T2>
-BinaryTree<T1, T2>::BinaryTree():size_(0) {}
+template<typename T>
+BinaryTree<T>::BinaryTree():size_(0) {}
 
-template<typename T1, typename T2>
-BinaryTree<T1, T2>::~BinaryTree() {}
+template<typename T>
+BinaryTree<T>::~BinaryTree() {}
 
-template<typename T1, typename T2>
-bool BinaryTree<T1, T2>::Empty()
+template<typename T>
+bool BinaryTree<T>::Empty()
 {
     return root_ == nullptr;
 }
@@ -76,122 +97,122 @@ bool BinaryTree<T1, T2>::Empty()
  * BinarySearchTree
  */
 
-template<typename T1, typename T2>
-BinarySearchTree<T1, T2>::BinarySearchTree():BinaryTree<T1, T2>::BinaryTree()
+template<typename T>
+BinarySearchTree<T>::BinarySearchTree():BinaryTree<T>::BinaryTree()
 {}
 
-template<typename T1, typename T2>
-BinarySearchTree<T1, T2>::~BinarySearchTree() {}
+template<typename T>
+BinarySearchTree<T>::~BinarySearchTree() {}
 
-template<typename T1, typename T2>
-void BinarySearchTree<T1, T2>::InorderTreeWalk(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+void BinarySearchTree<T>::InorderTreeWalk(BinaryTreeNode<T> *node)
 {
     if (node != nullptr) {
-        InorderTreeWalk(node->left);
-        cout<<"   "<<node->key;
-        InorderTreeWalk(node->right);
+        InorderTreeWalk(node->left_);
+        cout<<"   "<<node->key_;
+        InorderTreeWalk(node->right_);
     }
 }
 
-template<typename T1, typename T2>
-BinaryTreeNode<T1, T2> *BinarySearchTree<T1, T2>::Search(BinaryTreeNode<T1, T2> *node, int kk)
+template<typename T>
+BinaryTreeNode<T> *BinarySearchTree<T>::Search(BinaryTreeNode<T> *node, int kk)
 {
     if (node == nullptr) return nullptr;
-    if (node->key == kk) return node;
-    else if (kk < node->key) {
-        return Search(node->left, kk);
+    if (node->key_ == kk) return node;
+    else if (kk < node->key_) {
+        return Search(node->left_, kk);
     } else {
-        return Search(node->right, kk);
+        return Search(node->right_, kk);
     }
 }
 
-template<typename T1, typename T2>
-BinaryTreeNode<T1, T2> *BinarySearchTree<T1, T2>::Minimum(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+BinaryTreeNode<T> *BinarySearchTree<T>::Minimum(BinaryTreeNode<T> *node)
 {
     while (node != nullptr)
-        node = node->left;
+        node = node->left_;
     return node;
 }
 
-template<typename T1, typename T2>
-BinaryTreeNode<T1, T2> *BinarySearchTree<T1, T2>::Maximum(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+BinaryTreeNode<T> *BinarySearchTree<T>::Maximum(BinaryTreeNode<T> *node)
 {
     while (node != nullptr) {
-        node = node->right;
+        node = node->right_;
     }
     return node;
 }
 
-template<typename T1, typename T2>
-BinaryTreeNode<T1, T2> *BinarySearchTree<T1, T2>::Successor(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+BinaryTreeNode<T> *BinarySearchTree<T>::Successor(BinaryTreeNode<T> *node)
 {
-    BinaryTreeNode<T1, T2> *x = node;
-    if (x->right != nullptr) {
-        return x->right;
+    BinaryTreeNode<T> *x = node;
+    if (x->right_ != nullptr) {
+        return x->right_;
     }
     
-    BinaryTreeNode<T1, T2> *y=node->parent;
+    BinaryTreeNode<T> *y=node->parent_;
     
-    while (y != nullptr && x == y->right) {
+    while (y != nullptr && x == y->right_) {
         x = y;
-        y = y->parent;
+        y = y->parent_;
     }
     return y;
 }
 
-template<typename T1, typename T2>
-void BinarySearchTree<T1, T2>::Insert(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+void BinarySearchTree<T>::Insert(BinaryTreeNode<T> *node)
 {
-    BinaryTreeNode<T1, T2> *y= nullptr;
-    BinaryTreeNode<T1, T2> *x = BinaryTree<T1, T2>::root_;
+    BinaryTreeNode<T> *y= nullptr;
+    BinaryTreeNode<T> *x = BinaryTree<T>::root_;
     
     while (x != nullptr) {  // x==nullptr 时停止
         y = x;  // 此处 y 记录 x 的父节点
-        if (node->key < x->key) x = x->left;
-        else x = x->right;
+        if (node->key_ < x->key_) x = x->left_;
+        else x = x->right_;
     }
     
-    node->parent = y;  // node 作为 y 的子节点
+    node->parent_ = y;  // node 作为 y 的子节点
     if (y== nullptr) {
-        BinaryTree<T1, T2>::root_ = node;
-    } else if (node->key < y->key) {
-        y->left = node;
-    } else y->right = node;
+        BinaryTree<T>::root_ = node;
+    } else if (node->key_ < y->key_) {
+        y->left_ = node;
+    } else y->right_ = node;
     
 }
 
-template<typename T1, typename T2>
-void BinarySearchTree<T1, T2>::Transplant(BinaryTreeNode<T1, T2> *u, BinaryTreeNode<T1, T2> *v)
+template<typename T>
+void BinarySearchTree<T>::Transplant(BinaryTreeNode<T> *u, BinaryTreeNode<T> *v)
 {
     /*
-     * replaces one subtree as a child of its parent with another subtree
+     * replaces one subtree as a child of its parent_ with another subtree
      */
-    if (u->parent == nullptr) {
-        BinaryTree<T1, T2>::root_ = v;
-    } else if (u == u->parent->left) {  // 左子树
-        u->parent->left = v;
-    } else u->parent->right = v;  // 右子树
+    if (u->parent_ == nullptr) {
+        BinaryTree<T>::root_ = v;
+    } else if (u == u->parent_->left_) {  // 左子树
+        u->parent_->left_ = v;
+    } else u->parent_->right_ = v;  // 右子树
     
-    if (v != nullptr) v->parent = u->parent;
+    if (v != nullptr) v->parent_ = u->parent_;
 }
 
-template<typename T1, typename T2>
-void BinarySearchTree<T1, T2>::Delete(BinaryTreeNode<T1, T2> *node)
+template<typename T>
+void BinarySearchTree<T>::Delete(BinaryTreeNode<T> *node)
 {
-    if (node->left == nullptr) {
-        Transplant(node, node->right);
-    } else if (node->right == nullptr) {
-        Transplant(node, node->left);
+    if (node->left_ == nullptr) {
+        Transplant(node, node->right_);
+    } else if (node->right_ == nullptr) {
+        Transplant(node, node->left_);
     } else {
-        BinaryTreeNode<T1, T2> *y = Minimum(node->right);
-        if (y->parent != node) {
-            Transplant(y, y->right);
-            y->right = node->right;
-            y->right->parent = y;
+        BinaryTreeNode<T> *y = Minimum(node->right_);
+        if (y->parent_ != node) {
+            Transplant(y, y->right_);
+            y->right_ = node->right_;
+            y->right_->parent_ = y;
         }
         Transplant(node, y);
-        y->left = node->left;
-        y->left->parent = y;
+        y->left_ = node->left_;
+        y->left_->parent_ = y;
     }
 }
 
