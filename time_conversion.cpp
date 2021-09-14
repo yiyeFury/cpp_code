@@ -4,28 +4,18 @@
 
 using namespace std;
 
-int DayOfYear(int y, int m, int d)
-{
-    bool is_leap;
-    int k, n;
-
-    is_leap = IsLeapYear(y);
-    k = is_leap? 1:2;
-    n = int(275*m/9.0) - k*int((m+9)/12.0)+d-30;
-    return n;
-}
-
 bool IsLeapYear(int y)
 {
     // 计算是否为闰年
     bool cond1, cond2;
     cond1 = (y % 4 == 0) && (y % 100 != 0);
     cond2 = y % 400 == 0;
-
-    if (cond1 || cond2)
-        return true;
-    else
-        return false;
+    
+    return (cond1 || cond2) ? true : false;
+    // if (cond1 || cond2)
+    //     return true;
+    // else
+    //     return false;
 }
 
 double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)
@@ -38,11 +28,7 @@ double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)
      * mm: minute
      * ss: second
      */
-
-    /*
-    Meeus, J. “Astronomical Algorithms”. Second edition 1998, Willmann-Bell, Inc.,Richmond, Virginia, USA.
-    ---Chapter7 Julian Day
-    */
+    
     double jd, D;
     int A, B;
 
@@ -61,6 +47,79 @@ double CalculateJulianDay(int y, int m, int d, int hh=0, int mm=0, int ss=0)
     return jd;
 }
 
+Date CalcDate(double jd)
+{
+    int Z;
+    double F;
+    int A, B, C, D, E;
+    Date d;
+    
+    jd += 0.5;
+    Z = int(jd);
+    F = jd - Z;
+    
+    if (Z < 2299161) A=Z;
+    else {
+        int alpha=int((Z-1867216.25)/36524.25);
+        A = Z+1+alpha-alpha/4;
+    }
+    
+    B = A + 1524;
+    C = int((B-122.1)/365.25);
+    D = int(365.25*C);
+    E = int((B-D)/30.6001);
+    
+    d.day_ = B - D - int(30.6001*E);
+    if (E < 14) d.month_ = E-1;
+    else if ((E==14)|| (E==15)) d.month_ = E - 13;
+    
+    if (d.month_ > 2) d.year_ = C - 4716;
+    else if ((d.month_ == 1) || (d.month_==2)) d.year_ = C - 4715;
+    
+    return d;
+}
+
+Date CalcDate(int year, int yday)
+{
+    bool is_year = IsLeapYear(year);
+    int k = is_year?1:2;
+    int m;
+    
+    Date d;
+    d.year_ = year;
+    
+    m = int(9*(k+yday)/275.0 + 0.98);
+    if (yday < 32) m = 1;
+    d.month_ = m;
+    
+    d.day_ = yday - 275*m/9 + k*((m+9)/12) + 30;
+    return d;
+    
+}
+
+int CalcWeekDay(int year, int month, int day)
+{
+    /*
+     * calculate day of the week
+     */
+    double jd = CalculateJulianDay(year, month, day);
+    int flag = int(jd+1.5) % 7;
+    return flag;
+}
+
+int CalcYearDay(int y, int m, int d)
+{
+    /*
+     * Calculate day of the year
+     */
+    bool is_leap;
+    int k, n;
+    
+    is_leap = IsLeapYear(y);
+    k = is_leap? 1:2;
+    n = 275*m/9 - k*((m+9)/12)+d-30;
+    return n;
+}
 
 // 构造函数
 Date::Date() :year_(2000), month_(1), day_(1) {}
@@ -303,4 +362,21 @@ void DateTime::AddSecond(int s)
     int tmp_minute = second_ / 60;
     second_ %= 60;
     AddMinute(tmp_minute);
+}
+
+
+/*
+ * test ------------------------------------------------------------------------
+ */
+
+int main()
+{
+    Date d1(2021, 2, 1);
+    int yday = CalcYearDay(d1.year_, d1.month_, d1.day_);
+    cout <<yday<<endl;
+    
+    Date d = CalcDate(d1.year_, yday);
+    d.ShowDate();
+    
+    return 0;
 }
