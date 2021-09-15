@@ -369,14 +369,14 @@ void DateTime::AddSecond(int s)
  * test ------------------------------------------------------------------------
  */
 
-int main()
-{
-    Date d1(2021, 2, 1);
-    int yday = CalcYearDay(d1.year_, d1.month_, d1.day_);
-    cout <<yday<<endl;
-    
-    Date d = CalcDate(d1.year_, yday);
-    d.ShowDate();
-    
-    return 0;
-}
+// int main()
+// {
+//     Date d1(2021, 2, 1);
+//     int yday = CalcYearDay(d1.year_, d1.month_, d1.day_);
+//     cout <<yday<<endl;
+//
+//     Date d = CalcDate(d1.year_, yday);
+//     d.ShowDate();
+//
+//     return 0;
+// }

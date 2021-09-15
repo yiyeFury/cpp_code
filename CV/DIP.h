@@ -4,11 +4,11 @@
 
 #ifndef CPP_CODE_DIP_H
 #define CPP_CODE_DIP_H
-
-
-
+#include <iostream>
 #include <string>
 #include <vector>
+
+using namespace std;
 
 template<typename T1, int M, int N>
 void ValueFilled(T1 (&src)[M][N], const T1 fill_value)
