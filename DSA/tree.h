@@ -66,14 +66,16 @@ template<typename T>
 class RedBlackTree
 {
 public:
-    RedBlackTreeNode<T> root_;
+    RedBlackTreeNode<T> *root_;
+    RedBlackTreeNode<T> *sentinel_;
 
 public:
-    RedBlackTree();
+    RedBlackTree(BinaryTreeNode<T> *node);
     ~RedBlackTree();
 
 public:
     void LeftRotate(RedBlackTreeNode<T> *node);
+    void RightRotate(RedBlackTreeNode<T> *node);
 };
 
 /* /////////////////////////////////////////////////////////////////////////////
@@ -214,6 +216,54 @@ void BinarySearchTree<T>::Delete(BinaryTreeNode<T> *node)
         y->left_ = node->left_;
         y->left_->parent_ = y;
     }
+}
+
+/* /////////////////////////////////////////////////////////////////////////////
+ * RedBlackTree
+ */
+template<typename T>
+RedBlackTree<T>::RedBlackTree(BinaryTreeNode<T> *node): sentinel_(node) {}
+
+template<typename T>
+RedBlackTree<T>::~RedBlackTree() {}
+
+template<typename T>
+void RedBlackTree<T>::LeftRotate(RedBlackTreeNode<T> *node)
+{
+    RedBlackTreeNode<T> *y = node->right_;  // set y
+    node->right_ = y->left_;  // turn y's left subtree into x's right subtree
+    
+    if (y->left_ != sentinel_) {
+        y->left_->parent_ = node;
+    }
+    
+    y->parent_ = node->parent_;  // link x's parent to y
+    if (node->parent_ == sentinel_) {
+        root_ = y;
+    } else if (node == node->parent_->left_) {
+        node->parent_->left_ = y;
+    } else node->parent_->right_ = y;
+    
+    y->left_ = node;  // put node on y's left
+    node->parent_ = y;
+}
+
+template<typename T>
+void RedBlackTree<T>::RightRotate(RedBlackTreeNode<T> *node)
+{
+    RedBlackTreeNode<T> x = node->left_;  // set x
+    node->left_ = x.right_;
+    x.parent_ = node->parent_;
+    
+    if (node->parent_ == sentinel_) {
+        root_ = x;
+    } else if (node == node->parent_->left_) {
+        node->parent_->left_ = x;
+    } else node->parent_->right_ = x;
+    
+    x.left_ = node;
+    node->parent_ = x;
+    
 }
 
 #endif //CPP_CODE_TREE_H
