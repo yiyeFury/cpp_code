@@ -23,8 +23,11 @@ template<typename T>
 struct RedBlackTreeNode: BinaryTreeNode<T>
 {
     char color_ = 'b';  // r for red and b for black
+    RedBlackTreeNode *left_ = nullptr;
+    RedBlackTreeNode *right_ = nullptr;
+    RedBlackTreeNode *parent_ = nullptr;
+    
 };
-
 
 template<typename T>
 class BinaryTree
@@ -76,6 +79,9 @@ public:
 public:
     void LeftRotate(RedBlackTreeNode<T> *node);
     void RightRotate(RedBlackTreeNode<T> *node);
+    
+    void InsertFixup(RedBlackTreeNode<T> *node);
+    void Insert(RedBlackTreeNode<T> *node);
 };
 
 /* /////////////////////////////////////////////////////////////////////////////
@@ -264,6 +270,58 @@ void RedBlackTree<T>::RightRotate(RedBlackTreeNode<T> *node)
     x.left_ = node;
     node->parent_ = x;
     
+}
+
+template<typename T>
+void RedBlackTree<T>::InsertFixup(RedBlackTreeNode<T> *node)
+{
+    RedBlackTreeNode<T> *y;
+    while (node->parent_->color_ == 'r') {
+        if (node->parent_ == node->parent_->parent_->left_) {
+            y = node->parent_->parent_->right_;
+            if (y->color_ == 'r') {
+                node->parent_->color_ = 'b';
+                y->color_ = 'b';
+                node->parent_->parent_->color_ = 'r';
+                node = node->parent_->parent_;
+            } else {
+                if (node == node->parent_->right_) {
+                    node = node->parent_;
+                    LeftRotate(node);
+                }
+                node->parent_.color_ = 'b';
+                node->parent_->parent_.color_ = 'r';
+                RightRotate(node);
+            }
+        } else {
+            // todo:
+        }
+    
+    }
+}
+
+template<typename T>
+void RedBlackTree<T>::Insert(RedBlackTreeNode<T> *node)
+{
+    RedBlackTreeNode<T> *y = sentinel_, *x = root_;
+    
+    // 寻找 待插入点的父结点
+    while (x != sentinel_) {
+        y = x;
+        if (node->key_ < x->key_) x = x->left_;
+        else x = x->right_;
+    }
+    node->parent_ = y;
+    
+    if (y == sentinel_) root_ = node;
+    else if (node->key_ < y->key_) y->left_ = node;
+    else y->right_ = node;
+    
+    node->left_ = sentinel_;
+    node->right_ = sentinel_;
+    node->color_ = 'r';
+    
+    InsertFixup(node);
 }
 
 #endif //CPP_CODE_TREE_H
