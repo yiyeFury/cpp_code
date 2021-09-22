@@ -291,10 +291,25 @@ void RedBlackTree<T>::InsertFixup(RedBlackTreeNode<T> *node)
                 }
                 node->parent_.color_ = 'b';
                 node->parent_->parent_.color_ = 'r';
-                RightRotate(node);
+                RightRotate(node->parent_->parent_);
             }
         } else {
             // todo:
+            y = node->parent_->parent_->left_;
+            if (y->color_ == 'r') {
+                node->parent_->color_ = 'b';
+                y->color_ = 'b';
+                node->parent_->parent_->color_ = 'r';
+                node = node->parent_->parent_;
+            } else {
+                if (node == node->parent_->right_) {
+                    node = node->parent_;
+                    LeftRotate(node);
+                }
+                node->parent_.color_ = 'b';
+                node->parent_->parent_.color_ = 'r';
+                RightRotate(node);
+            }
         }
     
     }
