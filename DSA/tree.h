@@ -66,7 +66,7 @@ public:
 };
 
 template<typename T>
-class RedBlackTree
+class RedBlackTree: public BinarySearchTree<T>
 {
 public:
     RedBlackTreeNode<T> *root_;
@@ -82,6 +82,9 @@ public:
     
     void InsertFixup(RedBlackTreeNode<T> *node);
     void Insert(RedBlackTreeNode<T> *node);
+    
+    void Transplant(RedBlackTreeNode<T> u, RedBlackTreeNode<T> v);
+    void Delete(RedBlackTreeNode<T> *z);
 };
 
 /* /////////////////////////////////////////////////////////////////////////////
@@ -228,7 +231,8 @@ void BinarySearchTree<T>::Delete(BinaryTreeNode<T> *node)
  * RedBlackTree
  */
 template<typename T>
-RedBlackTree<T>::RedBlackTree(BinaryTreeNode<T> *node): sentinel_(node) {}
+RedBlackTree<T>::RedBlackTree(BinaryTreeNode<T> *node): BinarySearchTree<T>::BinarySearchTree(), sentinel_(node)
+{}
 
 template<typename T>
 RedBlackTree<T>::~RedBlackTree() {}
@@ -342,6 +346,34 @@ void RedBlackTree<T>::Insert(RedBlackTreeNode<T> *node)
     node->color_ = 'r';
     
     InsertFixup(node);
+}
+
+
+template<typename T>
+void RedBlackTree<T>::Transplant(RedBlackTreeNode<T> u, RedBlackTreeNode<T> v)
+{
+    if (u.parent_ == sentinel_) root_ = v;
+    else if (u == u.parent_->left_) u.parent_->left_ = v;
+    else u.parent_->right_ = v;
+    v.parent_ = u.parent_;
+}
+
+template<typename T>
+void RedBlackTree<T>::Delete(RedBlackTreeNode<T> *z)
+{
+    RedBlackTreeNode<T> *y, *x;
+    y = z;
+    char y_original_color = y->color_;
+    
+    if (z->left_ == sentinel_) {
+        x = z->right_;
+        Transplant(z, z->right_);
+    } else if (z->right_ == sentinel_) {
+        x = z->left_;
+        Transplant(z, z->left_);
+    } else {
+    
+    }
 }
 
 #endif //CPP_CODE_TREE_H
