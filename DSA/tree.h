@@ -234,41 +234,41 @@ template<typename T>
 RedBlackTree<T>::~RedBlackTree() {}
 
 template<typename T>
-void RedBlackTree<T>::LeftRotate(RedBlackTreeNode<T> *node)
+void RedBlackTree<T>::LeftRotate(RedBlackTreeNode<T> *x)
 {
-    RedBlackTreeNode<T> *y = node->right_;  // set y
-    node->right_ = y->left_;  // turn y's left subtree into x's right subtree
+    RedBlackTreeNode<T> *y = x->right_;  // set y
+    x->right_ = y->left_;  // turn y's left subtree into x's right subtree
     
     if (y->left_ != sentinel_) {
-        y->left_->parent_ = node;
+        y->left_->parent_ = x;
     }
     
-    y->parent_ = node->parent_;  // link x's parent to y
-    if (node->parent_ == sentinel_) {
+    y->parent_ = x->parent_;  // link x's parent to y
+    if (x->parent_ == sentinel_) {
         root_ = y;
-    } else if (node == node->parent_->left_) {
-        node->parent_->left_ = y;
-    } else node->parent_->right_ = y;
+    } else if (x == x->parent_->left_) {
+        x->parent_->left_ = y;
+    } else x->parent_->right_ = y;
     
-    y->left_ = node;  // put node on y's left
-    node->parent_ = y;
+    y->left_ = x;  // put node on y's left
+    x->parent_ = y;
 }
 
 template<typename T>
-void RedBlackTree<T>::RightRotate(RedBlackTreeNode<T> *node)
+void RedBlackTree<T>::RightRotate(RedBlackTreeNode<T> *y)
 {
-    RedBlackTreeNode<T> x = node->left_;  // set x
-    node->left_ = x.right_;
-    x.parent_ = node->parent_;
+    RedBlackTreeNode<T> *x = y->left_;  // set x
+    y->left_ = x->right_;
+    x->parent_ = y->parent_;
     
-    if (node->parent_ == sentinel_) {
+    if (y->parent_ == sentinel_) {
         root_ = x;
-    } else if (node == node->parent_->left_) {
-        node->parent_->left_ = x;
-    } else node->parent_->right_ = x;
+    } else if (y == y->parent_->left_) {
+        y->parent_->left_ = x;
+    } else y->parent_->right_ = x;
     
-    x.left_ = node;
-    node->parent_ = x;
+    x->left_ = y;
+    y->parent_ = x;
     
 }
 
@@ -279,21 +279,25 @@ void RedBlackTree<T>::InsertFixup(RedBlackTreeNode<T> *node)
     while (node->parent_->color_ == 'r') {
         if (node->parent_ == node->parent_->parent_->left_) {
             y = node->parent_->parent_->right_;
-            if (y->color_ == 'r') {
+            if (y->color_ == 'r') {  // case 1: z's uncle y is red
                 node->parent_->color_ = 'b';
                 y->color_ = 'b';
                 node->parent_->parent_->color_ = 'r';
                 node = node->parent_->parent_;
             } else {
                 if (node == node->parent_->right_) {
+                    // case 2: z's uncle y is black and z is a right child
+                    // transform case 2 into case 3
                     node = node->parent_;
                     LeftRotate(node);
                 }
+                // case 3: z's uncle y is black and z is a left child
                 node->parent_.color_ = 'b';
                 node->parent_->parent_.color_ = 'r';
                 RightRotate(node->parent_->parent_);
             }
         } else {
+            //
             // todo:
             y = node->parent_->parent_->left_;
             if (y->color_ == 'r') {
@@ -302,17 +306,18 @@ void RedBlackTree<T>::InsertFixup(RedBlackTreeNode<T> *node)
                 node->parent_->parent_->color_ = 'r';
                 node = node->parent_->parent_;
             } else {
-                if (node == node->parent_->right_) {
+                if (node == node->parent_->left_) {
                     node = node->parent_;
-                    LeftRotate(node);
+                    RightRotate(node);
                 }
                 node->parent_.color_ = 'b';
                 node->parent_->parent_.color_ = 'r';
-                RightRotate(node);
+                LeftRotate(node);
             }
         }
     
     }
+    root_->color_ = 'b';
 }
 
 template<typename T>
