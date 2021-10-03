@@ -2,19 +2,28 @@
 // Created by xie on 2021/7/11.
 //
 
-// #include <iostream>
-// #include "stack.h"
+#include <iostream>
+#include "stack.h"
 
-// using namespace std;
-
+using namespace std;
 
 
 // int main()
 // {
-//     Stack<int> s1;
-//     cout<<s1.Empty();
+//     Stack<int> stack1;
 //
-//     cout<<"end"<<endl;
+//     stack1.Push(10);
+//     stack1.Push(20);
+//     cout<<"\n"<<stack1.length_<<"\n";
+//
+//     stack1.Print();
+//
+//     stack1.Pop();
+//     cout<<"\n"<<stack1.length_<<"\n";
+//
+//     stack1.Print();
+//
+//     cout<<"\nend"<<endl;
 //     cout<<endl;
 //     // system("pause");
 //     return 0;
