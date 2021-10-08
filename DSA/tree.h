@@ -83,11 +83,12 @@ public:
     void InsertFixup(RedBlackTreeNode<T> *node);
     void Insert(RedBlackTreeNode<T> *node);
     
-    void Transplant(RedBlackTreeNode<T> u, RedBlackTreeNode<T> v);
+    void Transplant(RedBlackTreeNode<T> *u, RedBlackTreeNode<T> *v);
+    void DeleteFixup(RedBlackTreeNode<T> *x);
     void Delete(RedBlackTreeNode<T> *z);
 };
 
-/* /////////////////////////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
  * BinaryTree
  */
 
@@ -104,7 +105,7 @@ bool BinaryTree<T>::Empty()
 }
 
 
-/* /////////////////////////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
  * BinarySearchTree
  */
 
@@ -227,7 +228,7 @@ void BinarySearchTree<T>::Delete(BinaryTreeNode<T> *node)
     }
 }
 
-/* /////////////////////////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
  * RedBlackTree
  */
 template<typename T>
@@ -350,12 +351,78 @@ void RedBlackTree<T>::Insert(RedBlackTreeNode<T> *node)
 
 
 template<typename T>
-void RedBlackTree<T>::Transplant(RedBlackTreeNode<T> u, RedBlackTreeNode<T> v)
+void RedBlackTree<T>::Transplant(RedBlackTreeNode<T> *u, RedBlackTreeNode<T> *v)
 {
-    if (u.parent_ == sentinel_) root_ = v;
-    else if (u == u.parent_->left_) u.parent_->left_ = v;
-    else u.parent_->right_ = v;
-    v.parent_ = u.parent_;
+    if (u->parent_ == sentinel_) root_ = v;
+    else if (u == u->parent_->left_) u->parent_->left_ = v;
+    else u->parent_->right_ = v;
+    v->parent_ = u->parent_;
+}
+
+template<class T>
+void RedBlackTree<T>::DeleteFixup(RedBlackTreeNode<T> *x)
+{
+    RedBlackTreeNode<T> *w;
+    while (x != root_ && x->color_ == 'b') {
+        if (x == x->parent_->left_) {
+            w = x->parent_->right_;
+            if (w->color_ == 'r') {  // case 1
+                w->color_ = 'b';
+                x->parent_->color_ = 'r';
+                LeftRotate(x->parent_);
+                w = x->parent_->right_;
+            }
+            
+            if ((w->left_->color_ == 'b') && (w->right_->color_ == 'b')) {  // case 2
+                w->color_ = 'r';
+                x = x->parent_;
+            } else {
+                if (w->right_->color_ == 'b') {  // case 3
+                    w->left_->color_ = 'b';
+                    w->color_ = 'r';
+                    RightRotate(w);
+                    w = x->parent_->right_;
+                }
+                
+                // case 4
+                w->color_ = x->parent_->color_;
+                x->parent_->color_ = 'b';
+                w->right_->color_ = 'b';
+                LeftRotate(x->parent_);
+                x = root_;
+            }
+            
+        } else {
+            w = x->parent_->left_;
+            if (w->color_ == 'r') {  // case 1
+                w->color_ = 'b';
+                x->parent_->color_ = 'r';
+                RightRotate(x->parent_);
+                w = x->parent_->left_;
+            }
+    
+            if ((w->right_->color_ == 'b') && (w->left_->color_ == 'b')) {  // case 2
+                w->color_ = 'r';
+                x = x->parent_;
+            } else {
+                if (w->left_->color_ == 'b') {  // case 3
+                    w->right_->color_ = 'b';
+                    w->color_ = 'r';
+                    LeftRotate(w);
+                    w = x->parent_->left_;
+                }
+        
+                // case 4
+                w->color_ = x->parent_->color_;
+                x->parent_->color_ = 'b';
+                w->left_->color_ = 'b';
+                RightRotate(x->parent_);
+                x = root_;
+            }
+        }
+    }
+    x->color_ = 'b';
+    
 }
 
 template<typename T>
@@ -372,7 +439,26 @@ void RedBlackTree<T>::Delete(RedBlackTreeNode<T> *z)
         x = z->left_;
         Transplant(z, z->left_);
     } else {
+        y = BinarySearchTree<T>::Minimum(z->right_);
+        y_original_color = y->color_;
+        x = y->right_;
+        
+        if (y->parent_ == z) {
+            x->parent_ = y;
+        } else {
+            Transplant(y, y->right_);
+            y->right_ = z->right_;
+            y->right_->parent_ = y;
+        }
+        
+        Transplant(z, y);
+        y->left_ = z->left_;
+        y->left_->parent_ = y;
+        y->color_ = z->color_;
+    }
     
+    if (y_original_color == 'b') {
+        DeleteFixup(x);
     }
 }
 
