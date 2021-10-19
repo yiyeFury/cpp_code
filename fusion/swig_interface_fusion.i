@@ -23,9 +23,16 @@
 %apply (float* IN_ARRAY1, int DIM1) {(float * lats, int lats_size)}
 %apply (float* IN_ARRAY1, int DIM1) {(float * lons, int lons_size)}
 
+%apply (int* INPLACE_ARRAY1, int DIM1) {(int * test_data, int test_size)}
 
 /*  Wrapper for cos_doubles that massages the types */
 %inline %{
+
+    // void PrintTestFunc(int *test_data, int test_size,
+    //                    int num_thread) {
+    //     PrintTest(test_data, test_size,
+    //                     num_thread);
+    // }
     /*  takes as input two numpy arrays */
     void SuccessiveCorrectionFunc(float *bkg_data, int bkg_rows, int bkg_cols,
                                   float *obs_data, int obs_rows, int obs_cols,

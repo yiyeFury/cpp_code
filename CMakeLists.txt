@@ -31,7 +31,8 @@ target_link_libraries(cpp_code ML_LIB)  # 添加链接库
 
 # Eigen，未编译 ******************************************************************
 # aux_source_directory("E:/eigen/eigen-3.3.9/Eigen" EIGEN_DIR_SRCS)
-#set(EIGEN_DIR_SRCS "E:/eigen/eigen-3.3.9/Eigen")
+# set(EIGEN_DIR_SRCS "E:/eigen/eigen-3.3.9/Eigen")
+#aux_source_directory("D:/Program/eigen/eigen-3.3.9/Eigen" EIGEN_DIR_SRCS)
 set(EIGEN_DIR_SRCS "D:/Program/eigen/eigen-3.3.9/Eigen")
 include_directories(${EIGEN_DIR_SRCS})
 target_link_libraries(cpp_code ${EIGEN_DIR_SRCS})

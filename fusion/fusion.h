@@ -9,7 +9,6 @@
 #include <cmath>
 #include <Dense>
 
-
 using namespace std;
 using namespace Eigen;
 
@@ -81,5 +80,7 @@ void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
                           float fill_value,
                           int num_thread);
 
+// void MatrixMultiplyTest(float *aa, float *bb, float *cc, int M, int N, int K, int num_thread);
+// void PrintArrayTest(float *aa, int row, int col);
 
 #endif //CPP_CODE_FUSION_H

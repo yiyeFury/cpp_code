@@ -20,7 +20,7 @@ cpp_name = 'fusion.cpp'  # cpp 脚本的名字
 extension_name = '_' + module_name
 cxx_name = swig_interface_file_name.rstrip('.i') + '_wrap.cxx'
 
-eigen_dir = r"E:\eigen\eigen-3.3.9\Eigen"
+eigen_dir = r"D:\Program\eigen\eigen-3.3.9\Eigen"
 
 extension_source = [cxx_name, cpp_name]
 

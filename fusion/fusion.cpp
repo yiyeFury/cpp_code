@@ -4,7 +4,9 @@
 
 #define PY_SSIZE_T_CLEAN
 // #include <Python.h>
+#include <ctime>
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <vector>
 #include <omp.h>
@@ -12,6 +14,7 @@
 #include <LU>
 #include "fusion.h"
 #include "../common.h"
+
 
 using namespace std;
 using namespace Eigen;
@@ -484,6 +487,44 @@ void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
 }
 
 
+// void MatrixMultiplyTest(float *aa, float *bb, float *cc, int M, int N, int K, int num_thread=1)
+// {
+//     /*
+//      * aa, M*N
+//      * bb, N*K
+//      * cc, M*K
+//      */
+//     double tmp_val = 0;
+//     int ii ,jj ,kk, cnt;
+//
+// #pragma omp parallel for num_threads(num_thread) private(jj, kk, cnt, tmp_val)
+//     for (ii=0; ii<M; ii++)
+//     {
+//         for (jj=0;jj<K;jj++) {
+//             for (cnt=0;cnt<3e3;cnt++) {
+//                 tmp_val =0;
+//                 for (kk=0;kk<N;kk++) {
+//                     tmp_val += *(aa+ii*N+kk) * *(bb+kk*K+jj);
+//                 }
+//             }
+//
+//             *(cc+ii*K+jj) = tmp_val;
+//         }
+//     }
+// }
+
+// void PrintArrayTest(float *aa, int row, int col)
+// {
+//     int ii, jj;
+//     for(ii=0;ii<row;ii++) {
+//         for (jj=0;jj<col;jj++) {
+//             cout<<setw(8)<<*(aa+ii*col+jj);
+//         }
+//         cout<<endl;
+//     }
+// }
+
+
 /*
  * *********************************************************************************************************************
  * test
@@ -567,6 +608,49 @@ void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
 //
 //     cout<<"\n\nSCM result\n";
 //     PrintArray(dst_data, kROW, kCOLUMN);
+    
+    // cout<<"\nStart\n\n";
+    //
+    // const int M=200, N=100, K=300;
+    // float aa[M*N], bb[N*K];
+    // float cc[M*K], dd[M*K];
+    //
+    // int ii, jj, kk;
+    // for (ii=0;ii<M;ii++) {
+    //     for (jj=0;jj<N;jj++) {
+    //         aa[ii*N+jj] = 1.0;
+    //     }
+    //     for (kk=0;kk<K;kk++) {
+    //         cc[ii*K+kk] = 0.0;
+    //         dd[ii*K+kk] = 0.0;
+    //     }
+    // }
+    //
+    // for (jj=0;jj<N;jj++) {
+    //     for (kk=0;kk<K;kk++) {
+    //         bb[jj*K+kk] = 2.0;
+    //     }
+    // }
+    //
+    // clock_t t1, t2, t3, t4;
+    //
+    // t1 = clock();
+    // MatrixMultiplyTest(aa, bb, cc, M, N, K, 1);
+    // t2 = clock();
+    //
+    // t3 = clock();
+    // MatrixMultiplyTest(aa, bb, dd, M, N, K, 2);
+    // t4 = clock();
+    
+    // cout<<"1st"<<endl;
+    // PrintArrayTest(cc, M, K);
+    // cout<<"2nd"<<endl;
+    // PrintArrayTest(dd, M, K);
+    
+//     cout<<"first"<<endl;
+//     cout<<(double)(t2 - t1)<<endl;
+//     cout<<"last"<<endl;
+//     cout<<(double)(t4 - t3)<<endl;
 //
 //     return 0;
 // }

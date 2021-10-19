@@ -1,8 +1,10 @@
-swig -c++ -python swig_interface.i
+[TOC]
+
+## 运行命令
+swig -c++ -python swig_interface_fusion.i
 
 python setup_numpy.py build_ext --inplace
 
-swig -c++ -python swig_interface.i && python setup_numpy.py build_ext --inplace
-
-# Fusion
-+ OI
+## Fusion
+- OI
+- SCM
