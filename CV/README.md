@@ -1,5 +1,6 @@
 [TOC]
 # OpenCV 学习笔记
+![](./opencv-logo.png)
 > 参考教程 opencv [tutorial](https://docs.opencv.org/master/d9/df8/tutorial_root.html) 
 
 ## [Introduction](https://docs.opencv.org/master/d1/dfb/intro.html)  
@@ -8,7 +9,7 @@
     using namespace cv;
     ```
 
-### [Data types](https://docs.opencv.org/master/d1/d1b/group__core__hal__interface.html#ga32b18d904ee2b1731a9416a8eef67d06)  
+### [Data types](https://docs.opencv.org/master/d1/d1b/group__core__hal__interface.html)  
 |类型|说明|
 |:-|:-|
 |schar|signed 1 byte integer|
@@ -20,11 +21,11 @@
 |int64|signed 8 byte integer|
 |uint64|unsigned 8 byte integer|
 
-## Color
+### Color
 
-### [Color conversions](https://docs.opencv.org/master/de/d25/imgproc_color_conversions.html)  
+#### [Color conversions](https://docs.opencv.org/master/de/d25/imgproc_color_conversions.html)  
 
-### [ColorConversionCodes](https://docs.opencv.org/master/d8/d01/group__imgproc__color__conversions.html#ga4e0972be5de079fed4e3a10e24ef5ef0)  
+#### [ColorConversionCodes](https://docs.opencv.org/master/d8/d01/group__imgproc__color__conversions.html#ga4e0972be5de079fed4e3a10e24ef5ef0)  
 > convert between RGB/BGR and grayscale  
     - COLOR_BGR2GRAY  
     - COLOR_RGB2GRAY  
@@ -71,4 +72,3 @@ using namespace cv;
 - [waitKey()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5628525ad33f52eab17feebcfba38bd7)  
 - [destroyWindow()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga851ccdd6961022d1d5b4c4f255dbab34)
 - [destroyAllWindows()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga6b7fc1c1a8960438156912027b38f481)
-
