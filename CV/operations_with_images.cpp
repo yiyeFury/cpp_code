@@ -2,31 +2,28 @@
 // Created by xie on 2021/7/8.
 //
 
-
+#include <string>
 
 #include "operations_with_images.h"
 using namespace cv;
 
-/*
- * 图像显示
- * https://docs.opencv.org/master/d5/d98/tutorial_mat_operations.html
- */
+
 void ShowImage(string img_file, string win_title)
 {
     Mat img = imread(img_file);
+    if (img.empty()) {
+        throw runtime_error("Failed to read: "+img_file);
+    }
 
     namedWindow(win_title, WINDOW_AUTOSIZE);
     imshow(win_title, img);
     waitKey(0);
     destroyWindow(win_title);
+
     // destroyAllWindows();
 }
 
 
-/*
- * Smoothing Images
- * https://docs.opencv.org/master/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html
- */
 void SmoothImage(Mat src)
 {
     Mat dst = Mat::zeros( src.size(), src.type() );
@@ -56,10 +53,6 @@ void SmoothImage(Mat src)
 }
 
 
-/*
- * Image Pyramids
- * https://docs.opencv.org/master/d4/d1f/tutorial_pyramids.html
- */
 void ImagePyramid(Mat src)
 {
     Mat dst;

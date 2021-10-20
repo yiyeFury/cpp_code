@@ -14,11 +14,15 @@
 using namespace std;
 using namespace cv;
 
-// int main()
-// {
-//     ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
-//
-//     cout<<endl;
-//     // system("pause");
-//     return 0;
-// }
+int main()
+{
+    cout <<"\nStart\n\n";
+    
+    string file_path = "E:/my_data/opencv_sample_data/opencv-logo.png";
+    
+    ShowImage(file_path, "Logo");
+
+    cout<<"\n\nEnd\n";
+    // system("pause");
+    return 0;
+}

@@ -24,6 +24,11 @@
 > from 32.2.1 Running SWIG  
 
 1. 正常编写fusion.cpp, fusion.h;  
+	- .cpp在文件头部分加入下面的语句（必需）
+        ```
+        #define PY_SSIZE_T_CLEAN  
+        // #include <Python.h>
+        ```
 2. 编写swig接口文件**swig_interface_fusion.i**，与fusion.cpp, fusion.h放在同一个文件夹中；  
     - swig_interface_fusion.i 首行 `%module Fusion`, Fusion为**模块**名字  
 3. 进入swig_interface_fusion.i所在文件夹中，运行命令`swig -c++ -python swig_interface_fusion.i`生成swig_interface_fusion_wrap.cxx和Fusion.py文件；  
