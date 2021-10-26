@@ -37,6 +37,7 @@
    - Fusion.py文件名与**模块名字**相关
 4. 编写 **swig_setup_fusion.py**文件，与上一步生成的swig_interface_fusion_wrap.cxx和Fusion.py放在同一个文件夹中；
     - swig_setup_fusion.py 该文件中需要指定**模块名字**、**.i接口文件**名字、**cpp**脚本名字，及其它所需文件路径，如**eigen**路径  
+    - 注意 openmp 的参数在 windows和Linux的不同
 5. 运行命令`python swig_setup_fusion.py build_ext --inplace`生成 ***_Fusion.cp38-win_amd64.pyd***文件和build文件夹；  
     - python swig_setup_fusion.py build_ext --inplace可替换build_ext的其他参数
     - **\_Fusion.cp38-win_amd64.pyd**文件名与**模块名字**相关，为 下划线 + module 名，其余为系统标记（可变化）

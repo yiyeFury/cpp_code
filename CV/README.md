@@ -4,7 +4,7 @@
 > 参考教程 opencv [tutorial](https://docs.opencv.org/master/d9/df8/tutorial_root.html) 
 
 ## [Introduction](https://docs.opencv.org/master/d1/dfb/intro.html)  
-> All the OpenCV classes and functions are placed into the `cv` namespace.
+All the OpenCV classes and functions are placed into the `cv` namespace.
     ```
     using namespace cv;
     ```
@@ -26,7 +26,7 @@
 #### [Color conversions](https://docs.opencv.org/master/de/d25/imgproc_color_conversions.html)  
 
 #### [ColorConversionCodes](https://docs.opencv.org/master/d8/d01/group__imgproc__color__conversions.html#ga4e0972be5de079fed4e3a10e24ef5ef0)  
-> convert between RGB/BGR and grayscale  
+1. convert between RGB/BGR and grayscale  
     - COLOR_BGR2GRAY  
     - COLOR_RGB2GRAY  
     - COLOR_GRAY2BGR  
