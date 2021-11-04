@@ -3,8 +3,10 @@
 //
 
 #include <cmath>
-#include "mathematics/math_common.h"
-#include "coordinate_conversion.h"
+#include <iomanip>
+
+#include "../mathematics/math_common.h"
+#include "coordinate_reference.h"
 
 ReferenceEllipsoid::ReferenceEllipsoid(double a, double b):a_(a),b_(b)
 {
@@ -144,3 +146,40 @@ Cartesian3D SphericalCoordinate::SphericalToCartesian(const double &radius, cons
     Cart.z = radius*cos(colat_rad);
     return Cart;
 }
+
+
+// Web Mercator ****************************************************************
+WebMercator::WebMercator()
+{}
+
+Cartesian3D WebMercator::MapProjection(double lon, double lat)
+{
+    Cartesian3D coord;
+    coord.z = 0.0;
+
+    double lon_rad, lat_rad, lon0_rad;
+    lon_rad = degree_to_radiance(lon);
+    lat_rad = degree_to_radiance(lat);
+    lon0_rad = degree_to_radiance(lon0_);
+
+    coord.x = fe_ + a_ * (lon_rad - lon0_rad);  // easting coordinates
+    coord.y = fn_ + a_ * log(tan(M_PI/4.0+lat_rad/2.0));  // northing coordinates
+
+    return coord;
+}
+
+// main for test ***************************************************************
+// int main()
+// {
+//     cout << "\nStart\n\n";
+//
+//     WebMercator web_m1;
+//     Cartesian3D coord;
+//     coord = web_m1.MapProjection(180.0, 45.0);
+//     cout<<"x: "<<setprecision(20)<<coord.x<<endl;
+//     cout<<"y: "<<setprecision(20)<<coord.y<<endl;
+//
+//     cout << "\n\nEnd\n";
+//     // system("pause");
+//     return 0;
+// }

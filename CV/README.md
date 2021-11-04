@@ -1,6 +1,7 @@
 [TOC]
+
 # OpenCV 学习笔记
-![](./opencv-logo.png)
+
 > 参考教程 opencv [tutorial](https://docs.opencv.org/master/d9/df8/tutorial_root.html) 
 
 ## [Introduction](https://docs.opencv.org/master/d1/dfb/intro.html)  

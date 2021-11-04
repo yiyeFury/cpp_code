@@ -2,8 +2,8 @@
 // Created by admin on 2021/6/8.
 //
 
-#ifndef CPP_CODE_COORDINATE_CONVERSION_H
-#define CPP_CODE_COORDINATE_CONVERSION_H
+#ifndef CPP_CODE_COORDINATE_REFERENCE_H
+#define CPP_CODE_COORDINATE_REFERENCE_H
 
 #include <cmath>
 
@@ -50,5 +50,18 @@ public:
     Cartesian3D SphericalToCartesian(const double &radius, const double &lon, const double &lat);
 };
 
+class WebMercator
+{
+public:
+    double a_=6378137.0;  // ellipsoid semi-major axis, unit: m
+    double lon0_=0.0;  // longitude of natural origin, unit: degree
+    double fe_=0.0;  // false easting, unit: m
+    double fn_=0.0;  // false northing, unit: m
 
-#endif //CPP_CODE_COORDINATE_CONVERSION_H
+public:
+    WebMercator();
+    Cartesian3D MapProjection(double lon, double lat);
+};
+
+
+#endif //CPP_CODE_COORDINATE_REFERENCE_H

@@ -5,6 +5,8 @@
 #include <string>
 
 #include "operations_with_images.h"
+
+using namespace std;
 using namespace cv;
 
 
@@ -53,10 +55,15 @@ void SmoothImage(Mat src)
 }
 
 
-void ImagePyramid(Mat src)
+void ImagePyramid(string file_path)
 {
+    Mat src = imread(file_path);
     Mat dst;
-    
+
+    string origin_name = "Original";
+    namedWindow(origin_name, WINDOW_AUTOSIZE);
+    imshow(origin_name, src);
+
     string down_name = "Down";
     pyrDown(src, dst, Size(src.cols/2, src.rows/2));
     namedWindow(down_name, WINDOW_AUTOSIZE);
@@ -68,8 +75,8 @@ void ImagePyramid(Mat src)
     imshow(up_name, dst);
     
     waitKey(0);
-    destroyWindow(down_name);
-    
+    // destroyWindow(down_name);
+    destroyAllWindows();
 
 }
 

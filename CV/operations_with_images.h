@@ -19,7 +19,7 @@ using namespace cv;
 
 void ShowImage(string img_file, string win_title="win_title");
 void SmoothImage(Mat src);
-void ImagePyramid(Mat src);
+void ImagePyramid(string file_path);
 void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
 
 #endif //CPP_CODE_OPERATIONS_WITH_IMAGES_H
