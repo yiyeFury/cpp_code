@@ -33,4 +33,18 @@ using namespace std;
 //     // system("pause");
 //     return 0;
 // }
+//
+// vector<vector<string>> vec;
+// string s1{"line"}, s2{"work"};
+// vector<string> vec1{s1, s2};
+// vector<string> vec2{s2, s1};
+// vec.push_back(vec1);
+// vec.push_back(vec2);
+//
+// for (auto ii=vec.begin(); ii!=vec.end();ii++) {
+//     for (auto jj = (*ii).begin(); jj!=(*ii).end(); jj++) {
+//         cout<<*jj<<"  ";
+//     }
+//     cout<<endl;
+// }
 

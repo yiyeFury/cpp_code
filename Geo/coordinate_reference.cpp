@@ -168,6 +168,23 @@ Cartesian3D WebMercator::MapProjection(double lon, double lat)
     return coord;
 }
 
+GeodeticCoord WebMercator::Inverse(double x, double y)
+{
+    GeodeticCoord coord;
+    double d, lat_rad, lon_rad, lon0_rad;
+    coord.height = 0.0;
+
+    lon0_rad = degree_to_radiance(lon0_);
+
+    d = (fn_ - y)/a_;
+    lat_rad = M_PI/2.0 - 2 * atan(exp(d));
+    lon_rad = (x - fe_)/a_ + lon0_rad;
+
+    coord.lat = radiance_to_degree(lat_rad);
+    coord.lon = radiance_to_degree(lon_rad);
+    return coord;
+}
+
 // main for test ***************************************************************
 // int main()
 // {
@@ -178,6 +195,11 @@ Cartesian3D WebMercator::MapProjection(double lon, double lat)
 //     coord = web_m1.MapProjection(180.0, 45.0);
 //     cout<<"x: "<<setprecision(20)<<coord.x<<endl;
 //     cout<<"y: "<<setprecision(20)<<coord.y<<endl;
+//
+//     GeodeticCoord geo_coord;
+//     geo_coord = web_m1.Inverse(coord.x, coord.y);
+//     cout<<"x: "<<setprecision(20)<<geo_coord.lon<<endl;
+//     cout<<"y: "<<setprecision(20)<<geo_coord.lat<<endl;
 //
 //     cout << "\n\nEnd\n";
 //     // system("pause");

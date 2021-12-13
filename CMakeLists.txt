@@ -8,13 +8,14 @@ aux_source_directory(. DIR_SRCS)  # 查找当前目录下的所有源文件，�
 aux_source_directory(mathematics MATH_DIR_SRCS)
 aux_source_directory(fusion FUSION_DIR_SRCS)
 aux_source_directory(CV CV_DIR_SRCS)
-aux_source_directory(geodesy GEO_DIR_SRCS)
+aux_source_directory(Geo GEO_DIR_SRCS)
+aux_source_directory(interpolate INTERPOLATE_DIR_SRCS)
 #aux_source_directory(SCM SCM_DIR_SRCS)
 
 # 指定生成目标
 # 添加 目录
 # add_executable(cpp_code ${DIR_SRCS} ${MATH_DIR_SRCS} ${ML_DIR_SRCS} ${OPENCV_NOTE_DIR_SRCS} ${FUSION_DIR_SRCS})
-add_executable(cpp_code ${DIR_SRCS} ${CV_DIR_SRCS} ${FUSION_DIR_SRCS} ${GEO_DIR_SRCS})
+add_executable(cpp_code ${DIR_SRCS} ${CV_DIR_SRCS} ${FUSION_DIR_SRCS} ${GEO_DIR_SRCS} ${INTERPOLATE_DIR_SRCS})
 # 手动添加 文件
 # add_executable(cpp_code main.cpp sort_algorithm.h search_algorithm.h)
 

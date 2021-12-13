@@ -61,6 +61,8 @@ public:
 public:
     WebMercator();
     Cartesian3D MapProjection(double lon, double lat);
+    GeodeticCoord Inverse(double x, double y);
+
 };
 
 

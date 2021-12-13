@@ -25,6 +25,18 @@ void SpaceMatchDegreeWindow(float *lats, int rows,
                             vector<int> &lat_idx, vector<int> &lon_idx);
 
 float WeightFunction(float rr, float r);
+
+double WeightFunctionIDW(double dist, double power_value);
+
+void InverseDistanceWeight(float *obs_data, int obs_size,
+                           float *obs_lats, float *obs_lons,
+                           float *bkg_data, int bkg_rows, int bkg_cols,
+                           float *dst_data, int dst_rows, int dst_cols,
+                           float *dst_lats, float *dst_lons,
+                           float search_radius,
+                           float power_value,
+                           int num_thread);
+
 void SuccessiveCorrection(float *bkg_data, int bkg_rows, int bkg_cols,
                           float *obs_data, int obs_rows, int obs_cols,
                           float *dst_data, int dst_rows, int dst_cols,
@@ -57,17 +69,6 @@ void CorrelationErrorVectorBkgOI(const float *lats, int rows,
                                  const float lat_scale = 150.0, const float lon_scale = 300.0);
 
 
-// void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
-//                           float *obs_data, int obs_rows, int obs_cols,
-//                           float *dst_data, int dst_rows, int dst_cols,
-//                           float *error_variance, int err_rows, int err_cols,
-//                           float *lats, int lats_size,
-//                           float *lons, int lons_size,
-//                           float fill_value,
-//                           float search_radius,
-//                           float lat_scale=150.0, float lon_scale=300.0,
-//                           float lam=1.0, float sig=1.0);
-
 void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
                           float *obs_data, int obs_rows, int obs_cols,
                           float *dst_data, int dst_rows, int dst_cols,
@@ -80,7 +81,6 @@ void OptimumInterpolation(float *bkg_data, int bkg_rows, int bkg_cols,
                           float fill_value,
                           int num_thread);
 
-// void MatrixMultiplyTest(float *aa, float *bb, float *cc, int M, int N, int K, int num_thread);
-// void PrintArrayTest(float *aa, int row, int col);
+
 
 #endif //CPP_CODE_FUSION_H

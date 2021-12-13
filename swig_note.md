@@ -1,6 +1,7 @@
 [TOC]
 
-# [SWIG](http://www.swig.org/index.php)
+# Materials
+- [SWIG](http://www.swig.org/index.php)  
 > SWIG is a software development tool that simplifies the task of interfacing different languages to **C and C++** programs.
 
 - [numpy.i](https://github.com/numpy/numpy/tree/master/tools/swig)--传递numpy需要使用此文件
@@ -50,4 +51,5 @@ PATH=$PATH:$SWIG_PATH
 - 测试是否安装成功
 `swig -version`
 
-## SWIG and Python
+## SWIG and Python  
+详细步骤见 [示例](https://github.com/yiyeFury/cpp_code/blob/master/fusion/README_SWIG.md)  
