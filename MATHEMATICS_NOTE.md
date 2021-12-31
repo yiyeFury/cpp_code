@@ -1,5 +1,44 @@
 [TOC]  
 
+# 统计值  
+
+## 方差与标准差  
+> 2.6 Introduction to the Basic Mathematical Tools Used in Digital Image Processing  
+Estimating the Mean, Variance, and Higher-Order Moments from Sample Data[^DIP, 4th]  
+
+- N observations  
+
+**population variance**  
+$$
+{\sigma}^2=\frac{1}{N}\sum\limits_{i=1}^N\left(x_i - \bar{x}\right)^2
+$$
+
+**sample variance**  
+$$
+{\sigma}^2=\frac{1}{N-1}\sum\limits_{i=1}^N\left(x_i - \bar{x}\right)^2
+$$
+
+## 协方差与协方差矩阵  
+> wikipedia: [Definition of sample covariance](https://en.wikipedia.org/wiki/Sample_mean_and_covariance)  
+
+**Definition of sample covariance**  
+
+- K variables  
+- N observations  
+
+The sample **covariance matrix** is a $K \mbox{-} by \mbox{-} K$ matrix $\mathbf{Q} =\left[q_{jk}\right]$   with entries
+$$
+q_{jk}=\frac{1}{N-1}\sum\limits_{i=1}^{N}\left(x_{ij}-\bar{x}_j\right)\left(x_{ik}-\bar{x}_k\right)
+$$
+
+where $q_{jk}$  is an estimate of the covariance between $j^{th}$ the variable and the $k^{th}$ variables.
+
+## 相关系数 correlation  
+> 3.1.5 相关系数(Corr)[^QX/T 127-2011]
+
+## 均方根误差 root-mean-square-error  
+> 3.1.4 均方根误差(RMSE)[^QX/T 127-2011]
+
 # 导数 Derivative  
 > 2.1 导数概念[^高等数学, 第6版]  
 > 3.6 Sharpening (Highpass) Spatial Filters[^DIP, 4th]  
@@ -49,7 +88,15 @@ $$
 
 
 ## 数量积  
-> 5.1 向量的内积、长度及正交性[^线性代数, 第5版]
+> 8.2 数量积 向量积 混合积[^高等数学, 第6版]  
+
+向量$\mathbf{a}$与$\mathbf{b}$的数量积，记作，即
+$$
+\mathbf{a}\cdot\mathbf{b}=\lVert{a}\rVert\lVert{b}\rVert\cos{\theta}
+$$
+$θ$为向量$a$与$b$的夹角。
+
+> 5.1 向量的内积、长度及正交性[^线性代数, 第5版]  
 
 ## 向量积  
 > 8.2 数量积 向量积 混合积[^高等数学, 第6版]  
@@ -58,12 +105,55 @@ $$
 
 In mathematics, the **cross product** or **vector product** (occasionally directed area product, to emphasize its geometric significance) is a binary operation on two vectors in three-dimensional space $\mathbb{R}^3$, and is denoted by the symbol $\times$. Given two linearly independent vectors a and b, the cross product, $a\times{b}$ (read "a cross b"), is a **vector** that is perpendicular to both a and b, and thus normal to the plane containing them.  
 
+**Definition**  
+The cross product of two vectors a and b is defined only in three-dimensional space and is denoted by $a\times{b}$.    
+
+The cross product $a\times{b}$ is defined as a vector $**c**$ that is perpendicular (orthogonal) to both a and b, with a direction given by the **right-hand rule** and a magnitude equal to the area of the parallelogram that the vectors span.  
+
+The cross product is defined by the formula  
+$$
+\mathbf{a}\times\mathbf{b}=\lVert{a}\rVert\lVert{b}\rVert\sin\theta\ \mathbf{n}
+$$
+where:  
+
+- $\theta$ is the angle between $\mathbf{a}$ and $\mathbf{b}$ in the plane containing them (hence, it is between $0\degree$ and $180\degree$)   
+- $\Vert\mathbf{a}\Vert$ and $\Vert\mathbf{b}\Vert$ are the magnitudes of vectors $\mathbf{a}$ and $\mathbf{b}$  
+- and $\mathbf{n}$ is a **unit vector** perpendicular to the plane containing $\mathbf{a}$ and $\mathbf{b}$, in the direction given by the **right-hand rule**  
+
+If the vectors $\mathbf{a}$ and $\mathbf{b}$ are parallel (that is, the angle $\theta$ between them is either $0\degree$ or $180\degree$), by the above formula, the cross product of a and b is the zero vector $\mathbf{0}$.
+
+**Matrix notation**  
+The cross product can also be expressed as the formal determinant:
+$$
+\mathbf{a}\times\mathbf{b}=
+\begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+a_1 & a_2 & a_3 \\
+b_1 & b_2 & b_3 
+\end{vmatrix}
+$$
+
 ## Outer product  
 > [wikipedia: outer product](https://en.wikipedia.org/wiki/Outer_product)  
 
 In linear algebra, the outer product of two coordinate vectors is a matrix.  
 
-The **outer product** $u\otimes{v}$ is equivalent to a matrix multiplication ${uv}^T$.
+Given two vectors of size $m\times1$ and $n\times1$ respectively  
+$$
+u=\begin{bmatrix}u_1 \\ u_2 \\ \vdots \\ u_m \end{bmatrix}, v=\begin{bmatrix}v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}
+$$
+
+**outer product**, denoted $u\times{v}$, is defined as the $m\times{n}$ matrix  
+$$
+u\otimes{v}=\begin{bmatrix}
+u_1v_1 & u_1v_2 & \dots & u_1v_n \\ 
+u_2v_1 & u_2v_2 & \dots & u_2v_n \\
+\vdots & \vdots & \ddots & \vdots \\
+u_mv_1 & u_mv_2 & \dots & u_mv_n
+\end{bmatrix}
+$$
+
+The **outer product** $u\otimes{v}$ is equivalent to a matrix multiplication ${uv}^T$.  
 
 ## 混合积  
 > 8.2 数量积 向量积 混合积[^高等数学, 第6版]  
@@ -74,5 +164,6 @@ The **outer product** $u\otimes{v}$ is equivalent to a matrix multiplication ${u
 
 [^高等数学, 第6版]: 同济大学数学系.高等数学:第6版[M].北京:高等教育出版社,2007.  
 
-[^线性代数, 第5版]: 同济大学数学系.工程数学·线性代数:第5版[M].北京:高等教育出版社,2007.
+[^线性代数, 第5版]: 同济大学数学系.工程数学·线性代数:第5版[M].北京:高等教育出版社,2007.  
 
+[^QX/T 127-2011]: 气象卫星定量产品质量评价指标和评估报告要求:QX/T 127-2011[S].北京:气象出版社,2011.

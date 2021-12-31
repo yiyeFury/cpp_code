@@ -2,8 +2,8 @@
 // Created by xie on 2021/7/9.
 //
 
-#ifndef CPP_CODE_OPERATIONS_WITH_IMAGES_H
-#define CPP_CODE_OPERATIONS_WITH_IMAGES_H
+#ifndef CPP_CODE_OPENCV_TUTORIAL_H
+#define CPP_CODE_OPENCV_TUTORIAL_H
 
 #include <vector>
 #include <string>
@@ -18,8 +18,6 @@ using namespace std;
 using namespace cv;
 
 void ShowImage(string img_file, string win_title="win_title");
-void SmoothImage(Mat src);
-void ImagePyramid(string file_path);
 void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm();
 
-#endif //CPP_CODE_OPERATIONS_WITH_IMAGES_H
+#endif //CPP_CODE_OPENCV_TUTORIAL_H

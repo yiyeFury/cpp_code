@@ -9,7 +9,7 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 
-#include "operations_with_images.h"
+#include "opencv_tutorial.h"
 
 using namespace std;
 using namespace cv;
@@ -18,13 +18,13 @@ using namespace cv;
 // {
 //     cout <<"\nStart\n\n";
 //
-//     // string file_path = "E:/my_data/opencv_sample_data/opencv-logo.png";
-//
-//     string chicky_png = "E:/my_data/opencv_sample_data/chicky_512.png";
-//
-//     ImagePyramid(chicky_png);
+//     Point2f a(0.3f, 0.f), b(0.f, 0.4f);
+//     Point pt = (a + b)*10.f;
+//     cout << pt.x << ", " << pt.y << endl;
 //
 //     cout<<"\n\nEnd\n";
 //     // system("pause");
 //     return 0;
 // }
+
+

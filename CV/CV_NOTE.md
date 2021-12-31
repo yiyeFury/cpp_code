@@ -1,177 +1,5 @@
 [TOC]
 
-# OpenCV  
-
-> 参考教程 opencv [tutorial](https://docs.opencv.org/master/d9/df8/tutorial_root.html)   
-> > [Getting Started with Images](https://docs.opencv.org/master/db/deb/tutorial_display_image.html)  
-> > [Modules](https://docs.opencv.org/4.x/modules.html)  
-> > - [Image Processing](https://docs.opencv.org/4.x/d7/dbd/group__imgproc.html)  
-
-
-## [Introduction](https://docs.opencv.org/master/d1/dfb/intro.html)  
-All the OpenCV classes and functions are placed into the `cv` namespace.
-    ```
-    using namespace cv;
-    ```
-
-### [Data types](https://docs.opencv.org/master/d1/d1b/group__core__hal__interface.html)  
-|类型|说明|
-|:-|:-|
-|schar|signed 1 byte integer|
-|uchar|unsigned 1 byte integer|
-|short|signed 2 byte integer|
-|ushort|unsigned 2 byte integer|
-|int|signed 4 byte integer|
-|uint|unsigned 4 byte integer|
-|int64|signed 8 byte integer|
-|uint64|unsigned 8 byte integer|
-
-## [Basic structures](https://docs.opencv.org/master/dc/d84/group__core__basic.html)  
-
-### [cv::Scalar_< _Tp > Class Template Reference](https://docs.opencv.org/4.x/d1/da0/classcv_1_1Scalar__.html)  
-
-
-### [cv::Point_< _Tp > Class Template Reference](https://docs.opencv.org/4.x/db/d4e/classcv_1_1Point__.html)
-
-### [cv::Mat Class Reference](https://docs.opencv.org/4.x/d3/d63/classcv_1_1Mat.html)  
-#### Tutorial: [Mat - The Basic Image Container](https://docs.opencv.org/master/d6/d6d/tutorial_mat_the_basic_image_container.html)    
-##### Mat  
-- Mat is basically a class with two data parts: 
-	- **the matrix header** (containing information such as the size of the matrix, the method used for storing, at which address is the matrix stored, and so on) and 
-	- **a pointer to the matrix** containing the pixel values (taking any dimensionality depending on the method chosen for storing) . 
-	- The matrix header size is constant, however the size of the matrix itself may vary from image to image and usually is larger by orders of magnitude.  
-
-- OpenCV uses a **reference counting system**.  
-	- each Mat object has its own header, however a matrix may be shared between two Mat objects by having their matrix pointers point to the same address.  
-	- the copy operators will only copy the headers and the pointer to the large matrix, not the data itself.  
-	- *The **assignment operator** and the **copy constructor** only copy the header.*
-```C++  
-Mat A, C;  // creates just the header parts
-A = imread(argv[1], IMREAD_COLOR);
-
-Mat B(A);  // Use the copy constructor
-C = A;  // Assignment operator
-```
-&emsp;&emsp;All the above objects, in the end, point to the same single data matrix and making a modification using any of them will affect all the other ones as well.  
-&emsp;&emsp;Nevertheless, their header parts are different.  
-
-- create headers which refer to only a subsection of the full data  
-```C++
-Mat D (A, Rect(10, 10, 100, 100) );  // using a rectangle
-Mat E = A(Range::all(), Range(1,3));  // using row and column boundaries
-```
-
-- copy the matrix, OpenCV provides `cv::Mat::clone()` and `cv::Mat::copyTo()` functions.  
-```C++
-Mat F = A.clone();
-Mat G;
-A.copyTo(G);
-```
-&emsp;&emsp;modifying F or G will not affect the matrix pointed to by the A's header.  
-
-##### Storing methods
-- To code the transparency of a color sometimes a fourth element, alpha (A), is added.  
-- OpenCV standard display system composes colors using the BGR color space (red and blue channels are swapped places).  
-- The HSV and HLS decompose colors into their **hue, saturation and value/luminance** components.  
-
-##### Creating a Mat object explicitly  
-- see the actual values. 
-&emsp;&emsp;using the << operator of Mat. Be aware that this only works for two dimensional matrices.
-
-- cv::Mat::Mat Constructor  
-```C++
-Mat M(2,2, CV_8UC3, Scalar(0,0,255));
-cout << "M = " << endl << " " << M << endl << endl;
-```
-For two dimensional and multichannel images we first define their size: **row and column** count wise.  
-specify the **data type** to use for storing the elements and the **number of channels** per matrix point.  
-`CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number]`  
-
-- Use C/C++ arrays and initialize via constructor  
-```C++
-int sz[3] = {2,2,2};
-Mat L(3,sz, CV_8UC(1), Scalar::all(0));
-```
-&emsp;&emsp;Specify its dimension, then pass a pointer containing the size for each dimension.  
-
-- cv::Mat::create function  
-```C++
-M.create(4,4, CV_8UC(2));
-cout << "M = "<< endl << " "  << M << endl << endl;
-```
-reallocate its matrix data memory if the new size will not fit into the old one.  
-
-- MATLAB style initializer  
-```C++
-// Specify size and data type to use:
-Mat E = Mat::eye(4, 4, CV_64F);
-cout << "E = " << endl << " " << E << endl << endl;
-
-Mat O = Mat::ones(2, 2, CV_32F);
-cout << "O = " << endl << " " << O << endl << endl;
-
-Mat Z = Mat::zeros(3,3, CV_8UC1);
-cout << "Z = " << endl << " " << Z << endl << endl;
-```
-
-##### Output formatting  
-```C++
-Mat R = Mat(3, 2, CV_8UC3);
-randu(R, Scalar::all(0), Scalar::all(255));
-```
-- Default  
-`cout << "R (default) = " << endl << R << endl << endl;`  
-- Python  
-`cout << "R (python)  = " << endl << format(R, Formatter::FMT_PYTHON) << endl << endl;`  
-- Numpy  
-`cout << "R (numpy) = " << endl << format(R, Formatter::FMT_NUMPY ) << endl << endl;`
-
-
-
-## [High-level GUI](https://docs.opencv.org/4.x/d7/dfc/group__highgui.html)  
-
-- [Flags related creating and manipulating HighGUI windows and mouse events](https://docs.opencv.org/4.x/d0/d90/group__highgui__window__flags.html)  
-
-### Functions  
-`#include <opencv2/highgui.hpp>`
-- [namedWindow()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5afdf8410934fd099df85c75b2e0888b)
-- [waitKey()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5628525ad33f52eab17feebcfba38bd7)  
-- [destroyWindow()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga851ccdd6961022d1d5b4c4f255dbab34)
-- [destroyAllWindows()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga6b7fc1c1a8960438156912027b38f481)  
-
-## [Image file reading and writing](https://docs.opencv.org/4.x/d4/da8/group__imgcodecs.html#ga288b8b3da0892bd651fce07b3bbd3a56)  
-- [Flags used for image file reading and writing](https://docs.opencv.org/4.x/d4/da8/group__imgcodecs.html)  
-
-### Functions  
-`#include <opencv2/imgcodecs.hpp>`  
-
-- [imread()](https://docs.opencv.org/master/d4/da8/group__imgcodecs.html#ga288b8b3da0892bd651fce07b3bbd3a56)  
-	
-	> file formats  
-	> [imread flags](https://docs.opencv.org/master/d8/d6a/group__imgcodecs__flags.html#ga61d9b0126a3e57d9277ac48327799c80)  
-	
-- [imshow()](https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga453d42fe4cb60e5723281a89973ee563)  
-
-- [imwrite()](https://docs.opencv.org/master/d4/da8/group__imgcodecs.html#gabbc7ef1aa2edfaa87772f1202d67e0ce)  
-
-
-## Color  
-- [Color conversions](https://docs.opencv.org/master/de/d25/imgproc_color_conversions.html)  
-
-### [Color Space Conversions](https://docs.opencv.org/4.x/d8/d01/group__imgproc__color__conversions.html)  
-
-#### Function
-- [cvtColor()](https://docs.opencv.org/4.x/d8/d01/group__imgproc__color__conversions.html#ga397ae87e1288a81d2363b61574eb8cab)  
-Converts an image from one color space to another.  
-`#include <opencv2/imgproc.hpp>`  
-
-#### [ColorConversionCodes](https://docs.opencv.org/4.x/d8/d01/group__imgproc__color__conversions.html#ga4e0972be5de079fed4e3a10e24ef5ef0)  
-1. convert between RGB/BGR and grayscale  
-    - COLOR_BGR2GRAY  
-    - COLOR_RGB2GRAY  
-    - COLOR_GRAY2BGR  
-    - COLOR_GRAY2RGB  
-
 # Color Image  
 
 
@@ -211,23 +39,7 @@ y_1
 \end{bmatrix}
 $$
 
-### OpenCV Functions  
-`#include <opencv2/imgproc.hpp>`
 
-- [cv::getAffineTransform](https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html#ga8f6d378f9f8eebb5cb55cd3ae295a999)  
-- [cv::warpAffine](https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html#ga0203d9ee5fcd28d40dbc4a1ea4451983)  
-
-
-
-## [cv::resize](https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html#ga47a974309e9102f5f08231edc7e7529d)  
-### [InterpolationFlags](https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html#ga5bb5a1fea74ea38e1a5445ca803ff121)  
-`#include <opencv2/imgproc.hpp>`  
-|C++|Python||
-|:-|:-|:-|
-|INTER_NEAREST|cv.INTER_NEAREST|nearest neighbor interpolation|
-|INTER_LINEAR|cv.INTER_LINEAR|bilinear interpolation|
-|INTER_CUBIC|cv.INTER_CUBIC|bicubic interpolation|
-|INTER_AREA|cv.INTER_AREA|resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire'-free results. But when the image is zoomed, it is similar to the INTER_NEAREST method.|
 
 
 
@@ -246,6 +58,39 @@ $$
 ## Histogram Matching  
 [OpenCV: Template Matching](https://docs.opencv.org/master/de/da9/tutorial_template_matching.html)  
 
+
+# Image Pyramids  
+
+## OpenCV Tutorials [Image Pyramids](https://docs.opencv.org/4.x/d4/d1f/tutorial_pyramids.html)  
+
+> The explanation below belongs to the book Learning OpenCV by Bradski and Kaehler.  
+
+Usually we need to convert an image to a size different than its original. For this, there are two possible options:  
+1. **Upsize** the image (zoom in) or  
+2. **Downsize** it (zoom out).  
+
+### Image Pyramid
+An image pyramid is a collection of images - all arising from a single original image - that are successively downsampled until some desired stopping point is reached.  
+
+There are two common kinds of image pyramids:  
+
+- **Gaussian pyramid**: Used to downsample images  
+- **Laplacian pyramid**: Used to reconstruct an upsampled image from an image lower in the pyramid (with less resolution)  
+
+### Gaussian Pyramid  
+
+Imagine the pyramid as a set of layers in which the higher the layer, the smaller the size.
+Every layer is numbered from bottom to top, so layer $\left(i+1\right)$ (denoted as $G_{i+1}$) is smaller than layer $i\ (G_i)$.  
+
+To produce layer $(i+1)$ in the Gaussian pyramid  
+
+- Convolve $G_i$  with a Gaussian kernel:
+- Remove every even-numbered row and column.
+
+upsample the image  
+
+- First, upsize the image to twice the original in each dimension, with the new even rows and columns filled with zeros (0).  
+- Perform a convolution with the same kernel shown above (multiplied by 4) to approximate the values of the "missing pixels"  
 
 # Intensity Transformation  
 ## Image Negatives  
@@ -351,7 +196,20 @@ When an image can have $2^k$  possible intensity level, it is common practice to
 
 
 # Template Matching
-> [tutorial](https://docs.opencv.org/4.x/de/da9/tutorial_template_matching.html)  
+> OpenCV Tutorial: [Template Matching](https://docs.opencv.org/4.x/de/da9/tutorial_template_matching.html)  
+
+**Template matching** is a technique for finding areas of an image that match (are similar) to a template image (patch).  
+
+While the patch must be a **rectangle** it may be that not all of the rectangle is relevant.  
+
+To identify the matching area, we have to compare the template image against the source image by sliding it:  
+
+By sliding, we mean moving the patch one pixel at a time (left to right, up to down).  
+
+metric in the result matrix R. Each location (x,y) in R contains the match metric:  
+
+
+
 
 
 # References  

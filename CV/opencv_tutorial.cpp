@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "operations_with_images.h"
+#include "opencv_tutorial.h"
 
 using namespace std;
 using namespace cv;
@@ -25,65 +25,65 @@ void ShowImage(string img_file, string win_title)
     // destroyAllWindows();
 }
 
-
-void SmoothImage(Mat src)
+void TemplateMatching(string src_file)
 {
-    Mat dst = Mat::zeros( src.size(), src.type() );
-    
-    // blur
-    string blur_win_name = "Blur";
-    blur(src, dst, Size(5, 5), Point(-1,-1));
-    // namedWindow(blur_win_name, WINDOW_AUTOSIZE);
-    imshow(blur_win_name, dst);
-    
-    // gaussian blur
-    string gaussian_win_name = "Gaussian";
-    GaussianBlur( src, dst, Size(5, 5), 0, 0 );
-    // namedWindow(gaussian_win_name, WINDOW_AUTOSIZE);
-    imshow(gaussian_win_name, dst);
-    
-    // median blur
-    string median_img_name = "Median";
-    medianBlur(src, dst, 5);
-    imshow(median_img_name, dst);
-    
+    /*
+     * src_file
+     * templ
+     */
+
+    // string src_file = "E:/my_data/opencv_sample_data/box_in_scene.png";
+
+    Mat img, templ, mask, result;
+
+    string image_window = "Image";
+    char* templ_window = "Template";
+    char* result_window = "Result";
+
+    img = imread(src_file, IMREAD_COLOR);
+    // templ = imread(temp_file, IMREAD_COLOR);
+
+    templ = img(Range(160, 280), Range(100, 180));
+
+    namedWindow( image_window, WINDOW_AUTOSIZE );
+    namedWindow(templ_window, WINDOW_KEEPRATIO);
+    namedWindow( result_window, WINDOW_AUTOSIZE );
+
+    imshow(templ_window, templ);
+
+    Mat img_display;
+    img.copyTo(img_display);
+
+    int result_cols = img.cols - templ.cols + 1;
+    int result_rows = img.rows - templ.rows + 1;
+
+    result.create( result_rows, result_cols, CV_32FC1 );
+
+    int match_method = TM_SQDIFF;
+    matchTemplate( img, templ, result, match_method, mask);
+
+    normalize( result, result, 0, 1, NORM_MINMAX, -1, Mat() );
+
+    double minVal, maxVal;
+    Point minLoc, maxLoc, matchLoc;
+    minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, Mat());
+    matchLoc = minLoc;
+
+    rectangle(img_display, matchLoc,
+              Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows),
+              Scalar::all(0), 2, 8, 0);
+    imshow(image_window, img_display);
+
+    rectangle(result, matchLoc,
+              Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows),
+              Scalar::all(0), 2, 8, 0);
+    imshow(result_window, result);
+
     waitKey(0);
-    destroyWindow(blur_win_name);
-    destroyWindow(gaussian_win_name);
-    destroyWindow(median_img_name);
-    // destroyAllWindows();
-}
-
-
-void ImagePyramid(string file_path)
-{
-    Mat src = imread(file_path);
-    Mat dst;
-
-    string origin_name = "Original";
-    namedWindow(origin_name, WINDOW_AUTOSIZE);
-    imshow(origin_name, src);
-
-    string down_name = "Down";
-    pyrDown(src, dst, Size(src.cols/2, src.rows/2));
-    namedWindow(down_name, WINDOW_AUTOSIZE);
-    imshow(down_name, dst);
-    
-    string up_name = "Up";
-    pyrUp(src, dst, Size(src.cols*2, src.rows*2));
-    namedWindow(up_name, WINDOW_AUTOSIZE);
-    imshow(up_name, dst);
-    
-    waitKey(0);
-    // destroyWindow(down_name);
     destroyAllWindows();
-
 }
 
-/*
- * Image Segmentation with Distance Transform and Watershed Algorithm
- * https://docs.opencv.org/master/d2/dbd/tutorial_distance_transform.html
- */
+
 void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm()
 {
     string card_png = "E:/my_data/opencv_sample_data/cards.png";
@@ -212,3 +212,19 @@ void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm()
     
     waitKey(0);
 }
+
+
+// int main()
+// {
+//
+//     cout <<"\nStart\n\n";
+//
+//     string src_file = "E:/my_data/opencv_sample_data/box_in_scene.png";
+//     TemplateMatching(src_file);
+//
+//     cout<<"\n\nEnd\n";
+//     // system("pause");
+//     return 0;
+// }
+
+
