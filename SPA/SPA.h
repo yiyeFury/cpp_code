@@ -206,5 +206,10 @@ double topocentric_azimuth_angle(double azimuth_astro);
 //Calculate SPA output values (in structure) based on input values passed in structure
 int spa_calculate(spa_data *spa);
 
-
+void CalcSolarAngle(float *solar_zenith, int rows, int cols,
+                    float *lats, int lat_size,
+                    float *lons, int lon_size,
+                    int year, int month, int day,
+                    int hour=0, int minute=0, int second=0,
+                    int num_thread=4);
 #endif //CPP_CODE_SPA_H

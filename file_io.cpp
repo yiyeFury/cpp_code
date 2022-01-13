@@ -16,10 +16,6 @@ public:
     unsigned int len;
 };
 
-#define SWAP_4(x) ( ((x) << 24) | \
-         (((x) << 8) & 0x00ff0000) | \
-         (((x) >> 8) & 0x0000ff00) | \
-         ((x) >> 24) )
 
 void ReadBinary(string src_file)
 {
@@ -38,7 +34,6 @@ void ReadBinary(string src_file)
     cout << b << endl;
     cout << "end\n";
 
-    SWAP_4(b);
 
     file_input.close();
 
@@ -49,13 +44,13 @@ void ReadBinary(string src_file)
 
 }
 
-int main()
-{
-    string src_file="C:\\Users\\xie\\Desktop\\NSS.HRPT.NP.D20197.S0346.E0358.B5893131.GC";
-    // string src_file = "C:\\Users\\xie\\Desktop\\HS_H08_20200715_0000_B01_FLDK_R10_S0710.DAT";
-    ReadBinary(src_file);
-
-    return 0;
-}
+// int main()
+// {
+//     string src_file="C:\\Users\\xie\\Desktop\\NSS.HRPT.NP.D20197.S0346.E0358.B5893131.GC";
+//     // string src_file = "C:\\Users\\xie\\Desktop\\HS_H08_20200715_0000_B01_FLDK_R10_S0710.DAT";
+//     ReadBinary(src_file);
+//
+//     return 0;
+// }
 
 
