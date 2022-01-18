@@ -42,19 +42,23 @@ CSDN: [c++数组指针和指针数组详解](https://blog.csdn.net/shayne000/art
 
 > 3.5.1 定义和初始化内置数组[^C++ Primer, 5th]
 
-- 数组的声明形如`a[d]`，其中`a`是数组的名字，`d`是数组的维度。数组中元素的个数也属于数组类型的一部分。维度必须是常量表达式。  
+数组的声明形如`a[d]`  
+- `a`是数组的名字
+- `d`是数组的维度。  
+
+数组中元素的个数也属于数组类型的一部分。维度必须是**常量表达式**。  
 ```C++
 int arr[10];    // 含有10个整数的数组
 int *parr[42];  // 含有42个整型指针的数组
 ```
-默认情况下，数组的元素被默认初始化。
-在函数内部定义了某种内置类型的数组，默认初始化会令数组含有未定义的值。
-定义数组的时候必须指定数组的类型，不允许用auto关键字由初始值的列表推断类型。
-数组的元素应为对象，不存在引用的数组。
+默认情况下，数组的元素被默认初始化。  
+在函数内部定义了某种内置类型的数组，默认初始化会令数组含有未定义的值。  
+定义数组的时候必须指定**数组的类型**，不允许用`auto`关键字由初始值的列表推断类型。  
+数组的元素应为对象，不存在引用的数组。  
 
 > >  显式初始化数组元素  
 
-可以对数组的元素进行列表初始化。  
+可以对数组的元素进行列表初始化，此时允许忽略数组的维度。  
 ```C++
 int a2[] = {0, 1, 2};  // 维度是3的数组
 ```
@@ -62,12 +66,12 @@ int a2[] = {0, 1, 2};  // 维度是3的数组
 > > 字符数组的特殊性  
 
 可以用字符串字面值对字符数组初始化。  
-字符串字面值的结尾还有一个空字符，这个空字符也会像字符串的其他字符一样被拷贝到字符数组中去。  
+**字符串字面值**的结尾还有一个空字符，这个空字符也会像字符串的其他字符一样被拷贝到字符数组中去。  
 
 ```C++
 char a1[] = {'C', '+', '+'};  // 列表初始化，没有空字符
 char a2[] = {'C', '+', '+', '\0'};  // 列表初始化，含有显式的空字符
-char a3[] = "C++";  // 自动添加表示字符串结束的空字符
+char a3[] = "C++";  // 自动添加表示字符串结束的空字符，a3的维度是4
 
 // 检查函数
 template<int M>
@@ -108,36 +112,63 @@ int (&arrRef)[10]=arr;  // arrRef引用一个含有10个整数的数组
 在使用数组下标的时候，通常将其定义为size_t类型。size_t是一种机器相关的无符号类型。  
 在`cstddef`头文件中定义了size_t类型。  
 
+使用范围for语句  
+```C++
+int a[] = {0, 1, 2, 3, 5, 100};
+for (auto ii: a)
+    cout << ii << "  ";
+cout << endl;
+```
+
 -------------------
 
 ### 指针和数组  
 > 3.5.3 指针和数组  
 
-- 通常情况下，使用**取地址符（&）**来获取指向某个对象的指针，取地址符可以用于任何对象。
-- 在很多用到数组名字的地方，编译器都会自动地将其替换为一个指向数组首元素的指针。
-- 使用数组作为一个auto变量的初始值时，推断得到的类型是指针而非数组。
-- 使用decltype关键字与使用auto的结果不同
+通常情况下，使用**取地址符（&）**来获取指向某个对象的指针，取地址符可以用于任何对象。  
+在很多用到数组名字的地方，编译器都会自动地将其替换为一个**指向数组首元素的指针**。  
 
-#### 指针也是迭代器  
-- 尾后指针不指向具体的元素。不能对尾后指针执行解引用或递增的操作。  
+使用数组作为一个`auto`变量的初始值时，推断得到的类型是**指针**而非数组。  
+```C++
+int ia[] = {10, 1, 2, 3, 5, 100};
+auto ia2(ia);  // ia2 是一个指针，指向ia的第一个元素
+cout << ia2[1] << "  ";
+```
 
-#### 标准库函数begin和end  
-- `begin`函数返回指向ia首元素的指针，`end`函数返回指向ia尾元素下一位置的指针。这两个函数定义在`iterator`头文件中。  
+使用`decltype`关键字与使用`auto`的结果不同  
+```C++
+int ia[] = {10, 1, 2, 3, 5, 100};
+decltype(ia) ia3;  // ia3是一个数组，其维度与ia相同；此处ia3会默认初始化
+ia3[1] = 1000;
+cout << ia3[1] << "  ";
+```
 
-#### 指针运算  
-- 给指针加上一个整数，得到的新指针扔需指向同一数组的其他元素，或者指向同一数组的尾元素的下一位置。  
-- 两个指针相减的结果是它们之间的距离。参与运算的两个指针必须指向同一个数组当中的元素。
-- 两个指针相减的结果类型是一种名为ptrdiff_t的标准库类型，定义在cdtddef头文件中的机器相关的类型。  
 
-#### 解引用和指针运算的交互  
-#### 下标和指针  
+> > 指针也是迭代器  
+
+尾后指针不指向具体的元素。不能对尾后指针执行解引用或递增的操作。  
+
+> > 标准库函数begin和end  
+
+`begin`函数返回指向ia首元素的指针，`end`函数返回指向ia尾元素下一位置的指针。这两个函数定义在`iterator`头文件中。  
+
+> > 指针运算  
+
+给指针加上一个整数，得到的新指针扔需指向同一数组的其他元素，或者指向同一数组的尾元素的下一位置。  
+两个指针相减的结果是它们之间的距离。参与运算的两个指针必须指向同一个数组当中的元素。
+两个指针相减的结果类型是一种名为ptrdiff_t的标准库类型，定义在cdtddef头文件中的机器相关的类型。  
+
+> > 解引用和指针运算的交互  
+
+> > 下标和指针  
+
 ```C++
 int ia[] = {0, 2, 4, 6, 8};
 int *p = &ia[2];  // p指向索引为2的元素
 int j = p[1];  // p[1]等价于*(p+1)
 ```
 
-- 内置的下标运算符所用的索引值不是无符号类型。  
+内置的下标运算符所用的索引值不是无符号类型。  
 
 --------------------
 
@@ -211,23 +242,43 @@ typedef int int_array[4];
 ## const Qualifier  
 > 2.4 const限定符[^C++ Primer, 5th]  
 
-const对象一旦创建后其值就不能再改变，所以const对象必须初始化。  
+`const`对象一旦创建后其值就不能再改变，所以**const对象必须初始化**。  
+
+> > 初始化和const
+
 利用一个对象去初始化另外一个对象，则它们是不是const都无关紧要。  
+```C++
+int i = 42;
+const int ci = i;
+int j = ci;
+```
 
-#### 默认状态下，const对象仅在文件内有效  
+> > **默认状态下，const对象仅在文件内有效**  
 
-定义，默认情况下，const对象被设定为仅在文件内有效。当多个文件中出现了同名的const变量时，其实等同于在不同文件中分别定义了独立的变量。  
+默认情况下，const对象被设定为仅在文件内有效。当多个文件中出现了同名的const变量时，其实等同于在不同文件中分别定义了独立的变量。  
+
 某些时候有这样一种const变量，它的初始值不是一个常量表达式，但又确实有必要在文件间共享。  
-*解决方法：对于const变量不管是声明还是定义都添加extern关键字。*  
-如果想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字。  
+- 解决方法：对于const变量不管是声明还是定义都添加extern关键字。  
+
+如果想在多个文件之间共享const对象，必须在变量的定义之前添加`extern`关键字。  
 
 ### References to const  
+> 2.4.1 const的引用  
+
 reference to const, which is a reference that refers to a const type. Unlike an ordinary reference, a reference to const cannot be used to change the object to which the reference is bound.  
 
-#### Initialization and References to const  
+> > Initialization and References to const  
+
 there are two exceptions to the rule that the type of a reference must match the type of the object to which it refers.  
 
-- The first exception is that we can initialize a reference to const from any expression that can be converted to the type of the reference. In particular, we can bind a reference to const to a nonconst object, a literal, or a more general expression.
+- The first exception is that we can **initialize a reference to const from any expression that can be converted to the type of the reference**. In particular, we can bind a reference to const to a nonconst object, a literal, or a more general expression.  
+
+```C++
+int i = 42;
+const int &r1 = i;
+const int &r2 = 42;
+int &r4 = r1 * 2;  // 错误
+```
 
 ```mermaid
 graph LR
@@ -240,28 +291,59 @@ graph LR
 reference_to_nonconst[reference to nonconst] --> nonconst_object[nonconst object]
 ```
 
-#### A Reference to const May Refer to an Object That Is Not const  
-It is important to realize that a reference to const restricts only what we can do through that reference. Binding a reference to const to an object says nothing about whether the underlying object itself is const. Because the underlying object might be nonconst, it might be changed by other means.  
+> > A Reference to const May Refer to an Object That Is Not const  
+
+It is important to realize that **a reference to const restricts only what we can do through that reference. Binding a reference to const to an object says nothing about whether the underlying object itself is const. Because the underlying object might be nonconst, it might be changed by other means.  
 
 ### Pointers and const  
 > 2.4.2. Pointers and const  
 
-Like a reference to const, a pointer to const may not be used to change the object to which the pointer points. 
-We may store the address of a const object only in a pointer to const.
-we noted that there are two exceptions to the rule that the types of a pointer and the object to which it points must match. The first exception is that we can use a pointer to const to point to a nonconst object.  
+Like a reference to const, a pointer to const may not be used to change the object to which the pointer points.   
+We may **store the address of a const object only in a pointer to const**.  
 
-#### const Pointers  
+```C++
+const double pi = 3.14;
+double *ptr = &pi;  // 错误，ptr是一个普通指针
+const double *cptr = &pi;
+*cptr = 42;  // 错误，不能给*cptr赋值
+```
 
-a const pointer must be initialized, and once initialized, its value (i.e., the address that it holds) may not be changed. 
-We indicate that the pointer is const by putting the const after the `*`. This placement indicates that it is the pointer, not the pointed-to type, that is const.
+
+we noted that there are two exceptions to the rule that the types of a pointer and the object to which it points must match. 
+- The first exception is that we can use **a pointer to const to point to a nonconst object**.  
+
+
+
+> > const Pointers  
+
+a const pointer must be initialized, and once initialized, its value (i.e., the address that it holds) may not be changed.   
+We indicate that the pointer is const by putting the const after the `*`. This placement indicates that it is the pointer, not the pointed-to type, that is const.  
+
+```C++
+int err_num = 0;
+int *const cur_err = &err_num;  // cur_err将一直指向err_num
+const double pi = 3.1459;
+const double *const pip = &pi;  // pip是一个指向常量对象的常量指针
+```
 
 ### Top-Level const  
 > 2.4.3. Top-Level const  
 
-We use the term top-level const to indicate that the pointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const. 
-More generally, top-level const indicates that an object itself is const.
-Low-level const appears in the base type of compound types such as pointers or references. 
+We use the term **top-level const** to indicate that the **pointer itself is a const**. 
+When a pointer can point to a const object, we refer to that const as a **low-level const**.   
+
+More generally, top-level const indicates that an object itself is const.  
+Low-level const appears in the base type of compound types such as pointers or references.   
+
 Note that pointer types, unlike most other types, can have both top-level and low-level const independently.
+```C++
+int i = 0;
+int *const p1 = &i;  // 不能改变 p1 的值，这是一个顶层 const
+const int ci = 42;  // 不能改变 ci 的值，这是一个顶层 const
+const int *p2 = &ci;  // 允许改变 p2 的值，这是一个底层 const
+const int *const p3 = p2;  // 靠右的 const 是顶层 const，靠左的是底层 const
+const int &r = ci;  // 用于声明引用的 const 都是底层 const
+```
 
 The distinction between top-level and low-level matters when we copy an object. When we copy an object, top-level consts are ignored.  
 - Copying an object doesn’t change the copied object. As a result, it is immaterial whether the object copied from or copied into is const.  
@@ -270,17 +352,20 @@ The distinction between top-level and low-level matters when we copy an object. 
 ### constexpr和常量表达式  
 > 2.4.4. constexpr and Constant Expressions  
 
-1. 常量表达式（const expression）是指值不会改变并且在编译过程就能得到计算结果的表达式。
-2. 一个对象（或表达式）是不是常量表达式由它的数据类型和初始值共同决定。
-将变量声明为constexpr类型以便由编译器来验证变量的值是否是一个常量表达式。声明为constexpr的变量一定是一个常量，而且必须用常量表达式初始化。
+常量表达式（const expression）是指值不会改变并且在编译过程就能得到计算结果的表达式。  
+一个对象（或表达式）是不是常量表达式由它的数据类型和初始值共同决定。  
+将变量声明为constexpr类型以便由编译器来验证变量的值是否是一个常量表达式。声明为constexpr的变量一定是一个常量，而且必须用常量表达式初始化。  
 
-#### 字面值类型  
+> > 字面值类型  
+
 一个constexpr指针的初始值必须是nullptr或者0，或者是存储于某个固定地址中的对象。  
 定义于所有函数体之外的对象其地址固定不变，能用来初始化constexpr指针。  
 同样是在6.1.1节（第185页）中还将提到，允许函数定义一类有效范围超出函数本身的变量，这类变量和定义在函数体之外的变量一样也有固定地址。  
 
-#### 指针和constexpr  
+> > 指针和constexpr  
+
 在constexpr声明中如果定义了一个指针，限定符constexpr仅对指针有效，与指针所指的对象无关。  
+
 
 ------------------
 
