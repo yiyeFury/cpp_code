@@ -14,7 +14,7 @@
 
 
 /*  typemaps for the two arrays, the second will be modified in-place */
-%apply (float* IN_ARRAY2, int DIM1, int DIM2) {(float * solar_zenith, int rows, int cols)}
+%apply (float* INPLACE_ARRAY2, int DIM1, int DIM2) {(float * solar_zenith, int rows, int cols)}
 
 
 %apply (float* IN_ARRAY1, int DIM1) {(float * lats, int lats_size)}

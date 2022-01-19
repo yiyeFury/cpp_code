@@ -10,9 +10,9 @@ if _swig_python_version_info < (2, 7, 0):
 
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
-    from . import _SPA
+    from . import _NOAA_AVHRR_CPP
 else:
-    import _SPA
+    import _NOAA_AVHRR_CPP
 
 try:
     import builtins as __builtin__
@@ -62,7 +62,7 @@ class _SwigNonDynamicMeta(type):
 
 
 
-def CalcSolarAngleFunc(solar_zenith, lats, lons, year, month, day, hour=0, minute=0, second=0, num_thread=4):
-    return _SPA.CalcSolarAngleFunc(solar_zenith, lats, lons, year, month, day, hour, minute, second, num_thread)
+def EarthDataSplitFunc(earth_data, channel_data):
+    return _NOAA_AVHRR_CPP.EarthDataSplitFunc(earth_data, channel_data)
 
 
