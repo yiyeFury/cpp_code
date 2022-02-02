@@ -5,8 +5,6 @@
 #ifndef CPP_CODE_GEODESY_H
 #define CPP_CODE_GEODESY_H
 
-
-
 #include <cmath>
 #include "../mathematics/math_common.h"
 

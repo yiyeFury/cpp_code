@@ -8,12 +8,15 @@
 #include "../mathematics/math_common.h"
 #include "coordinate_reference.h"
 
-ReferenceEllipsoid::ReferenceEllipsoid(double a, double b):a_(a),b_(b)
+ReferenceEllipsoid::ReferenceEllipsoid(double a, double inv_f):a_(a),inv_f_(inv_f)
 {
-    f_ = (a - b)/a;
-    fe_ = sqrt(a*a-b*b)/a;
-    se_ = sqrt(a*a - b*b)/b;
-    c_ = a*a/b;
+    // double aa = a * a;
+    // double tmp_val = sqrt(aa - b * b);
+
+    // f_ = (a - b) / a;
+    fe_ = sqrt(2/inv_f_ - 1/inv_f/inv_f);
+    se_ = fe_ / sqrt(1-fe_*fe_);
+    // c_ = aa / b;
 }
 
 double ReferenceEllipsoid::CalculateAuxiliaryParametersW(double lat)
@@ -190,16 +193,16 @@ GeodeticCoord WebMercator::Inverse(double x, double y)
 // {
 //     cout << "\nStart\n\n";
 //
-//     WebMercator web_m1;
-//     Cartesian3D coord;
-//     coord = web_m1.MapProjection(180.0, 45.0);
-//     cout<<"x: "<<setprecision(20)<<coord.x<<endl;
-//     cout<<"y: "<<setprecision(20)<<coord.y<<endl;
+//     EllipsoidCGCS2000 wgs1;
+//     cout<<setprecision(16)<<wgs1.a<<endl;
+//     cout<< setprecision(16) <<wgs1.inv_f<<endl;
 //
-//     GeodeticCoord geo_coord;
-//     geo_coord = web_m1.Inverse(coord.x, coord.y);
-//     cout<<"x: "<<setprecision(20)<<geo_coord.lon<<endl;
-//     cout<<"y: "<<setprecision(20)<<geo_coord.lat<<endl;
+//     // double b = wgs1.a - wgs1.a / wgs1.inv_f;
+//     // cout<<setprecision(16)<<b<<endl;
+//
+//     double fe = sqrt(2/wgs1.inv_f - 1/wgs1.inv_f/wgs1.inv_f);
+//     // double fe = sqrt(wgs1.a * wgs1.a - wgs1.b * wgs1.b)/wgs1.a;
+//     cout<<setprecision(16)<<fe*fe<<endl;
 //
 //     cout << "\n\nEnd\n";
 //     // system("pause");

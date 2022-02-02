@@ -17,20 +17,35 @@ typedef struct {
     double radius, lon, lat;
 }SphericalCoord;
 
+using EllipsoidWGS84 = struct
+{
+    double a = 6378137;  // unit: m
+    double b = 6356752.3142;  // unit:m，约等于，可用长半轴和曲率半径求出
+    double inv_f = 298.257223563;
+};
+
+using EllipsoidCGCS2000 = struct
+{
+    double a = 6378137;  // unit: m
+    double b = 6356752.3141;  // unit:m，约等于，可用长半轴和曲率半径求出
+    double inv_f = 298.257222101;
+};
+
 
 class ReferenceEllipsoid
 {
 public:
     double a_;  // semi-major axis
     double b_;  // semi-minor axis
-    double f_;  // flattening
+    double inv_f_; // inverse flattening
+    // double f_;  // flattening
     double fe_;  // first eccentricity
     double se_;  // second eccentricity
-    double c_;  //
+    double c_;  // 辅助参数
     double W_;
     double V_;
 
-    ReferenceEllipsoid(double a, double b);
+    ReferenceEllipsoid(double a, double inv_f);
 
     double CalculateAuxiliaryParametersW(double lat);
     double CalculateAuxiliaryParametersV(double lat);

@@ -6,8 +6,13 @@
 #define CPP_CODE_MATRIX_COMMON_H
 
 
-template <typename T, int M>
-void ArrayAdd(const T(&aa)[M], const T(&bb)[M], T(&cc)[M])
+/*
+ * *****************************************************************************
+ * ---------------------   1d-array 相加   --------------------------------------
+ * *****************************************************************************
+ */
+template <typename T1, typename T2, typename T3, int M>
+void ArrayAdd(const T1(&aa)[M], const T2(&bb)[M], T3(&cc)[M])
 {
     // 1d数组相加
     for (int ii = 0; ii < M; ii++)
@@ -15,8 +20,13 @@ void ArrayAdd(const T(&aa)[M], const T(&bb)[M], T(&cc)[M])
 }
 
 
-template <typename T, int M, int N>
-void ArrayAdd(const T(&aa)[M][N], const T(&bb)[M][N], T(&cc)[M][N])
+/*
+ * *****************************************************************************
+ * ---------------------------   2d-array 相加   --------------------------------
+ * *****************************************************************************
+ */
+template <typename T1, typename T2, typename T3, int M, int N>
+void ArrayAdd(const T1(&aa)[M][N], const T2(&bb)[M][N], T3(&cc)[M][N])
 {
     // 2d数组相加
     for (int ii = 0; ii < M; ii++)
@@ -25,13 +35,16 @@ void ArrayAdd(const T(&aa)[M][N], const T(&bb)[M][N], T(&cc)[M][N])
 }
 
 
-template<typename T, int M, int N, int K>
-void MatrixMultiply(const T (&aa)[M][N], const T (&bb)[N][K], T (&cc)[M][K])
+/* *****************************************************************************
+ * -----------------------------   矩阵乘法   -----------------------------------
+ ******************************************************************************/
+template<typename T1, typename T2, typename T3, int M, int N, int K>
+void MatrixMultiply(const T1 (&aa)[M][N], const T2 (&bb)[N][K], T3 (&cc)[M][K])
 {
-    T tmp_val = 0;
+    T3 tmp_val;
     for (int ii=0;ii<M;ii++) {
         for (int jj=0;jj<K;jj++) {
-            tmp_val =0;
+            tmp_val =T3(0);
             for (int kk=0;kk<N;kk++) {
                 tmp_val += aa[ii][kk]*bb[kk][jj];
             }
@@ -41,6 +54,9 @@ void MatrixMultiply(const T (&aa)[M][N], const T (&bb)[N][K], T (&cc)[M][K])
 }
 
 
+/* *****************************************************************************
+ * ---------------------------   矩阵转置   -------------------------------------
+ ******************************************************************************/
 template<typename T, int M, int N>
 void MatrixTranspose(const T (&aa)[M][N], T(&bb)[N][M])
 {

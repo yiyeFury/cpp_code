@@ -5,6 +5,7 @@
 
 #include<iostream>
 #include<iomanip>
+#include <string>
 
 
 using namespace std;
@@ -12,6 +13,13 @@ using namespace std;
 /* -----------------------------------------------------------------------------
 打印数组
 */
+
+// void PrintString(string s)
+// {
+//     for (auto iter = s.begin(); iter != s.end(); iter++)
+//         cout << "   " << *iter;
+//     cout << endl;
+// }
 
 template<typename T, int M>
 void PrintArray(const T(&arr)[M])
