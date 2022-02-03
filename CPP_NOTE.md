@@ -1318,13 +1318,34 @@ cout<<setfill(' ');  // 回复正常的补白字符（空格）
 ## Generic Algorithms  
 > 10 泛型算法  
 
-### 概述  
-1. 大多数算法都定义在头文件algorithm中。标准库还在头文件numeric中定义了一组数值泛型算法。
-2. 一般情况下，这些算法并不直接操作容器，而是遍历由两个迭代器指定的一个元素范围。
-3. 迭代器令算法不依赖于容器，但算法依赖于元素类型的操作。
-4. 泛型算法本身不会执行容器的操作，它们只会运行于迭代器之上，执行迭代器的操作。
+> 10.1 概述  
 
+大多数算法都定义在头文件algorithm中。标准库还在头文件numeric中定义了一组数值泛型算法。  
+一般情况下，这些算法并不直接操作容器，而是遍历由两个迭代器指定的一个元素范围。  
+迭代器令算法不依赖于容器，但算法依赖于元素类型的操作。  
+泛型算法本身不会执行容器的操作，它们只会运行于迭代器之上，执行迭代器的操作。  
 
+------------------------------
+
+### `algorithm`  
+> https://en.cppreference.com/w/cpp/algorithm  
+
+```C++
+#include <algorithm>
+
+// max element
+int a[5] = {6, 5, 4, 3, 2};
+auto pos = max_element(a + 1, a + 5);
+cout << *pos << endl;  // 返回最大值
+cout << pos - a << endl;  // 最大值所在位置下标
+
+// find_if
+const int kNum = 4;
+int v[kNum] = {1, 2, 3, 4};
+auto is_even = [](int i) { return i < 3; };
+auto result3 = find_if(v, v + kNum, is_even);
+cout << *result3 << '\n';
+```
 
 ## Namespace命名空间  
 
@@ -2282,9 +2303,9 @@ for (auto vb=ia1.begin();vb!=ia1.end();vb++)
 2. 标准库queue使用一种先进先出（first-in，first-out，FIFO）的存储和访问策略。进入队列的对象被放置到队尾，而离开队列的对象则从队首删除。
 3. priority_queue允许我们为队列中的元素建立优先级。新加入的元素会排在所有优先级比它低的已有元素之前。
 
+---------------------
 
-
-### string  
+#### string  
 > 3.2 标准库类型string[^C++ Primer, 5th]  
 
 标准库类型string表示可变长的字符序列，使用string类型必须首先包含`string`头文件。  
@@ -2375,10 +2396,14 @@ cout << str << endl;
 1. 访问string对象中的单个字符有两种方式，一种是使用下标，另外一种是使用迭代器
 2. 下标运算符（`[]`）接收的输入参数是`string::size_type`类型的值，这个参数表示要访问的字符的位置，返回值是该位置上的**引用**。
 
+-----------------------------------
 
-### vector  
+#### vector  
 https://en.cppreference.com/w/cpp/container/vector  
-> 3.3 标准库类型vector[^C++ Primer, 5th]  
+> 3.3 标准库类型vector  
+> 9.4 vector对象是如何增长的  
+
+> 3.3 标准库类型vector  
 
 - 标准库类型vector表示对象的集合，其中所有对象的类型都相同。集合中的每个对象都有一个与之对应的索引，索引用于访问对象。
 - vector是一个容器（container）。
@@ -2425,13 +2450,14 @@ vector<int>::size_type  // 正确
 vector::size_type // 错误
 ```
 
-#### vector对象是如何增长的  
-- 管理容量的成员函数  
-	1. reserve并不改变容器中元素的数量，它仅影响vector预先分配多大的内存空间。
-	2. 只有当需要的内存空间超过当前容量时，reserve调用才会改变vector的容量。如果需求大小大于当前容量，reserve至少分配与需求一样大的内存空间（可能更大）。
-	3. resize成员函数只改变容器中元素的数目，而不是容器的容量。
+> 9.4 vector对象是如何增长的  
 
-- 容器的size是指它已经保存的元素的数目；而capacity则是在不分配新的内存空间的前提下它最多可以保存多少元素。
+管理容量的成员函数  
+- reserve并不改变容器中元素的数量，它仅影响vector预先分配多大的内存空间。
+- 只有当需要的内存空间超过当前容量时，reserve调用才会改变vector的容量。如果需求大小大于当前容量，reserve至少分配与需求一样大的内存空间（可能更大）。
+- resize成员函数只改变容器中元素的数目，而不是容器的容量。   
+
+容器的size是指它已经保存的元素的数目；而capacity则是在不分配新的内存空间的前提下它最多可以保存多少元素。  
 
 ## Templates  
 > 16 模板与泛型编程  

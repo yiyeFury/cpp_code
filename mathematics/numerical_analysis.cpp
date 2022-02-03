@@ -4,22 +4,16 @@
 
 #include "../common.h"
 #include "numerical_analysis.h"
+#include <algorithm>
 
-int main()
-{
-    float A[4][4] = {{1, 1, 1,1},
-                     {1,2,4,8},
-                     {1,3,9,27},
-                     {1,4,16,64}};
-    float b[4] = {3,4,3,-3};
-    float x[4];
+// int main()
+// {
+//     const int kNum = 4;
+//     int v[kNum] = {1, 2, 3, 4};
+//     auto is_even = [](int i) { return i < 3; };
+//     auto result3 = find_if(v, v + kNum, is_even);
+//     cout << *result3 << '\n';
+//
+//     return 0;
+// }
 
-    GaussElimination(A, b, x);
-
-    PrintArray(A);
-    PrintArray(b);
-    PrintArray(x);
-
-
-    return 0;
-}
