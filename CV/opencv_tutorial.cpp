@@ -2,6 +2,7 @@
 // Created by xie on 2021/7/8.
 //
 
+
 #include <string>
 
 #include "opencv_tutorial.h"
@@ -82,7 +83,6 @@ void TemplateMatching(string src_file)
     waitKey(0);
     destroyAllWindows();
 }
-
 
 void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm()
 {
@@ -214,17 +214,24 @@ void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm()
 }
 
 
-// int main()
-// {
-//
-//     cout <<"\nStart\n\n";
-//
-//     string src_file = "E:/my_data/opencv_sample_data/box_in_scene.png";
-//     TemplateMatching(src_file);
-//
-//     cout<<"\n\nEnd\n";
-//     // system("pause");
-//     return 0;
-// }
+int main()
+{
+
+    cout <<"\nStart\n\n";
+
+    string img_file = "E:/my_data/opencv_sample_data/chicky_512.png";
+    Mat src = imread(img_file, IMREAD_GRAYSCALE);
+
+    Mat dst;
+    equalizeHist(src, dst);
+
+    imshow("Source image", src);
+    imshow("Equalized Image", dst);
+    waitKey();
+
+    cout<<"\n\nEnd\n";
+    // system("pause");
+    return 0;
+}
 
 

@@ -78,7 +78,7 @@ Parameters
 
 - **src**: input image: 8-bit unsigned, 16-bit unsigned ( CV_16UC... ), or single-precision floating-point.  
 - **dst**: output image of the same size and depth as src.  
-- **code**: color space conversion code (see ColorConversionCodes).  
+- **code**: color space conversion code (see [ColorConversionCodes](https://docs.opencv.org/4.x/d8/d01/group__imgproc__color__conversions.html#ga4e0972be5de079fed4e3a10e24ef5ef0)).  
 - **dstCn**: number of channels in the destination image; if the parameter is 0, the number of the channels is derived automatically from src and code.  
 
 Converts an image from one color space to another.  
@@ -103,16 +103,31 @@ convert between RGB/BGR and grayscale
 
 
 ## Scalar  
+
+> [CSDN: opencv中的Scalar()函数](https://blog.csdn.net/kangjielearning/article/details/109167326)  
+> [CSDN: OpenCV学习笔记（3）——Scalar数据类型理解](https://blog.csdn.net/liuweiyuxiang/article/details/76929534)  
+
 > `cv::Scalar_< _Tp >` [Class Template Reference](https://docs.opencv.org/4.x/d1/da0/classcv_1_1Scalar__.html)  
+
+> > Detailed Description  
 
 Template class for a 4-element vector derived from Vec.  
 
 Being derived from `Vec<_Tp, 4>`, `Scalar_` and Scalar can be used just as typical 4-element vectors. In addition, they can be converted to/from CvScalar . The type Scalar is widely used in OpenCV to pass pixel values.  
 
 [cv::Scalar](https://docs.opencv.org/4.x/dc/d84/group__core__basic.html#ga599fe92e910c027be274233eccad7beb)  
+
 ```C++
 typedef Scalar_<double> cv::Scalar
 ```
+
+Code Example  
+```C++
+Scalar s1(10, 20, 255);
+cout << s1 << endl;
+cout << s1[0] << endl;
+```
+
 
 ## Point  
 > `cv::Point_< _Tp >` [Class Template Reference](https://docs.opencv.org/4.x/db/d4e/classcv_1_1Point__.html)  
@@ -128,7 +143,7 @@ typedef Point_<float> Point2f;
 typedef Point_<double> Point2d;
 ```
 
-Example:
+Code Example  
 ```C++
 Point2f a(0.3f, 0.f), b(0.f, 0.4f);
 Point pt = (a + b)*10.f;
@@ -139,6 +154,21 @@ cout << pt.x << ", " << pt.y << endl;
 > `cv::Rect_< _Tp >` [Class Template Reference](https://docs.opencv.org/4.x/d2/d44/classcv_1_1Rect__.html)  
 
 Template class for 2D rectangles.  
+
+> > Public Attributes  
+
+height: height of the rectangle  
+width: width of the rectangle  
+x: x coordinate of the top-left corner  
+y: y coordinate of the top-left corner  
+
+> > Detailed Description  
+
+```C++
+template<typename _Tp>
+class cv::Rect_< _Tp >
+```
+
 
 For your convenience, the `Rect_<>` alias is available: [cv::Rect](https://docs.opencv.org/4.x/dc/d84/group__core__basic.html#ga11d95de507098e90bad732b9345402e8)  
 
@@ -166,6 +196,8 @@ cv::Rect_<_Tp>::Rect_(_Tp _x,
 
 > Tutorial: [Mat - The Basic Image Container](https://docs.opencv.org/master/d6/d6d/tutorial_mat_the_basic_image_container.html)    
 
+> > **Mat**  
+
 Mat is basically a class with two data parts:   
 
 - **the matrix header** (containing information such as the size of the matrix, the method used for storing, at which address is the matrix stored, and so on) and 
@@ -175,7 +207,7 @@ Mat is basically a class with two data parts:
 OpenCV uses a **reference counting system**.  
 
 - each Mat object has its own header, however a matrix may be shared between two Mat objects by having their matrix pointers point to the same address.  
-- the copy operators will only copy the headers and the pointer to the large matrix, not the data itself.  
+- the **copy operators** will only copy the headers and the pointer to the large matrix, not the data itself.  
 - The **assignment operator** and the **copy constructor** only copy the header.  
 
 ```C++  
@@ -196,7 +228,7 @@ Mat D (A, Rect(10, 10, 100, 100) );  // using a rectangle
 Mat E = A(Range::all(), Range(1,3));  // using row and column boundaries
 ```
 
-copy the matrix, OpenCV provides `cv::Mat::clone()` and `cv::Mat::copyTo()` functions.  
+**copy the matrix**, OpenCV provides `cv::Mat::clone()` and `cv::Mat::copyTo()` functions.  
 ```C++
 Mat F = A.clone();
 Mat G;
@@ -204,17 +236,18 @@ A.copyTo(G);
 ```
 modifying F or G will not affect the matrix pointed to by the A's header.  
 
-**Storing methods**  
+> > **Storing methods**  
+
 To code the transparency of a color sometimes a fourth element, alpha (A), is added.  
 
-OpenCV standard display system composes colors using the BGR color space (red and blue channels are swapped places).  
+OpenCV standard display system composes colors using the **BGR** color space (red and blue channels are swapped places).  
 The HSV and HLS decompose colors into their **hue, saturation and value/luminance** components.  
 
-**Creating a Mat object explicitly**  
+> > **Creating a Mat object explicitly**  
 
-- see the actual values. 
-using the << operator of Mat. Be aware that this only works for two dimensional matrices.
+for debugging purposes it's much more convenient to **see the actual values**. You can do this using the `<<` operator of Mat. Be aware that this only works for **two dimensional matrices**.  
 
+create a Mat object in multiple ways  
 - cv::Mat::Mat Constructor  
 ```C++
 Mat M(2, 2, CV_8UC3, Scalar(0, 0, 255));
@@ -266,6 +299,12 @@ randu(R, Scalar::all(0), Scalar::all(255));
 `cout << "R (python)  = " << endl << format(R, Formatter::FMT_PYTHON) << endl << endl;`  
 - Numpy  
 `cout << "R (numpy) = " << endl << format(R, Formatter::FMT_NUMPY ) << endl << endl;`
+
+### How is the image matrix stored in memory?  
+> https://docs.opencv.org/4.x/db/da5/tutorial_how_to_scan_images.html  
+
+![](./How is the image matrix stored in memory.png)
+
 
 
 # Operations on arrays  
@@ -453,6 +492,30 @@ destroyWindow(win_title);
 |INTER_LINEAR|cv.INTER_LINEAR|bilinear interpolation|
 |INTER_CUBIC|cv.INTER_CUBIC|bicubic interpolation|
 |INTER_AREA|cv.INTER_AREA|resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire'-free results. But when the image is zoomed, it is similar to the INTER_NEAREST method.|
+
+# Histograms  
+
+## Histogram Calculation  
+
+> [OpenCV Tutorials: Histogram Calculation](https://docs.opencv.org/4.x/d8/dbc/tutorial_histogram_calculation.html)  
+
+
+
+## Histogram Equalization  
+> [OpenCV Tutorials: Histogram Equalization](https://docs.opencv.org/4.x/d4/d1b/tutorial_histogram_equalization.html)  
+
+```C++
+string img_file = "";
+Mat src = imread(img_file, IMREAD_GRAYSCALE);
+
+Mat dst;
+equalizeHist(src, dst);
+
+imshow("Source image", src);
+imshow("Equalized Image", dst);
+waitKey();
+```
+
 
 
 # Image Pyramids  
