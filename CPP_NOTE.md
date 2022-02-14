@@ -177,9 +177,9 @@ int j = p[1];  // p[1]等价于*(p+1)
 
 严格来说，C++语言中没有多维数组，通常所说的多维数组其实是数组的数组。  
 
-#### 多维数组的初始化  
+> > 多维数组的初始化  
 
-#### 多维数组的下标引用  
+> > 多维数组的下标引用  
 - 如果表达式含有的下标运算符数量和数组的维度一样多，该表达式的结果将是给定类型的元素；反之，如果表达式含有的下标运算符数量比数组的维度小，则表达式的结果将是给定索引处的一个内层数组：  
 ```C++
 int ia[3][4];
@@ -187,7 +187,7 @@ int (&row)[4]=ia;  // 指向ia的第一个4元素数组
 int (&row)[4]=ia[1];  // 指向ia的第二个4元素数组
 ```
 
-#### 使用范围for语句处理多维数组  
+> > 使用范围for语句处理多维数组  
 ```C++
 int a1[5][10];
 int cnt = 0;
@@ -198,11 +198,12 @@ for (auto &row:a1) {
 }
 ```
 
-- 将外层循环的控制变量声明为引用类型，避免数组被自动转成指针（auto语句）。
-- 要使用范围for语句处理多维数组，除了最内层的循环外，其他所有循环的控制变量都应该是引用类型。  
+将外层循环的控制变量声明为引用类型，避免数组被自动转成指针（auto语句）。  
+要使用范围for语句处理多维数组，除了最内层的循环外，其他所有循环的控制变量都应该是引用类型。  
 
-#### 指针和多维数组  
-- 多维数组实际上是数组的数组，由多维数组名转换得来的指针实际上是指向第一个内层数组的指针。  
+> > 指针和多维数组  
+
+多维数组实际上是数组的数组，由多维数组名转换得来的指针实际上是指向第一个内层数组的指针。  
 
 ```C++
 // my test
@@ -231,11 +232,86 @@ for (int ii=0;ii<M;ii++) {
 }
 ```
 
-#### 类型别名简化多维数组的指针  
+> > 类型别名简化多维数组的指针  
 ```C++
 using int_array = int[4];
 typedef int int_array[4];
 ```
+
+### C风格字符串  
+> 3.5.4 C风格字符串  
+
+Character string literals are an instance of a more general construct that C++ inherits from C: **C-style character strings**. C-style strings are not a type. Instead, they are a convention for how to represent and use character strings. Strings that follow this convention are stored in character arrays and are null terminated. By null terminated we mean that the last character in the string is followed by a **null character** (`'\0'`). Ordinarily we use **pointers** to manipulate these strings.  
+
+> > C标准库String函数  
+
+C风格字符串函数，定义在`cstring`头文件中。  
+
+|||
+|:-|:-|
+|strlen(p)|返回p的长度，空字符不计算在内|
+|strcmp(p1, p2)||
+|strcat(p1, p2)|将p2附加到p1之后，返回p1|
+|strcpy(p1, p2)|将p2拷贝给p1，返回p1|
+传入此类函数的指针必须指向以**空字符**作为结束的数组。
+
+```C++
+#include <cstring>
+using namespace std;
+
+char ca[] = {'C', '+', '+', '\0'};
+cout << strlen(ca) <<endl;
+
+const char ca1[] = "A string example";
+const char ca2[] = "A different string";
+cout << strcmp(ca1, ca2) << endl;
+```
+
+### 与旧代码的接口  
+> 3.5.5 与旧代码的接口
+
+> > 混用string对象和C风格字符串  
+
+任何出现字符串字面值的地方都可以用**以空字符结束的字符数组**来替代：
+- 允许使用以空字符结束的字符数组来初始化string对象或为string对象赋值；  
+- 在string对象的加法运算中允许使用以空字符结束的字符数组作为其中一个运算对象（不能两个运算对象都是）；在string对象的复合赋值运算中允许使用以空字符结束的字符数组作为右侧的运算对象。
+
+```C++
+char ca[] = {'C', '+', '+', '\0'};
+string s1 = ca;
+cout << "ca: " << ca << endl;
+cout << "s1: " << s1 << endl;
+```
+
+C风格字符串，无法直接使用string对象来代替它。
+```C++
+string s1("C++");
+const char * cs = s1.c_str();  // 必须声明为const
+cout << cs <<endl;
+cout << strlen(cs) << endl;
+```
+
+> > 使用数组初始化vector对象  
+
+允许使用数组来初始化vector对象，指明拷贝区域的首元素地址和尾后地址。
+
+```C++
+int arr[5] = {1, 2, 3, 4, 5};
+
+vector<int> vec(begin(arr), end(arr));
+vector<int> sub_vec(arr+1, arr+3);
+
+cout << "full array"<<endl;
+for (auto ii: vec) {
+    cout << ii;
+}
+
+cout << endl << "sub array"<<endl;
+for (auto ii: sub_vec) {
+    cout << ii;
+}
+```
+
 
 -------------------
 
@@ -2306,19 +2382,33 @@ for (auto vb=ia1.begin();vb!=ia1.end();vb++)
 ---------------------
 
 #### string  
+> cppreference.com: [Strings library](https://en.cppreference.com/w/cpp/string)  
+
 > 3.2 标准库类型string[^C++ Primer, 5th]  
 
-标准库类型string表示可变长的字符序列，使用string类型必须首先包含`string`头文件。  
+标准库类型`string`表示可变长的字符序列，使用string类型必须首先包含`string`头文件。  string定义在命名空间std中。
 
 ```C++
 #include <string>
+using namespace std;
 using std::string;
 ```
 
-#### 定义和初始化string对象  
+##### 定义和初始化string对象  
 > 3.2.1 定义和初始化string对象[^C++ Primer, 5th]  
 
-##### 直接初始化和拷贝初始化
+初始化string对象的方式  
+|||
+|:-|:-|
+|string s1|默认初始化，s1是一个空串|
+|string s2(s1)||
+|string s2=s1||
+|string s3("Value")||
+|string s3="Value"||
+|string s4(n, 'c')||
+
+> > 直接初始化和拷贝初始化  
+
 如果使用等号（=）初始化一个变量，实际上执行的是**拷贝初始化（copy initialization）**，编译器把等号右侧的初始值拷贝到新创建的对象中去。如果不使用等号，则执行的是**直接初始化（direct initialization）**。  
 
 ```C++
@@ -2328,15 +2418,22 @@ string s7(10, 'c');  // 直接初始化
 string s8 = string(10, 'c');  // 拷贝初始化
 ```
 
-#### string对象上的操作  
+-----------------------------------------------------
+
+##### string对象上的操作  
 > 3.2.2 string对象上的操作  
 
-##### 读写string对象
-1. 在执行读取操作时，string对象会自动忽略开头的空白（即空格符、换行符、制表符等）并从第一个真正的字符读起，直到遇见下一处空白为止。
-##### 读取未知数量的string对象
-##### 使用getline读取一整行
-1. getline函数的参数是一个输入流和一个string对象，函数从给定的输入流中读入内容，直到遇到换行符为止（注意换行符也被读进来了），然后把所读的内容存入到那个string对象中去（注意不存换行符）。
-2. 触发getline函数返回的那个换行符实际上被丢弃掉了，得到的string对象中并不包含该换行符。  
+> > 读写string对象  
+
+在执行读取操作时，string对象会自动忽略开头的空白（即空格符、换行符、制表符等）并从第一个真正的字符读起，直到遇见下一处空白为止。  
+
+> > 读取未知数量的string对象  
+
+> > 使用`getline`读取一整行  
+
+`getline`函数的参数是一个输入流和一个string对象，函数从给定的输入流中读入内容，直到遇到换行符为止（注意换行符也被读进来了），然后把所读的内容存入到那个string对象中去（注意不存换行符）。  
+触发getline函数返回的那个换行符实际上被丢弃掉了，得到的string对象中并不包含该换行符。  
+
 ```C++
 string line;
 int cnt = 0;
@@ -2347,42 +2444,50 @@ while (getline(cin, line)) {
 }
 ```
 
-##### string的empty和size操作  
+> > string的empty和size操作  
+
 empty函数根据string对象是否为空返回一个对应的布尔值。
 size函数返回string对象的长度（即string对象中字符的个数）。  
 
-##### string::size_type类型  
+> > string::size_type类型  
+
 size函数返回的是一个string::size_type类型的值。
 string::size_type是无符号类型的值。
 表达式中混用带符号数和无符号数，负值会自动转换成一个比较大的无符号值。  
 
-##### 字面值和string对象相加  
-标准库允许把字符字面值和字符串字面值转换成string对象
-当把string对象和字符字面值及字符串字面值混在一条语句中使用时，必须确保每个加法运算符（+）的两侧的运算对象至少有一个是string；
+> > 字面值和string对象相加  
+
+标准库允许把字符字面值和字符串字面值转换成string对象。  
+当把string对象和字符字面值及字符串字面值混在一条语句中使用时，必须确保每个加法运算符（+）的两侧的运算对象至少有一个是string；  
 C++语言中，**字符串字面值**并不是**标准库类型string的对象**。  
 
-#### 处理string对象中的字符  
+##### 处理string对象中的字符  
 > 3.2.3 处理string对象中的字符  
 
-1. 改变某个字符的特性，在cctype头文件中定义了一组标准函数处理这部分工作。
-2. C语言的头文件形如name.h，C++则将这些文件命名为cname。
-3. 名为cname的头文件中定义的名字从属于命名空间std。
+改变某个字符的特性，在`cctype`头文件中定义了一组标准函数处理这部分工作。  
 
-##### 处理每个字符？使用基于范围的for语句  
+
+C语言的头文件形如name.h，C++则将这些文件命名为cname。  
+名为cname的头文件中定义的名字从属于命名空间std。  
+
+> > 处理每个字符？使用基于范围的for语句  
+
 范围for（range for）其语法形式是：
 ```C++
 for (declaration: expression)
 	statement
 ```
-其中，expression部分是一个对象，用于表示一个序列。declaration部分负责定义一个变量，该变量呗用于访问序列中的基础元素。每次迭代，declaration部分的变量会被初始化为expression部分的下一个元素值。
+其中，expression部分是一个对象，用于表示一个序列。declaration部分负责定义一个变量，该变量呗用于访问序列中的基础元素。每次迭代，declaration部分的变量会被初始化为expression部分的下一个元素值。  
+
 ```C++
 string str("some string");
 for (auto c:str)
 	cout<<c<<endl;
 ```
 
-##### 使用范围for语句改变字符串中的字符
-1. 要改变string对象中字符的值，必须把循环变量定义成引用类型。
+> > 使用范围for语句改变字符串中的字符  
+
+要改变string对象中字符的值，必须把循环变量定义成**引用**类型。  
 *测试指针失败*  
 ```C++
 // my test
@@ -2392,9 +2497,10 @@ for (auto &c:str)  // for (char &c:str)
 cout << str << endl;
 ```
 
-##### 只处理一部分字符  
-1. 访问string对象中的单个字符有两种方式，一种是使用下标，另外一种是使用迭代器
-2. 下标运算符（`[]`）接收的输入参数是`string::size_type`类型的值，这个参数表示要访问的字符的位置，返回值是该位置上的**引用**。
+> > 只处理一部分字符  
+
+访问string对象中的单个字符有两种方式，一种是使用下标，另外一种是使用迭代器  
+下标运算符（`[]`）接收的输入参数是`string::size_type`类型的值，这个参数表示要访问的字符的位置，返回值是该位置上的**引用**。  
 
 -----------------------------------
 
@@ -2626,6 +2732,11 @@ tuple_element<1, trans>::type cnt1 = get<1>(item);
 
 ### Built-in Types内置类型  
 > 2.1 基本内置类型[^C++ Primer, 5th]  
+
+> [cppreference.com: Fundamental types](https://en.cppreference.com/w/cpp/language/types)  
+
+> [cplusplus: Variables and types](https://www.cplusplus.com/doc/tutorial/variables/)  
+
 
 #### 算术类型  
 > 2.1.1 算术类型  

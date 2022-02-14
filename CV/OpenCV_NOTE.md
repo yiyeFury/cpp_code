@@ -494,10 +494,45 @@ destroyWindow(win_title);
 |INTER_AREA|cv.INTER_AREA|resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire'-free results. But when the image is zoomed, it is similar to the INTER_NEAREST method.|
 
 # Histograms  
+> OpenCV: Image Processing : [Histograms](https://docs.opencv.org/4.x/d6/dc7/group__imgproc__hist.html)  
+
 
 ## Histogram Calculation  
 
 > [OpenCV Tutorials: Histogram Calculation](https://docs.opencv.org/4.x/d8/dbc/tutorial_histogram_calculation.html)  
+
+> [`calcHist()`](https://docs.opencv.org/4.x/d6/dc7/group__imgproc__hist.html#ga4b2b5fd75503ff9e6844cc4dcdaed35d)  
+
+```C++
+// Calculates a histogram of a set of arrays.
+void cv::calcHist(const Mat *images,
+                  int nimages,
+                  const int *channels,
+                  InputArray mask,
+                  OutputArray hist,
+                  int dims,
+                  const int *histSize,
+                  const float **ranges,
+                  bool uniform = true,
+                  bool accumulate = false
+)
+```
+
+```Python
+cv.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]]) -> hist
+```
+
+> Parameters  
+- *images*: Source arrays. They all should have the same depth, CV_8U, CV_16U or CV_32F , and the same size. Each of them can have an arbitrary number of channels.  
+- *nimages*: Number of source images.  
+- *channels*: 	List of the dims channels used to compute the histogram.  
+- *mask*: Optional mask. If the matrix is not empty, it must be an 8-bit array of the same size as images[i] . The non-zero mask elements mark the array elements counted in the histogram.  
+- *hist*: Output histogram, which is a dense or sparse dims -dimensional array.  
+- *dims*: Histogram dimensionality that must be positive and not greater than CV_MAX_DIMS (equal to 32 in the current OpenCV version).  
+- *histSize*: Array of histogram sizes in each dimension.  
+- *ranges*: Array of the dims arrays of the histogram bin boundaries in each dimension.  
+- *uniform*: Flag indicating whether the histogram is uniform or not.  
+- *accumulate*: Accumulation flag. If it is set, the histogram is not cleared in the beginning when it is allocated. This feature enables you to compute a single histogram from several sets of arrays, or to update the histogram in time.  
 
 
 
