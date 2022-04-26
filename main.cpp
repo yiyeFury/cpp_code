@@ -8,26 +8,30 @@
 #include <memory>
 #include <omp.h>
 #include <bitset>
+#include <map>
+#include <set>
+#include <utility>
 
+#include <opencv2/opencv.hpp>
 #include "common.h"
-#include "SCM/successive_correction.h"
+
 
 
 using namespace std;
-//using namespace cv;
-
-
-
-
+using namespace cv;
 
 
 // int main()
 // {
 //
 //
+//
 //     // system("pause");
 //     return 0;
 // }
+
+
+
 
 
 

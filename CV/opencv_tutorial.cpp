@@ -219,65 +219,26 @@ int main()
 
     cout <<"\nStart\n\n";
 
-    string img_file = "E:/my_data/opencv_sample_data/chicky_512.png";
-    Mat src = imread(img_file, IMREAD_COLOR);
+    Mat src, src_gray, dst;
+    string img_file("E:/my_data/dip_data/lena.jpg");
+    src = imread(img_file);
+    imshow("src", src);
 
-    if (src.empty()) {
-        return EXIT_FAILURE;
-    }
+    // Reduce noise by blurring with a Gaussian filter ( kernel size = 3 )
+    GaussianBlur( src, src, Size(3, 3), 0, 0, BORDER_DEFAULT );
+    cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to grayscale
 
-    vector<Mat> bgr_planes;
-    split( src, bgr_planes );
-    int histSize = 256;
+    int kernel_size = 3, scale = 1, delta = 0, ddepth = CV_16S;
+    Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
 
-    float range[] = { 0, 256 }; //the upper boundary is exclusive
-    const float* histRange[] = { range };
-
-    bool uniform = true, accumulate = false;
-
-    Mat b_hist, g_hist, r_hist;
-    calcHist( &bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, histRange, uniform, accumulate );
-    calcHist( &bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, histRange, uniform, accumulate );
-    calcHist( &bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, histRange, uniform, accumulate );
-
-    int hist_w = 512, hist_h = 400;
-    int bin_w = cvRound( (double) hist_w/histSize );
-
-    Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
-    normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
-    normalize(g_hist, g_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
-    normalize(r_hist, r_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
-
-    for( int i = 1; i < histSize; i++ )
-    {
-        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ),
-              Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
-              Scalar( 255, 0, 0), 2, 8, 0  );
-        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ),
-              Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
-              Scalar( 0, 255, 0), 2, 8, 0  );
-        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ),
-              Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
-              Scalar( 0, 0, 255), 2, 8, 0  );
-    }
-
-    imshow("Source image", src );
-    imshow("calcHist Demo", histImage );
-    waitKey();
-
-    // Mat dst;
-    // equalizeHist(src, dst);
-    //
-    // imshow("Source image", src);
-    // imshow("Equalized Image", dst);
-    // waitKey();
+    // converting back to CV_8U
+    Mat abs_dst;
+    convertScaleAbs( dst, abs_dst );
+    imshow( "dst", abs_dst );
+    waitKey(0);
 
     cout<<"\n\nEnd\n";
     // system("pause");
     return 0;
 }
-
-
-
-
 

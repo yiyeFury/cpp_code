@@ -2,7 +2,7 @@
 
 # Materials  
 
-> 未加引用的章节，默认 C++ Primer, Fifth Edition[^C++ Primer, 5th]  
+> 未加引用的章节，默认 C++ Primer, Fifth Edition[^CppPrimer5th]  
 
 
 GitHub: [Google Style Guides](https://github.com/google/styleguide)  
@@ -40,7 +40,7 @@ CSDN: [c++数组指针和指针数组详解](https://blog.csdn.net/shayne000/art
 
 ### 定义和初始化内置数组  
 
-> 3.5.1 定义和初始化内置数组[^C++ Primer, 5th]
+> 3.5.1 定义和初始化内置数组[^CppPrimer5th]
 
 数组的声明形如`a[d]`  
 - `a`是数组的名字
@@ -56,14 +56,14 @@ int *parr[42];  // 含有42个整型指针的数组
 定义数组的时候必须指定**数组的类型**，不允许用`auto`关键字由初始值的列表推断类型。  
 数组的元素应为对象，不存在引用的数组。  
 
-> >  显式初始化数组元素  
+> 显式初始化数组元素  
 
 可以对数组的元素进行列表初始化，此时允许忽略数组的维度。  
 ```C++
 int a2[] = {0, 1, 2};  // 维度是3的数组
 ```
 
-> > 字符数组的特殊性  
+> 字符数组的特殊性  
 
 可以用字符串字面值对字符数组初始化。  
 **字符串字面值**的结尾还有一个空字符，这个空字符也会像字符串的其他字符一样被拷贝到字符数组中去。  
@@ -91,9 +91,10 @@ Test(a2);
 Test(a3);
 ```
 
-> > 不允许拷贝和赋值  
+> 不允许拷贝和赋值  
 
-> > 理解复杂的数组声明  
+> 理解复杂的数组声明  
+
 ```C++
 int *pts[10];  // pts是含有10个整形指针的数组
 int &refs[0]=/*?*/;  // 错误，不存在引用的数组
@@ -144,23 +145,23 @@ cout << ia3[1] << "  ";
 ```
 
 
-> > 指针也是迭代器  
+> 指针也是迭代器  
 
 尾后指针不指向具体的元素。不能对尾后指针执行解引用或递增的操作。  
 
-> > 标准库函数begin和end  
+> 标准库函数begin和end  
 
 `begin`函数返回指向ia首元素的指针，`end`函数返回指向ia尾元素下一位置的指针。这两个函数定义在`iterator`头文件中。  
 
-> > 指针运算  
+> 指针运算  
 
 给指针加上一个整数，得到的新指针扔需指向同一数组的其他元素，或者指向同一数组的尾元素的下一位置。  
 两个指针相减的结果是它们之间的距离。参与运算的两个指针必须指向同一个数组当中的元素。
 两个指针相减的结果类型是一种名为ptrdiff_t的标准库类型，定义在cdtddef头文件中的机器相关的类型。  
 
-> > 解引用和指针运算的交互  
+> 解引用和指针运算的交互  
 
-> > 下标和指针  
+> 下标和指针  
 
 ```C++
 int ia[] = {0, 2, 4, 6, 8};
@@ -173,13 +174,13 @@ int j = p[1];  // p[1]等价于*(p+1)
 --------------------
 
 ### 多维数组  
-> 3.6 多维数组[^C++ Primer, 5th]  
+> 3.6 多维数组[^CppPrimer5th]  
 
 严格来说，C++语言中没有多维数组，通常所说的多维数组其实是数组的数组。  
 
-> > 多维数组的初始化  
+> 多维数组的初始化  
 
-> > 多维数组的下标引用  
+> 多维数组的下标引用  
 - 如果表达式含有的下标运算符数量和数组的维度一样多，该表达式的结果将是给定类型的元素；反之，如果表达式含有的下标运算符数量比数组的维度小，则表达式的结果将是给定索引处的一个内层数组：  
 ```C++
 int ia[3][4];
@@ -187,7 +188,7 @@ int (&row)[4]=ia;  // 指向ia的第一个4元素数组
 int (&row)[4]=ia[1];  // 指向ia的第二个4元素数组
 ```
 
-> > 使用范围for语句处理多维数组  
+> 使用范围for语句处理多维数组  
 ```C++
 int a1[5][10];
 int cnt = 0;
@@ -201,7 +202,7 @@ for (auto &row:a1) {
 将外层循环的控制变量声明为引用类型，避免数组被自动转成指针（auto语句）。  
 要使用范围for语句处理多维数组，除了最内层的循环外，其他所有循环的控制变量都应该是引用类型。  
 
-> > 指针和多维数组  
+> 指针和多维数组  
 
 多维数组实际上是数组的数组，由多维数组名转换得来的指针实际上是指向第一个内层数组的指针。  
 
@@ -232,7 +233,7 @@ for (int ii=0;ii<M;ii++) {
 }
 ```
 
-> > 类型别名简化多维数组的指针  
+> 类型别名简化多维数组的指针  
 ```C++
 using int_array = int[4];
 typedef int int_array[4];
@@ -243,7 +244,7 @@ typedef int int_array[4];
 
 Character string literals are an instance of a more general construct that C++ inherits from C: **C-style character strings**. C-style strings are not a type. Instead, they are a convention for how to represent and use character strings. Strings that follow this convention are stored in character arrays and are null terminated. By null terminated we mean that the last character in the string is followed by a **null character** (`'\0'`). Ordinarily we use **pointers** to manipulate these strings.  
 
-> > C标准库String函数  
+> C标准库String函数  
 
 C风格字符串函数，定义在`cstring`头文件中。  
 
@@ -270,7 +271,7 @@ cout << strcmp(ca1, ca2) << endl;
 ### 与旧代码的接口  
 > 3.5.5 与旧代码的接口
 
-> > 混用string对象和C风格字符串  
+> 混用string对象和C风格字符串  
 
 任何出现字符串字面值的地方都可以用**以空字符结束的字符数组**来替代：
 - 允许使用以空字符结束的字符数组来初始化string对象或为string对象赋值；  
@@ -291,7 +292,7 @@ cout << cs <<endl;
 cout << strlen(cs) << endl;
 ```
 
-> > 使用数组初始化vector对象  
+> 使用数组初始化vector对象  
 
 允许使用数组来初始化vector对象，指明拷贝区域的首元素地址和尾后地址。
 
@@ -316,11 +317,11 @@ for (auto ii: sub_vec) {
 -------------------
 
 ## const Qualifier  
-> 2.4 const限定符[^C++ Primer, 5th]  
+> 2.4 const限定符[^CppPrimer5th]  
 
 `const`对象一旦创建后其值就不能再改变，所以**const对象必须初始化**。  
 
-> > 初始化和const
+> 初始化和const
 
 利用一个对象去初始化另外一个对象，则它们是不是const都无关紧要。  
 ```C++
@@ -329,7 +330,7 @@ const int ci = i;
 int j = ci;
 ```
 
-> > **默认状态下，const对象仅在文件内有效**  
+> **默认状态下，const对象仅在文件内有效**  
 
 默认情况下，const对象被设定为仅在文件内有效。当多个文件中出现了同名的const变量时，其实等同于在不同文件中分别定义了独立的变量。  
 
@@ -751,7 +752,7 @@ C++包含两种枚举：限定作用域的和不限定作用域的。C++11新标
 
 
 ## Exception Handling  
-> 5.6 TRY语句块和异常处理[^C++ Primer, 5th]  
+> 5.6 TRY语句块和异常处理[^CppPrimer5th]  
 
 ### throw表达式  
 > https://en.cppreference.com/w/cpp/language/throw  
@@ -1100,7 +1101,7 @@ asset的行为依赖于NDEBUG预处理变量的状态。
 
 ### Lambda Expressions  
 #### Lambda Expressions  
-> 10.3.2 lambda表达式[^C++ Primer, 5th]  
+> 10.3.2 lambda表达式[^CppPrimer5th]  
 
 lambda表达式表示一个可调用的代码单元。可以将其理解为一个未命名的内联函数。lambda具有一个返回类型、一个参数列表和一个函数体。与函数不同，lambda可以定义在函数内部。  
 
@@ -2095,9 +2096,8 @@ constexpr函数的参数和返回值必须是字面值类型。除了算术类�
 ***回避虚函数的机制***
 1. 执行虚函数的某个特定版本，使用作用域运算符。
 
-
 ## Pointers指针  
-> 2.3.2 指针[^C++ Primer, 5th]  
+> 2.3.2 指针[^CppPrimer5th]  
 
 - 指针与引用相比的不同点：
 (1) 指针本身就是一个对象，允许对指针赋值和拷贝，而且在指针的声明周期内它可以先后指向几个不同的对象。  
@@ -2158,7 +2158,7 @@ https://en.cppreference.com/w/cpp/regex
 
 
 ## References引用  
-> 2.3.1 引用[^C++ Primer, 5th]  
+> 2.3.1 引用[^CppPrimer5th]  
 
 - 引用为对象起了另外一个名字。将声明符写成 &d的形式来定义引用类型，其中d是声明的变量名：  
 ```C++
@@ -2273,11 +2273,11 @@ it -> empty();
 
 
 ### sequential containers顺序容器  
-> 9 顺序容器[^C++ Primer, 5th]  
+> 9 顺序容器[^CppPrimer5th]  
 
 > 9.1 顺序容器概述  
 
-![](./c++_primer_table9.1-顺序容器类型.png)
+![](c++_primer_table9.1-顺序容器类型.png)
 
 - 确定使用哪种容器
 1. 除非你有很好的理由选择其他容器，否则应使用vector。
@@ -2379,12 +2379,101 @@ for (auto vb=ia1.begin();vb!=ia1.end();vb++)
 2. 标准库queue使用一种先进先出（first-in，first-out，FIFO）的存储和访问策略。进入队列的对象被放置到队尾，而离开队列的对象则从队首删除。
 3. priority_queue允许我们为队列中的元素建立优先级。新加入的元素会排在所有优先级比它低的已有元素之前。
 
+--------------------------
+
+### Associative Containers 关联容器  
+> 11 关联容器  
+
+![](c++_primer_table11.1关联容器类型.png)  
+
+类型`map`和`multimap`定义在头文件`map`中；
+`set`和`multiset`定义在头文件`set`中；
+无序容器则定义在头文件`unordered_map`和`unordered_set`中。
+
+#### 使用关联容器  
+> 11.1 使用关联容器  
+
+#### 关联容器概述  
+> 11.2 关联容器概述  
+
+##### 关键字类型的要求  
+> 11.2.2 关键字类型的要求  
+
+对于有序容器—map、multimap、set以及multiset，关键字类型必须定义元素比较的方法。默认情况下，标准库使用关键字类型的 `<` 运算符来比较两个关键字。  
+
+##### pair类型  
+cppreference.com--[std::pair](https://en.cppreference.com/w/cpp/utility/pair)  
+Defined in header `<utility>`    
+
+> 11.2.3 pair类型     
+
+与其他标准库类型不同，pair的数据成员是public的。两个成员分别命名为`first`和`second`。
+![](c++_primer_table11.2 pair上的操作.png)  
+
+```C++
+#include <utility>
+using namespace std;
+
+pair<string, string> pair1;
+pair<string, int> author{"James", 22};
+cout << author.first  <<"; " << author.second << "\n";
+```
+
+
+
+### map  
+cppreference--[std::map](https://en.cppreference.com/w/cpp/container/map)  
+
+```C++
+#include <map>
+using namespace std;
+
+void PrintMap(string comment, const map<string, int> &m)
+{
+    cout << comment;
+    for (const auto & [key, value]: m) {
+        cout << "[" <<key << "] = " <<value <<"; ";
+    }
+    cout << "\n";
+}
+
+// define map
+map<string, int> m{{"CPU", 10}, {"GPU", 15}, {"RAM", 20}};
+PrintMap("1) Initial map: ", m);
+
+m["CPU"] = 25;  // update an existing value
+m["SSD"] = 30;  // insert a new value
+PrintMap("2) Updated map: ", m);
+
+// using operator[] with non-existent key always performs an insert
+std::cout << "3) m[UPS] = " << m["UPS"] << '\n';
+PrintMap("4) Updated map: ", m);
+
+m.erase("GPU");  // Removes specified elements from the container.
+PrintMap("5) After erase: ", m);
+
+m.clear();  // Erases all elements from the container. After this call, size() returns zero.
+std::cout << std::boolalpha << "8) Map is empty: " << m.empty() << '\n';
+```
+
+---------------------------------
+
+### set  
+cppreference.com--[std::set](https://en.cppreference.com/w/cpp/container/set)  
+
+```C++
+#include <set>
+using namespace std;
+
+set<string> exclude = {"The", "But"};
+```
+
 ---------------------
 
-#### string  
+### string  
 > cppreference.com: [Strings library](https://en.cppreference.com/w/cpp/string)  
 
-> 3.2 标准库类型string[^C++ Primer, 5th]  
+> 3.2 标准库类型string[^CppPrimer5th]  
 
 标准库类型`string`表示可变长的字符序列，使用string类型必须首先包含`string`头文件。  string定义在命名空间std中。
 
@@ -2394,8 +2483,8 @@ using namespace std;
 using std::string;
 ```
 
-##### 定义和初始化string对象  
-> 3.2.1 定义和初始化string对象[^C++ Primer, 5th]  
+#### 定义和初始化string对象  
+> 3.2.1 定义和初始化string对象[^CppPrimer5th]  
 
 初始化string对象的方式  
 |||
@@ -2420,7 +2509,7 @@ string s8 = string(10, 'c');  // 拷贝初始化
 
 -----------------------------------------------------
 
-##### string对象上的操作  
+#### string对象上的操作  
 > 3.2.2 string对象上的操作  
 
 > > 读写string对象  
@@ -2461,7 +2550,7 @@ string::size_type是无符号类型的值。
 当把string对象和字符字面值及字符串字面值混在一条语句中使用时，必须确保每个加法运算符（+）的两侧的运算对象至少有一个是string；  
 C++语言中，**字符串字面值**并不是**标准库类型string的对象**。  
 
-##### 处理string对象中的字符  
+#### 处理string对象中的字符  
 > 3.2.3 处理string对象中的字符  
 
 改变某个字符的特性，在`cctype`头文件中定义了一组标准函数处理这部分工作。  
@@ -2504,27 +2593,38 @@ cout << str << endl;
 
 -----------------------------------
 
-#### vector  
+### vector  
 https://en.cppreference.com/w/cpp/container/vector  
 > 3.3 标准库类型vector  
 > 9.4 vector对象是如何增长的  
 
 > 3.3 标准库类型vector  
 
-- 标准库类型vector表示对象的集合，其中所有对象的类型都相同。集合中的每个对象都有一个与之对应的索引，索引用于访问对象。
-- vector是一个容器（container）。
-- 要想使用vector，必须包含适当的头文件  
+标准库类型vector表示对象的集合，其中所有对象的类型都相同。集合中的每个对象都有一个与之对应的索引，索引用于访问对象。  
+
+vector是一个容器（container）。
+要想使用vector，必须包含适当的头文件  
 ```C++
 #include <vector>
-using std::vector;
+using std::vector;  // using namespace std;
 ```
 
-- vector是类模板。  
-- 模板本身不是类或函数。  
-- 编译器根据模板创建类或函数的过程称为实例化（instantiation），当使用模板时，需要指出编译器应把类或函数实例化成何种类型。  
-- 由vector生成的类型必须包含vector中元素的类型，如 `vector<int>`。  
+vector是类模板。  
+模板本身不是类或函数。  
+编译器根据模板创建类或函数的过程称为实例化（instantiation），当使用模板时，需要指出编译器应把类或函数实例化成何种类型。  
 
-- 向vector对象中添加元素  
+由vector生成的类型必须包含vector中元素的类型，如 `vector<int>`。  
+
+#### 定义和初始化vector对象  
+
+> 3.3.1 定义和初始化vector对象  
+
+![](c++_primer_table3.4-初始化vector对象的方法.png)  
+
+#### vector 操作    
+
+> 3.3.2 向vector对象中添加元素  
+
 ```C++
 vector<int> ivec;
 for (int ii = 0; ii < 100; ii++) {
@@ -2533,7 +2633,9 @@ for (int ii = 0; ii < 100; ii++) {
 ```
 范围for语句体内不应改变其所遍历序列的大小。  
 
-- 使用范围for语句处理vector对象中的所有元素  
+> 3.3.3 其他vector操作  
+
+使用范围for语句处理vector对象中的所有元素  
 ```C++
 vector<int> ivec1, ivec2;
 for (int ii=0;ii<5;ii++) {
@@ -2550,20 +2652,41 @@ for (auto &vv: vec3) {
 }
 ```
 
-- vector对象的类型总是包含着元素的类型。
+vector对象的类型总是包含着元素的类型。
 ```C++
 vector<int>::size_type  // 正确
 vector::size_type // 错误
 ```
 
+#### vector对象是如何增长的  
 > 9.4 vector对象是如何增长的  
 
-管理容量的成员函数  
+> > 管理容量的成员函数  
 - reserve并不改变容器中元素的数量，它仅影响vector预先分配多大的内存空间。
 - 只有当需要的内存空间超过当前容量时，reserve调用才会改变vector的容量。如果需求大小大于当前容量，reserve至少分配与需求一样大的内存空间（可能更大）。
 - resize成员函数只改变容器中元素的数目，而不是容器的容量。   
 
 容器的size是指它已经保存的元素的数目；而capacity则是在不分配新的内存空间的前提下它最多可以保存多少元素。  
+
+#### vector 作为 函数返回值  
+```C++
+vector<int> twoSum(vector<int> &nums, int target)
+{
+    int num = nums.size();
+    int ii, jj;
+    vector<int> result;
+
+    for (ii = 0; ii < num - 1; ii++) {
+        for (jj = ii + 1; jj < num; jj++) {
+            if (nums[ii] + nums[jj] == target) {
+                result.push_back(ii);
+                result.push_back(jj);
+            }
+        }
+    }
+    return result;
+}
+```
 
 ## Templates  
 > 16 模板与泛型编程  
@@ -2698,7 +2821,7 @@ auto val3=sum<long long>(ii, ing>
 
 
 ## Tuple Type  
-> 17.1 tuple类型[^C++ Primer, 5th]  
+> 17.1 tuple类型[^CppPrimer5th]  
 
 ### 定义和初始化tuple  
 - tuple的这个构造函数是explicit的，因此我们必须使用直接初始化语法。  
@@ -2727,11 +2850,11 @@ tuple_element<1, trans>::type cnt1 = get<1>(item);
 
 
 ## Variables and Basic Types  
-> 2 变量和基本类型[^C++ Primer, 5th]  
+> 2 变量和基本类型[^CppPrimer5th]  
 
 
 ### Built-in Types内置类型  
-> 2.1 基本内置类型[^C++ Primer, 5th]  
+> 2.1 基本内置类型[^CppPrimer5th]  
 
 > [cppreference.com: Fundamental types](https://en.cppreference.com/w/cpp/language/types)  
 
@@ -2787,7 +2910,7 @@ C++算术类型
 
 
 ### Variables
-> 2.2 变量[^C++ Primer, 5th]  
+> 2.2 变量[^CppPrimer5th]  
 
 #### 变量定义  
 - 变量定义的基本形式是：首先是类型说明符（type specifier），随后紧跟由一个或多个变量名组成的列表，其中变量名以逗号分隔，最后以分号结束。列表中每个变量名的类型都由类型说明符指定，定义时还可以为一个或多个变量赋初值。  
@@ -2917,8 +3040,110 @@ decltype(*p) c;  // 错误：c是int&，必须初始化
 
 `decltype((variable))`（注意是双层括号）的结果永远是引用，而`decltype(variable)`结果只有当variable本省就是一个引用时才是引用。
 
+# [OpenMp](https://www.openmp.org/)  
+
+> OpenMp [Tutorials & Articles](https://www.openmp.org/resources/tutorials-articles/)  
+
+> Microsoft Docs--[OpenMP Library Reference](https://docs.microsoft.com/en-us/cpp/parallel/openmp/reference/openmp-library-reference?view=msvc-160)  
+- [A. Examples](https://docs.microsoft.com/en-us/cpp/parallel/openmp/a-examples?view=msvc-160)  
+
+> [CSDN--在C++中使用openmp进行多线程编程](https://blog.csdn.net/acaiwlj/article/details/49818965)  
+> [CSDN--openmp在多重循环内的简单使用及其详解](https://blog.csdn.net/allyli0022/article/details/52702466)  
+> [知乎--OpenMP并行开发(C++)](https://zhuanlan.zhihu.com/p/51173703)  
+
+- simple test
+```c++
+#include <omp.h>
+int main()
+{
+    cout << "\nStart\n\n";
+
+    int num_thd = 3;
+    #pragma omp parallel for num_threads(num_thd)
+    for(int ii=0;ii<20;ii++) {
+        int id = omp_get_thread_num();
+        cout<<"id= "<<id<<"   ";
+        cout<<"ii= "<<ii<<"   ";
+        cout<<endl;
+    }
+
+    cout << "\n\nend\n" << endl;
+    // system("pause");
+    return 0;
+}
+```
+
+## CMakeList.txt
+``` CMake
+# openMP 配置
+FIND_PACKAGE(OpenMP REQUIRED)
+if (OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif ()
+```
+
+# [SWIG](http://www.swig.org/index.php)  
+> SWIG is a software development tool that simplifies the task of interfacing different languages to **C and C++** programs.
+
+- [numpy.i](https://github.com/numpy/numpy/tree/master/tools/swig)--传递numpy需要使用此文件
+	swg的 \*.i 接口文件中需要指定该文件的位置。
+
+- [SWIG-4.0 Documentation](http://www.swig.org/Doc4.0/SWIGDocumentation.pdf)--32.2.1 Running SWIG
+- swig-[tutorial](http://www.swig.org/tutorial.html)  
+
+## 常用命令
+`swig --help`
+`swig -python -help`
+
+## 编写setup
+> [CSDN--使用SWIG编写C/C++代码的Python接口并使用distutils进行连接静态库编译](https://blog.csdn.net/hahajinbu/article/details/80819522)
+> [SWIG实现python对c++封装](http://www.cppblog.com/wanghaiguang/archive/2016/08/18/214201.html)
+> [CSDN--C++ 扩展python （四）传递numpy（使用SWIG）](https://blog.csdn.net/sinat_36215255/article/details/104987976)
+
+## OpenMP并行
+> Cython--Using Parallelism--[Compiling](http://docs.cython.org/en/latest/src/userguide/parallelism.html#compiling)
+
+
+## Ubuntu 安装 swig  
+> 参考[CSDN--ubuntu下安装swig-3.0.12](https://blog.csdn.net/zhangkzz/article/details/88555830)
+
+- 安装 pcre
+	`apt install libpcre3 libpcre3-dev`
+- 解压 swig压缩包
+	`tar xvf FileName.tar`
+- 进入加压后的文件夹
+```
+# 以下操作在 root权限下进行，其他权限未尝试
+./configure
+make
+make install  
+# 默认安装到此位置 /usr/local/share/swig/4.0.1
+# 4.0.1为版本号
+```
+
+- 路径加入 bashrc  
+
+`vim ~/.bashrc`
+
+```
+SWIG_PATH=/usr/local/share/swig/4.0.1
+PATH=$PATH:$SWIG_PATH
+```
+
+`source ~/.bashrc`  
+
+- 测试是否安装成功  
+`swig -version`
+
+## SWIG and Python  
+详细步骤见 [示例](https://github.com/yiyeFury/cpp_code/blob/master/fusion/README_SWIG.md)  
+
+
 # References  
 
 > 未加引用的章节，默认指本书  
 
-[^C++ Primer, 5th]: Stanley B. Lippman, Josée Lajoie, Barbara E. Moo. C++ Primer中文版 (第五版)[M]. 电子工业出版社, 2013.
+[^CppPrimer5th]: Stanley B. Lippman, Josée Lajoie, Barbara E. Moo. C++ Primer中文版 (第五版)[M]. 电子工业出版社, 2013.  
+
