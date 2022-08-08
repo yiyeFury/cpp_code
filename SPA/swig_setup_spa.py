@@ -44,8 +44,8 @@ example_module = Extension(extension_name,
                            # For Microsoft Visual C++ compiler, use '/openmp' instead of '-fopenmp'.
                            extra_compile_args=['-fopenmp'],
                            extra_link_args=['-fopenmp'],
-                        #    extra_compile_args=['/openmp'],
-                        #    extra_link_args=['/openmp'],
+                           # extra_compile_args=['/openmp'],
+                           # extra_link_args=['/openmp'],
                            )
 setup(name=module_name,
       version='0.1',

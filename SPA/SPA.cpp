@@ -1195,9 +1195,6 @@ void CalcSolarAngle(float *solar_zenith, int rows, int cols,
     // 计算太阳天顶角和方位角
     spa_data spa;  //declare the SPA structure
     int result;
-
-
-
     int rr, cc;
 
     // for(cc=0;cc<cols;cc++) {
@@ -1205,6 +1202,65 @@ void CalcSolarAngle(float *solar_zenith, int rows, int cols,
     for(rr=0;rr<rows;rr++)
     {
         for(cc=0;cc<cols;cc++) {
+
+            spa.year          = year;
+            spa.month         = month;
+            spa.day           = day;
+            spa.hour          = hour;
+            spa.minute        = minute;
+            spa.second        = second;
+            spa.timezone      = 0;  // 可设置为 0，使用UTC时间
+            spa.delta_ut1     = 0;
+            spa.delta_t       = 0;  // 可设置为 0
+            // spa.longitude     = 104.7;
+            // spa.latitude      = 0.0;
+            spa.elevation     = 0.0;  // 未使用
+            spa.pressure      = 820;  // 未使用
+            spa.temperature   = 11;  // 未使用
+            spa.slope         = 30;  // 未使用
+            spa.azm_rotation  = -10;  // 未使用
+            spa.atmos_refract = 0.5667;  // 未使用
+            spa.function      = SPA_ALL;
+
+            spa.longitude = lons[cc];
+            spa.latitude = lats[rr];
+
+            // cout<<"lon: "<<lons[cc]<<", "<<" lat: "<<lats[rr]<<endl;
+            result = spa_calculate(&spa);
+            // cout<<result<<endl;
+            // cout<<spa.zenith<<endl;
+            if (result != 0)  //check for SPA errors
+                continue;
+
+            // cout<<spa.zenith<<endl;
+            solar_zenith[rr * cols + cc] = spa.zenith;
+            // spa.azimuth
+        }
+    }
+}
+
+
+void CalcSolarAngleMask(float *solar_zenith, int rows, int cols,
+                        float *mask, int mask_rows, int mask_cols,
+                        float *lats, int lat_size,
+                        float *lons, int lon_size,
+                        int year, int month, int day,
+                        int hour, int minute, int second,
+                        int num_thread)
+{
+    // 计算太阳天顶角和方位角
+    spa_data spa;  //declare the SPA structure
+    int result;
+    int rr, cc;
+
+    // for(cc=0;cc<cols;cc++) {
+#pragma omp parallel for num_threads(num_thread) private(cc, result, spa)
+    for(rr=0;rr<rows;rr++)
+    {
+        for(cc=0;cc<cols;cc++) {
+
+            if (isnan(*(mask+rr*mask_cols+cc)))
+                continue;
 
             spa.year          = year;
             spa.month         = month;

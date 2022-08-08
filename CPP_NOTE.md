@@ -3038,9 +3038,149 @@ decltype(r+0) b;  // 正确：加法的结果是int，因此b是一个（未初�
 decltype(*p) c;  // 错误：c是int&，必须初始化
 ```
 
-`decltype((variable))`（注意是双层括号）的结果永远是引用，而`decltype(variable)`结果只有当variable本省就是一个引用时才是引用。
+`decltype((variable))`（注意是双层括号）的结果永远是引用，而`decltype(variable)`结果只有当variable本省就是一个引用时才是引用。  
 
-# [OpenMp](https://www.openmp.org/)  
+# CMake  
+
+https://cmake.org/  
+
+GitLab: [CMake](https://gitlab.kitware.com/cmake/cmake)  
+
+[Reference Documentation](https://cmake.org/documentation/)  
+
+- Book: [Mastering CMake](https://cmake.org/cmake/help/book/mastering-cmake/)  
+- [CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)  
+- [Command-Line Tools](https://cmake.org/cmake/help/v3.21/#command-line-tools)  
+- [Running CMake](https://cmake.org/runningcmake/)  
+
+GitHub: [cmake-examples-Chinese](https://github.com/SFUMECJF/cmake-examples-Chinese)  
+GitHub: [CMake Examples](https://github.com/ttroy50/cmake-examples)  
+
+[Cmake 语法与实战入门](https://zhuanlan.zhihu.com/p/267803605)  
+[CMake从入门到精通系列链接整理](https://zhuanlan.zhihu.com/p/393316878)  
+
+## 操作命令  
+
+有文件变动时，需要 Reload Cmake Project  
+
+查看版本
+```
+cmake --version  
+```
+需要将Cmake的`bin`文件夹加入系统变量，否则需要使用bin文件夹中 `..bin/cmake.exe`的绝对路径。  
+
+
+
+## CMakeLists.txt 编写  
+
+### 基本信息  
+
+```
+cmake_minimum_required(VERSION 3.17)  # CMake 最低版本号要求
+project(cpp_code)  # 项目信息
+set(CMAKE_CXX_STANDARD 14)  # 指定C++ 版本
+```
+
+### 添加多个文件  
+
+```
+# 查找当前目录下的所有源文件，并将名称保存到 DIR_SRCS 变量
+aux_source_directory(. DIR_SRCS)
+# 其它子文件夹
+aux_source_directory(fusion FUSION_DIR_SRCS)
+# 指定生成目标，可追加其他子文件夹名字
+add_executable(cpp_code ${DIR_SRCS} ${FUSION_DIR_SRCS})
+```
+
+### 在子文件夹中添加使用 CMakeLists.txt  
+
+子文件夹中必须包含`.cpp`文件  
+需要使用 开源库的文件，不要使用这种方式。  
+
+根目录下的 CMakeLists.txt 添加一下内容  
+```
+# dir_name，子文件夹名字
+# lib_name，自己起的库名字，保持唯一即可
+# var_name，变量名字，保持唯一即可
+add_subdirectory(dir_name)
+target_link_libraries(cpp_code lib_name)  # 添加链接库
+```
+子文件中 CMakeLists.txt  
+```
+aux_source_directory(. var_name)
+add_library (lib_name ${var_name})  # 生成链接库
+```
+
+# GCC  
+
+[**GCC, the GNU Compiler Collection**](https://www.gnu.org/software/gcc/)  
+
+- [Installing GCC](https://gcc.gnu.org/install/)  
+- [GCC online documentation](https://gcc.gnu.org/onlinedocs/)  
+
+菜鸟教程--[GCC 参数详解](https://www.runoob.com/w3cnote/gcc-parameter-detail.html)  
+
+CSDN--[g++的基本使用](https://blog.csdn.net/chengqiuming/article/details/88410794)  
+[Linux编译工具: gcc入门](https://www.cnblogs.com/QG-whz/p/5456720.html)  
+
+
+## Note  
+Ubuntu docker中自带 GCC编译器  
+
+知乎：g++以及gcc的区别
+- `gcc`是GCC中的GUN C Compiler（C 编译器）  
+- `g++`是GCC中的GUN C++ Compiler（C++编译器）  
+- 使用g++编译文件时，g++会自动链接标准库STL，而gcc不会自动链接STL  
+
+## 命令  
+`g++ -v` 查看版本信息  
+
+## Ubuntu  
+Ubuntu安装 GCC: `apt install build-essential`  
+
+## MinGW-w64  
+https://www.mingw-w64.org/  
+
+SourceForge--[MinGW-w64 - for 32 and 64 bit Windows](https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/)  
+	wiki-- https://sourceforge.net/p/mingw-w64/wiki2/Home/  
+
+知乎--[MinGW-w64安装教程——著名C/C++编译器GCC的Windows版本](https://zhuanlan.zhihu.com/p/76613134)  
+	[MinGW-w64安装教程——著名C/C++编译器GCC的Windows版本](https://www.cnblogs.com/ggg-327931457/p/9694516.html)  
+
+[MinGW-w64 离线安装过程记录](https://zhuanlan.zhihu.com/p/268275871)  
+
+
+
+### [MinGW-w64 版本选择方法](https://www.cnblogs.com/yeyuyan/p/14320715.html)  
+
+32位系统选择i686, 64位系统选择x86_64
+
+选择操作系统接口协议：
+- 线程模型：win32:没有C++ 11多线程特性；posix:支持C ++ 11多线程特性
+- 开发windows程序，需要选择 win32 ，而开发 Linux、Unix、MacOS等其他操作系统下的程序，则需要选择posix。
+
+选择异常处理模型：异常处理模型:32位系统推荐dwarf，64位系统推荐she
+- （64位）：两个异常处理模型供你选择，seh 是新发明的，而sjlj则是古老的。seh性能比较好，但不支持 32位。sjlj稳定性好，支持 32位。
+- （32位）：选择了32位后，则可以用dwarf和sjlj两种异常处理模型。同样的，dwarf 的性能要优于sjlj，但不支持64位。
+
+Architecture 是指电脑系统是 32位 还是 64位，根据你的电脑系统做出对应选择。
+
+### 安装 MinGW-64
+- 直接下载压缩包
+	替代方法：可以在SourceForge下载 MinGW-W64 Online Installer（MinGW-W64-install.exe），该exe辅助在线下载。
+
+- 将解压后的的 …/bin文件夹，加入系统变量。
+
+### 命令  
+- `gcc -v` 查看版本
+- 在Windows下使用`make`命令
+	bin路径下的mingw32-make.exe即为make命令的 原始位置（若想直接使用make，需要将bin加入环境变量，并将mingw32-make.exe重命名为make.exe）。
+
+
+
+
+
+# [OpenMp](https://www.openmp.org/)
 
 > OpenMp [Tutorials & Articles](https://www.openmp.org/resources/tutorials-articles/)  
 
@@ -3084,7 +3224,88 @@ if (OPENMP_FOUND)
 endif ()
 ```
 
-# [SWIG](http://www.swig.org/index.php)  
+# 数值计算包  
+
+博客: [科学计算库（BLAS，LAPACK，MKL，EIGEN）](https://www.cnblogs.com/chest/p/11844129.html)  
+
+## BLAS  
+
+BLAS, 即基础线性代数子程序库  
+[BLAS (Basic Linear Algebra Subprograms)](BLAS (Basic Linear Algebra Subprograms))  
+
+### OpenBLAS  
+
+GitHub: [Installation Guide](https://github.com/xianyi/OpenBLAS/wiki/Installation-Guide)  
+
+## LAPACK  
+
+[LAPACK — Linear Algebra PACKage](http://www.netlib.org/lapack/)  
+[LAPACK for Windows](http://icl.cs.utk.edu/lapack-for-windows/lapack/)  
+
+## MKL  
+
+[Get Started Guide](https://software.intel.com/content/www/us/en/develop/documentation/get-started-with-mkl-for-dpcpp/top.html)  
+
+## Armadillo  
+
+[Armadillo](http://arma.sourceforge.net/): C++ library for linear algebra & scientific computing  
+
+## [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)  
+
+[Document](https://eigen.tuxfamily.org/dox/)  
+[知乎--Eigen的速度为什么这么快？](https://www.zhihu.com/question/28571059)  
+[CSDN--比较OpenBLAS，Intel MKL和Eigen的矩阵相乘性能](https://blog.csdn.net/AMDS123/article/details/72761039)  
+
+### Install
+
+参考解压后的 **INSTALL** 文件
+
+### Configure
+
+CMakeLists.txt中加入eigen的解压路径  
+```Cmake
+# Eigen，未编译
+set(EIGEN_DIR_SRCS "E:/eigen/eigen-3.3.9/Eigen")
+include_directories(${EIGEN_DIR_SRCS})
+target_link_libraries(cpp_code ${EIGEN_DIR_SRCS})
+```
+
+### 使用Eigen
+
+#### [The Matrix class](https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html)
+
+> [博客园--C++矩阵库 Eigen 简介](https://www.cnblogs.com/rainbow70626/p/8819119.html)  
+
+##### Convenience typedefs  
+
+*此处定义的形式不全，具体参考构造函数*  
+
+Eigen defines the following Matrix typedefs:  
+
+- MatrixNt for Matrix<type, N, N>. For example, MatrixXi for Matrix<int, Dynamic, Dynamic>.  
+- VectorNt for Matrix<type, N, 1>. For example, Vector2f for Matrix<float, 2, 1>.  
+- RowVectorNt for Matrix<type, 1, N>. For example, RowVector3d for Matrix<double, 1, 3>.  
+
+Where:  
+- N can be any one of 2, 3, 4, or X (meaning Dynamic).  
+- t can be any one of `i` (meaning int), `f` (meaning float), `d` (meaning double), `cf` (meaning `complex<float>`), or `cd` (meaning `complex<double>`). The fact that typedefs are only defined for these five types doesn't mean that they are the only supported scalar types. For example, all standard integer types are supported, see Scalar types.
+
+#### 求解线性方程组  
+
+> [博客园--使用Eigen求解线性方程组](https://www.cnblogs.com/feifanrensheng/articles/8510702.html)  
+```c++
+// Solve Ax = b. Result stored in x. Matlab: x = A \ b.
+x = A.ldlt().solve(b));  // A sym. p.s.d.    #include <Eigen/Cholesky>
+x = A.llt().solve(b));  // A sym. p.d.       #include <Eigen/Cholesky>
+x = A.lu().solve(b));  // Stable and fast.   #include <Eigen/LU>
+x = A.qr().solve(b));  // No pivoting.       #include <Eigen/QR>
+x = A.svd().solve(b));  // Stable, slowest.  #include <Eigen/SVD>
+```
+
+
+
+# [SWIG](http://www.swig.org/index.php)
+
 > SWIG is a software development tool that simplifies the task of interfacing different languages to **C and C++** programs.
 
 - [numpy.i](https://github.com/numpy/numpy/tree/master/tools/swig)--传递numpy需要使用此文件
@@ -3139,6 +3360,61 @@ PATH=$PATH:$SWIG_PATH
 
 ## SWIG and Python  
 详细步骤见 [示例](https://github.com/yiyeFury/cpp_code/blob/master/fusion/README_SWIG.md)  
+
+> SWIG-4.0 Documentation  
+> from 32.2.1 Running SWIG  
+
+### 必须文件  
+
+`example.cpp`, `example.h`  
+`example.i`  
+`setup.py`  
+
+
+### 中间文件  
+
+`example_wrap.cxx`  
+
+
+### 结果文件  
+`_swig_example.*.pyd`
+`swig_example.py`
+
+### 执行步骤  
+
+编写 `example.cpp`, `example.h`;  
+
+编写 swig 接口 `example.i` 文件，与`example.cpp`, `example.h`放在同一个文件夹中；  
+- example.i 首行 `%module swig_example`, `swig_example` 为模块名字  
+
+运行命令 
+```
+swig -c++ -python example.i
+```
+生成 `example_wrap.cxx` 和 `swig_example.py` 文件；  
+
+- *将swig.exe所在文件夹加入到系统变量中，否则需要使用 swig.exe的完整路径*  
+- 默认情况下，`example_wrap.cxx`文件名 与 .i 文件名 相关  
+- `swig_example.py` 文件名 与 模块名字相关  
+
+编写 `setup.py` 文件，与 `example_wrap.cxx` 和 `swig_example.py` 放在同一个文件夹中；  
+
+- `setup.py` 可改名字，如 `setup_example.py`  
+
+运行命令 
+```
+python setup.py build_ext --inplace
+```
+生成 `_swig_example.*.pyd` 文件；  
+
+- *Linux下为 .so, Windows下为 .pyd*
+- *`python setup.py build_ext --inplace`* 可替换为 build_ext 的其他参数，*`setup.py`* 可以使用其他名字  
+- `_swig_example.*.pyd` 文件名，为 下划线 + module 名，`*`标识系统标记  
+
+将 `swig_example.py` 和 `_swig_example.*.pyd` 文件 加入到python环境中，即可作为 包导入；  
+
+- *包名即为 example.i 文件第一行 （%module example）中 module 后的名字（如 example）*
+- 若报错，尝试将 `_swig_example.*.pyd` 重命名为 `_swig_example.pyd`；
 
 
 # References  

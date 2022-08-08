@@ -15,14 +15,3 @@ int Factorial(int n)
         return n*Factorial(n-1);
 }
 
-
-// int main()
-// {
-//     int arr[5] = {5, 3, 2, 1, 4};
-//     Heapsort<int, 5> hs;
-//     hs.Sort(arr, 5);
-//     PrintArray(arr);
-//
-//     return 0;
-// }
-

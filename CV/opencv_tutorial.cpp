@@ -214,31 +214,32 @@ void ImageSegmentationWithDistanceTransformAndWatershedAlgorithm()
 }
 
 
-int main()
-{
+// int main()
+// {
+//
+//     cout <<"\nStart\n\n";
+//
+//     Mat src, src_gray, dst;
+//     string img_file("E:/my_data/dip_data/lena.jpg");
+//     src = imread(img_file);
+//     imshow("src", src);
+//
+//     // Reduce noise by blurring with a Gaussian filter ( kernel size = 3 )
+//     GaussianBlur( src, src, Size(3, 3), 0, 0, BORDER_DEFAULT );
+//     cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to grayscale
+//
+//     int kernel_size = 3, scale = 1, delta = 0, ddepth = CV_16S;
+//     Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
+//
+//     // converting back to CV_8U
+//     Mat abs_dst;
+//     convertScaleAbs( dst, abs_dst );
+//     imshow( "dst", abs_dst );
+//     waitKey(0);
+//
+//     cout<<"\n\nEnd\n";
+//     // system("pause");
+//     return 0;
+// }
 
-    cout <<"\nStart\n\n";
-
-    Mat src, src_gray, dst;
-    string img_file("E:/my_data/dip_data/lena.jpg");
-    src = imread(img_file);
-    imshow("src", src);
-
-    // Reduce noise by blurring with a Gaussian filter ( kernel size = 3 )
-    GaussianBlur( src, src, Size(3, 3), 0, 0, BORDER_DEFAULT );
-    cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to grayscale
-
-    int kernel_size = 3, scale = 1, delta = 0, ddepth = CV_16S;
-    Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
-
-    // converting back to CV_8U
-    Mat abs_dst;
-    convertScaleAbs( dst, abs_dst );
-    imshow( "dst", abs_dst );
-    waitKey(0);
-
-    cout<<"\n\nEnd\n";
-    // system("pause");
-    return 0;
-}
 

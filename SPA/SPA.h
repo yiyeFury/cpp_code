@@ -212,4 +212,11 @@ void CalcSolarAngle(float *solar_zenith, int rows, int cols,
                     int year, int month, int day,
                     int hour=0, int minute=0, int second=0,
                     int num_thread=4);
+void CalcSolarAngleMask(float *solar_zenith, int rows, int cols,
+                        float *mask, int mask_rows, int mask_cols,
+                        float *lats, int lat_size,
+                        float *lons, int lon_size,
+                        int year, int month, int day,
+                        int hour=0, int minute=0, int second=0,
+                        int num_thread=4);
 #endif //CPP_CODE_SPA_H

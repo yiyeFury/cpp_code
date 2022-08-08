@@ -65,4 +65,7 @@ class _SwigNonDynamicMeta(type):
 def CalcSolarAngleFunc(solar_zenith, lats, lons, year, month, day, hour=0, minute=0, second=0, num_thread=4):
     return _SPA.CalcSolarAngleFunc(solar_zenith, lats, lons, year, month, day, hour, minute, second, num_thread)
 
+def CalcSolarAngleMaskFunc(solar_zenith, mask, lats, lons, year, month, day, hour=0, minute=0, second=0, num_thread=4):
+    return _SPA.CalcSolarAngleMaskFunc(solar_zenith, mask, lats, lons, year, month, day, hour, minute, second, num_thread)
+
 

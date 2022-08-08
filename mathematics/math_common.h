@@ -45,14 +45,14 @@ double radiance_to_degree(T1 rad)
 
 
 template<typename T, int N>
-double CalculateMean(const T (&arr)[N], const int dof=N)
+double MathMean(const T (&arr)[N], const int dof=N)
 {
     /*
      * dof: degree of freedom
      */
     // 计算均值
-    double m, tmp_val=0.0;
-    for (int ii=0;ii<N;ii++)
+    double m, tmp_val = 0.0;
+    for (int ii = 0; ii < N; ii++)
         tmp_val += arr[ii];
     m = tmp_val / dof;
     return m;
@@ -61,21 +61,21 @@ double CalculateMean(const T (&arr)[N], const int dof=N)
 template<typename T, int N>
 double CalculateVariance(const T (&arr)[N], const int dof=N-1)
 {
-    // 计算样本方差
-    double v, m, tmp_val=0.0;
-    m = CalculateMean(arr, dof);
-    for (int ii=0;ii<N;ii++)
-        tmp_val += pow(arr[ii]-m, 2);
-    v = tmp_val/dof;
+    // 计算方差（样本方差、总体方差）
+    double v, m, tmp_val = 0.0;
+    m = MathMean(arr, N);
+    for (int ii = 0; ii < N; ii++)
+        tmp_val += pow(arr[ii] - m, 2);
+    v = tmp_val / dof;
     return v;
 }
 
 template<typename T, int N>
-double CalculateCovariance(const T (&arr1)[N], const T (&arr2)[N], const int dof=N-1)
+double MathCovariance(const T (&arr1)[N], const T (&arr2)[N], const int dof=N-1)
 {
     double m1, m2;
-    m1 = CalculateMean(arr1);
-    m2 = CalculateMean(arr2);
+    m1 = MathMean(arr1);
+    m2 = MathMean(arr2);
     double tmp_val, dst;
     for (int ii=0;ii<N;ii++) {
         tmp_val += (arr1[ii] - m1)*(arr2[ii] - m2);
@@ -92,7 +92,7 @@ double CorrelationCoefficient(const T1 (&arr1)[N], const T2 (&arr2)[N], const T3
      * 计算相关系数
      */
     double cov;  // 计算协方差
-    cov = CalculateCovariance(arr1, arr2, dof);
+    cov = MathCovariance(arr1, arr2, dof);
 
     double var1, var2;  // 计算方差
     var1 = CalculateVariance(arr1, dof);

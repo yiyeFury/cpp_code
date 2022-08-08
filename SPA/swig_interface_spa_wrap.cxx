@@ -2799,6 +2799,23 @@ namespace swig {
                     hour, minute, second,
                     num_thread);
     }
+
+void CalcSolarAngleMaskFunc(float *solar_zenith, int rows, int cols,
+                            float *mask, int mask_rows, int mask_cols,
+                        float *lats, int lats_size,
+                        float *lons, int lons_size,
+                        int year, int month, int day,
+                        int hour=0, int minute=0, int second=0,
+                        int num_thread=4) {
+    /*  calls the original funcion, providing only the size of the first */
+    CalcSolarAngleMask(solar_zenith, rows, cols,
+                   mask, mask_rows, mask_cols,
+                   lats, lats_size,
+                   lons, lons_size,
+                   year, month, day,
+                   hour, minute, second,
+                   num_thread);
+}
     
     
 
@@ -4300,9 +4317,971 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  float *arg1 = (float *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  float *arg4 = (float *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  float *arg7 = (float *) 0 ;
+  int arg8 ;
+  float *arg9 = (float *) 0 ;
+  int arg10 ;
+  int arg11 ;
+  int arg12 ;
+  int arg13 ;
+  int arg14 ;
+  int arg15 ;
+  int arg16 ;
+  int arg17 ;
+  PyArrayObject *array1 = NULL ;
+  PyArrayObject *array4 = NULL ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 = 0 ;
+  PyArrayObject *array9 = NULL ;
+  int is_new_object9 = 0 ;
+  int val11 ;
+  int ecode11 = 0 ;
+  int val12 ;
+  int ecode12 = 0 ;
+  int val13 ;
+  int ecode13 = 0 ;
+  int val14 ;
+  int ecode14 = 0 ;
+  int val15 ;
+  int ecode15 = 0 ;
+  int val16 ;
+  int ecode16 = 0 ;
+  int val17 ;
+  int ecode17 = 0 ;
+  
+  if ((nobjs < 11) || (nobjs > 11)) SWIG_fail;
+  {
+    array1 = obj_to_array_no_conversion(swig_obj[0], NPY_FLOAT);
+    if (!array1 || !require_dimensions(array1,2) || !require_contiguous(array1)
+      || !require_native(array1)) SWIG_fail;
+    arg1 = (float*) array_data(array1);
+    arg2 = (int) array_size(array1,0);
+    arg3 = (int) array_size(array1,1);
+  }
+  {
+    array4 = obj_to_array_no_conversion(swig_obj[1], NPY_FLOAT);
+    if (!array4 || !require_dimensions(array4,2) || !require_contiguous(array4)
+      || !require_native(array4)) SWIG_fail;
+    arg4 = (float*) array_data(array4);
+    arg5 = (int) array_size(array4,0);
+    arg6 = (int) array_size(array4,1);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(swig_obj[2],
+      NPY_FLOAT,
+      &is_new_object7);
+    if (!array7 || !require_dimensions(array7, 1) ||
+      !require_size(array7, size, 1)) SWIG_fail;
+    arg7 = (float*) array_data(array7);
+    arg8 = (int) array_size(array7,0);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array9 = obj_to_array_contiguous_allow_conversion(swig_obj[3],
+      NPY_FLOAT,
+      &is_new_object9);
+    if (!array9 || !require_dimensions(array9, 1) ||
+      !require_size(array9, size, 1)) SWIG_fail;
+    arg9 = (float*) array_data(array9);
+    arg10 = (int) array_size(array9,0);
+  }
+  ecode11 = SWIG_AsVal_int(swig_obj[4], &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "CalcSolarAngleMaskFunc" "', argument " "11"" of type '" "int""'");
+  } 
+  arg11 = static_cast< int >(val11);
+  ecode12 = SWIG_AsVal_int(swig_obj[5], &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "CalcSolarAngleMaskFunc" "', argument " "12"" of type '" "int""'");
+  } 
+  arg12 = static_cast< int >(val12);
+  ecode13 = SWIG_AsVal_int(swig_obj[6], &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "CalcSolarAngleMaskFunc" "', argument " "13"" of type '" "int""'");
+  } 
+  arg13 = static_cast< int >(val13);
+  ecode14 = SWIG_AsVal_int(swig_obj[7], &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "CalcSolarAngleMaskFunc" "', argument " "14"" of type '" "int""'");
+  } 
+  arg14 = static_cast< int >(val14);
+  ecode15 = SWIG_AsVal_int(swig_obj[8], &val15);
+  if (!SWIG_IsOK(ecode15)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode15), "in method '" "CalcSolarAngleMaskFunc" "', argument " "15"" of type '" "int""'");
+  } 
+  arg15 = static_cast< int >(val15);
+  ecode16 = SWIG_AsVal_int(swig_obj[9], &val16);
+  if (!SWIG_IsOK(ecode16)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode16), "in method '" "CalcSolarAngleMaskFunc" "', argument " "16"" of type '" "int""'");
+  } 
+  arg16 = static_cast< int >(val16);
+  ecode17 = SWIG_AsVal_int(swig_obj[10], &val17);
+  if (!SWIG_IsOK(ecode17)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode17), "in method '" "CalcSolarAngleMaskFunc" "', argument " "17"" of type '" "int""'");
+  } 
+  arg17 = static_cast< int >(val17);
+  CalcSolarAngleMaskFunc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  float *arg1 = (float *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  float *arg4 = (float *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  float *arg7 = (float *) 0 ;
+  int arg8 ;
+  float *arg9 = (float *) 0 ;
+  int arg10 ;
+  int arg11 ;
+  int arg12 ;
+  int arg13 ;
+  int arg14 ;
+  int arg15 ;
+  int arg16 ;
+  PyArrayObject *array1 = NULL ;
+  PyArrayObject *array4 = NULL ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 = 0 ;
+  PyArrayObject *array9 = NULL ;
+  int is_new_object9 = 0 ;
+  int val11 ;
+  int ecode11 = 0 ;
+  int val12 ;
+  int ecode12 = 0 ;
+  int val13 ;
+  int ecode13 = 0 ;
+  int val14 ;
+  int ecode14 = 0 ;
+  int val15 ;
+  int ecode15 = 0 ;
+  int val16 ;
+  int ecode16 = 0 ;
+  
+  if ((nobjs < 10) || (nobjs > 10)) SWIG_fail;
+  {
+    array1 = obj_to_array_no_conversion(swig_obj[0], NPY_FLOAT);
+    if (!array1 || !require_dimensions(array1,2) || !require_contiguous(array1)
+      || !require_native(array1)) SWIG_fail;
+    arg1 = (float*) array_data(array1);
+    arg2 = (int) array_size(array1,0);
+    arg3 = (int) array_size(array1,1);
+  }
+  {
+    array4 = obj_to_array_no_conversion(swig_obj[1], NPY_FLOAT);
+    if (!array4 || !require_dimensions(array4,2) || !require_contiguous(array4)
+      || !require_native(array4)) SWIG_fail;
+    arg4 = (float*) array_data(array4);
+    arg5 = (int) array_size(array4,0);
+    arg6 = (int) array_size(array4,1);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(swig_obj[2],
+      NPY_FLOAT,
+      &is_new_object7);
+    if (!array7 || !require_dimensions(array7, 1) ||
+      !require_size(array7, size, 1)) SWIG_fail;
+    arg7 = (float*) array_data(array7);
+    arg8 = (int) array_size(array7,0);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array9 = obj_to_array_contiguous_allow_conversion(swig_obj[3],
+      NPY_FLOAT,
+      &is_new_object9);
+    if (!array9 || !require_dimensions(array9, 1) ||
+      !require_size(array9, size, 1)) SWIG_fail;
+    arg9 = (float*) array_data(array9);
+    arg10 = (int) array_size(array9,0);
+  }
+  ecode11 = SWIG_AsVal_int(swig_obj[4], &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "CalcSolarAngleMaskFunc" "', argument " "11"" of type '" "int""'");
+  } 
+  arg11 = static_cast< int >(val11);
+  ecode12 = SWIG_AsVal_int(swig_obj[5], &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "CalcSolarAngleMaskFunc" "', argument " "12"" of type '" "int""'");
+  } 
+  arg12 = static_cast< int >(val12);
+  ecode13 = SWIG_AsVal_int(swig_obj[6], &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "CalcSolarAngleMaskFunc" "', argument " "13"" of type '" "int""'");
+  } 
+  arg13 = static_cast< int >(val13);
+  ecode14 = SWIG_AsVal_int(swig_obj[7], &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "CalcSolarAngleMaskFunc" "', argument " "14"" of type '" "int""'");
+  } 
+  arg14 = static_cast< int >(val14);
+  ecode15 = SWIG_AsVal_int(swig_obj[8], &val15);
+  if (!SWIG_IsOK(ecode15)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode15), "in method '" "CalcSolarAngleMaskFunc" "', argument " "15"" of type '" "int""'");
+  } 
+  arg15 = static_cast< int >(val15);
+  ecode16 = SWIG_AsVal_int(swig_obj[9], &val16);
+  if (!SWIG_IsOK(ecode16)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode16), "in method '" "CalcSolarAngleMaskFunc" "', argument " "16"" of type '" "int""'");
+  } 
+  arg16 = static_cast< int >(val16);
+  CalcSolarAngleMaskFunc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc__SWIG_2(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  float *arg1 = (float *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  float *arg4 = (float *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  float *arg7 = (float *) 0 ;
+  int arg8 ;
+  float *arg9 = (float *) 0 ;
+  int arg10 ;
+  int arg11 ;
+  int arg12 ;
+  int arg13 ;
+  int arg14 ;
+  int arg15 ;
+  PyArrayObject *array1 = NULL ;
+  PyArrayObject *array4 = NULL ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 = 0 ;
+  PyArrayObject *array9 = NULL ;
+  int is_new_object9 = 0 ;
+  int val11 ;
+  int ecode11 = 0 ;
+  int val12 ;
+  int ecode12 = 0 ;
+  int val13 ;
+  int ecode13 = 0 ;
+  int val14 ;
+  int ecode14 = 0 ;
+  int val15 ;
+  int ecode15 = 0 ;
+  
+  if ((nobjs < 9) || (nobjs > 9)) SWIG_fail;
+  {
+    array1 = obj_to_array_no_conversion(swig_obj[0], NPY_FLOAT);
+    if (!array1 || !require_dimensions(array1,2) || !require_contiguous(array1)
+      || !require_native(array1)) SWIG_fail;
+    arg1 = (float*) array_data(array1);
+    arg2 = (int) array_size(array1,0);
+    arg3 = (int) array_size(array1,1);
+  }
+  {
+    array4 = obj_to_array_no_conversion(swig_obj[1], NPY_FLOAT);
+    if (!array4 || !require_dimensions(array4,2) || !require_contiguous(array4)
+      || !require_native(array4)) SWIG_fail;
+    arg4 = (float*) array_data(array4);
+    arg5 = (int) array_size(array4,0);
+    arg6 = (int) array_size(array4,1);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(swig_obj[2],
+      NPY_FLOAT,
+      &is_new_object7);
+    if (!array7 || !require_dimensions(array7, 1) ||
+      !require_size(array7, size, 1)) SWIG_fail;
+    arg7 = (float*) array_data(array7);
+    arg8 = (int) array_size(array7,0);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array9 = obj_to_array_contiguous_allow_conversion(swig_obj[3],
+      NPY_FLOAT,
+      &is_new_object9);
+    if (!array9 || !require_dimensions(array9, 1) ||
+      !require_size(array9, size, 1)) SWIG_fail;
+    arg9 = (float*) array_data(array9);
+    arg10 = (int) array_size(array9,0);
+  }
+  ecode11 = SWIG_AsVal_int(swig_obj[4], &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "CalcSolarAngleMaskFunc" "', argument " "11"" of type '" "int""'");
+  } 
+  arg11 = static_cast< int >(val11);
+  ecode12 = SWIG_AsVal_int(swig_obj[5], &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "CalcSolarAngleMaskFunc" "', argument " "12"" of type '" "int""'");
+  } 
+  arg12 = static_cast< int >(val12);
+  ecode13 = SWIG_AsVal_int(swig_obj[6], &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "CalcSolarAngleMaskFunc" "', argument " "13"" of type '" "int""'");
+  } 
+  arg13 = static_cast< int >(val13);
+  ecode14 = SWIG_AsVal_int(swig_obj[7], &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "CalcSolarAngleMaskFunc" "', argument " "14"" of type '" "int""'");
+  } 
+  arg14 = static_cast< int >(val14);
+  ecode15 = SWIG_AsVal_int(swig_obj[8], &val15);
+  if (!SWIG_IsOK(ecode15)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode15), "in method '" "CalcSolarAngleMaskFunc" "', argument " "15"" of type '" "int""'");
+  } 
+  arg15 = static_cast< int >(val15);
+  CalcSolarAngleMaskFunc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  float *arg1 = (float *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  float *arg4 = (float *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  float *arg7 = (float *) 0 ;
+  int arg8 ;
+  float *arg9 = (float *) 0 ;
+  int arg10 ;
+  int arg11 ;
+  int arg12 ;
+  int arg13 ;
+  int arg14 ;
+  PyArrayObject *array1 = NULL ;
+  PyArrayObject *array4 = NULL ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 = 0 ;
+  PyArrayObject *array9 = NULL ;
+  int is_new_object9 = 0 ;
+  int val11 ;
+  int ecode11 = 0 ;
+  int val12 ;
+  int ecode12 = 0 ;
+  int val13 ;
+  int ecode13 = 0 ;
+  int val14 ;
+  int ecode14 = 0 ;
+  
+  if ((nobjs < 8) || (nobjs > 8)) SWIG_fail;
+  {
+    array1 = obj_to_array_no_conversion(swig_obj[0], NPY_FLOAT);
+    if (!array1 || !require_dimensions(array1,2) || !require_contiguous(array1)
+      || !require_native(array1)) SWIG_fail;
+    arg1 = (float*) array_data(array1);
+    arg2 = (int) array_size(array1,0);
+    arg3 = (int) array_size(array1,1);
+  }
+  {
+    array4 = obj_to_array_no_conversion(swig_obj[1], NPY_FLOAT);
+    if (!array4 || !require_dimensions(array4,2) || !require_contiguous(array4)
+      || !require_native(array4)) SWIG_fail;
+    arg4 = (float*) array_data(array4);
+    arg5 = (int) array_size(array4,0);
+    arg6 = (int) array_size(array4,1);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(swig_obj[2],
+      NPY_FLOAT,
+      &is_new_object7);
+    if (!array7 || !require_dimensions(array7, 1) ||
+      !require_size(array7, size, 1)) SWIG_fail;
+    arg7 = (float*) array_data(array7);
+    arg8 = (int) array_size(array7,0);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array9 = obj_to_array_contiguous_allow_conversion(swig_obj[3],
+      NPY_FLOAT,
+      &is_new_object9);
+    if (!array9 || !require_dimensions(array9, 1) ||
+      !require_size(array9, size, 1)) SWIG_fail;
+    arg9 = (float*) array_data(array9);
+    arg10 = (int) array_size(array9,0);
+  }
+  ecode11 = SWIG_AsVal_int(swig_obj[4], &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "CalcSolarAngleMaskFunc" "', argument " "11"" of type '" "int""'");
+  } 
+  arg11 = static_cast< int >(val11);
+  ecode12 = SWIG_AsVal_int(swig_obj[5], &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "CalcSolarAngleMaskFunc" "', argument " "12"" of type '" "int""'");
+  } 
+  arg12 = static_cast< int >(val12);
+  ecode13 = SWIG_AsVal_int(swig_obj[6], &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "CalcSolarAngleMaskFunc" "', argument " "13"" of type '" "int""'");
+  } 
+  arg13 = static_cast< int >(val13);
+  ecode14 = SWIG_AsVal_int(swig_obj[7], &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "CalcSolarAngleMaskFunc" "', argument " "14"" of type '" "int""'");
+  } 
+  arg14 = static_cast< int >(val14);
+  CalcSolarAngleMaskFunc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc__SWIG_4(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  float *arg1 = (float *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  float *arg4 = (float *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  float *arg7 = (float *) 0 ;
+  int arg8 ;
+  float *arg9 = (float *) 0 ;
+  int arg10 ;
+  int arg11 ;
+  int arg12 ;
+  int arg13 ;
+  PyArrayObject *array1 = NULL ;
+  PyArrayObject *array4 = NULL ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 = 0 ;
+  PyArrayObject *array9 = NULL ;
+  int is_new_object9 = 0 ;
+  int val11 ;
+  int ecode11 = 0 ;
+  int val12 ;
+  int ecode12 = 0 ;
+  int val13 ;
+  int ecode13 = 0 ;
+  
+  if ((nobjs < 7) || (nobjs > 7)) SWIG_fail;
+  {
+    array1 = obj_to_array_no_conversion(swig_obj[0], NPY_FLOAT);
+    if (!array1 || !require_dimensions(array1,2) || !require_contiguous(array1)
+      || !require_native(array1)) SWIG_fail;
+    arg1 = (float*) array_data(array1);
+    arg2 = (int) array_size(array1,0);
+    arg3 = (int) array_size(array1,1);
+  }
+  {
+    array4 = obj_to_array_no_conversion(swig_obj[1], NPY_FLOAT);
+    if (!array4 || !require_dimensions(array4,2) || !require_contiguous(array4)
+      || !require_native(array4)) SWIG_fail;
+    arg4 = (float*) array_data(array4);
+    arg5 = (int) array_size(array4,0);
+    arg6 = (int) array_size(array4,1);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(swig_obj[2],
+      NPY_FLOAT,
+      &is_new_object7);
+    if (!array7 || !require_dimensions(array7, 1) ||
+      !require_size(array7, size, 1)) SWIG_fail;
+    arg7 = (float*) array_data(array7);
+    arg8 = (int) array_size(array7,0);
+  }
+  {
+    npy_intp size[1] = {
+      -1 
+    };
+    array9 = obj_to_array_contiguous_allow_conversion(swig_obj[3],
+      NPY_FLOAT,
+      &is_new_object9);
+    if (!array9 || !require_dimensions(array9, 1) ||
+      !require_size(array9, size, 1)) SWIG_fail;
+    arg9 = (float*) array_data(array9);
+    arg10 = (int) array_size(array9,0);
+  }
+  ecode11 = SWIG_AsVal_int(swig_obj[4], &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "CalcSolarAngleMaskFunc" "', argument " "11"" of type '" "int""'");
+  } 
+  arg11 = static_cast< int >(val11);
+  ecode12 = SWIG_AsVal_int(swig_obj[5], &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "CalcSolarAngleMaskFunc" "', argument " "12"" of type '" "int""'");
+  } 
+  arg12 = static_cast< int >(val12);
+  ecode13 = SWIG_AsVal_int(swig_obj[6], &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "CalcSolarAngleMaskFunc" "', argument " "13"" of type '" "int""'");
+  } 
+  arg13 = static_cast< int >(val13);
+  CalcSolarAngleMaskFunc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object7 && array7)
+    {
+      Py_DECREF(array7); 
+    }
+  }
+  {
+    if (is_new_object9 && array9)
+    {
+      Py_DECREF(array9); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CalcSolarAngleMaskFunc(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[12] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "CalcSolarAngleMaskFunc", 0, 11, argv))) SWIG_fail;
+  --argc;
+  if (argc == 7) {
+    int _v;
+    {
+      _v = is_array(argv[0]) && PyArray_EquivTypenums(array_type(argv[0]),
+        NPY_FLOAT);
+    }
+    if (_v) {
+      {
+        _v = is_array(argv[1]) && PyArray_EquivTypenums(array_type(argv[1]),
+          NPY_FLOAT);
+      }
+      if (_v) {
+        {
+          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = is_array(argv[3]) || PySequence_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_int(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_int(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_int(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  return _wrap_CalcSolarAngleMaskFunc__SWIG_4(self, argc, argv);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 8) {
+    int _v;
+    {
+      _v = is_array(argv[0]) && PyArray_EquivTypenums(array_type(argv[0]),
+        NPY_FLOAT);
+    }
+    if (_v) {
+      {
+        _v = is_array(argv[1]) && PyArray_EquivTypenums(array_type(argv[1]),
+          NPY_FLOAT);
+      }
+      if (_v) {
+        {
+          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = is_array(argv[3]) || PySequence_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_int(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_int(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_int(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_int(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    return _wrap_CalcSolarAngleMaskFunc__SWIG_3(self, argc, argv);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 9) {
+    int _v;
+    {
+      _v = is_array(argv[0]) && PyArray_EquivTypenums(array_type(argv[0]),
+        NPY_FLOAT);
+    }
+    if (_v) {
+      {
+        _v = is_array(argv[1]) && PyArray_EquivTypenums(array_type(argv[1]),
+          NPY_FLOAT);
+      }
+      if (_v) {
+        {
+          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = is_array(argv[3]) || PySequence_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_int(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_int(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_int(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_int(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    {
+                      int res = SWIG_AsVal_int(argv[8], NULL);
+                      _v = SWIG_CheckState(res);
+                    }
+                    if (_v) {
+                      return _wrap_CalcSolarAngleMaskFunc__SWIG_2(self, argc, argv);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 10) {
+    int _v;
+    {
+      _v = is_array(argv[0]) && PyArray_EquivTypenums(array_type(argv[0]),
+        NPY_FLOAT);
+    }
+    if (_v) {
+      {
+        _v = is_array(argv[1]) && PyArray_EquivTypenums(array_type(argv[1]),
+          NPY_FLOAT);
+      }
+      if (_v) {
+        {
+          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = is_array(argv[3]) || PySequence_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_int(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_int(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_int(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_int(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    {
+                      int res = SWIG_AsVal_int(argv[8], NULL);
+                      _v = SWIG_CheckState(res);
+                    }
+                    if (_v) {
+                      {
+                        int res = SWIG_AsVal_int(argv[9], NULL);
+                        _v = SWIG_CheckState(res);
+                      }
+                      if (_v) {
+                        return _wrap_CalcSolarAngleMaskFunc__SWIG_1(self, argc, argv);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 11) {
+    int _v;
+    {
+      _v = is_array(argv[0]) && PyArray_EquivTypenums(array_type(argv[0]),
+        NPY_FLOAT);
+    }
+    if (_v) {
+      {
+        _v = is_array(argv[1]) && PyArray_EquivTypenums(array_type(argv[1]),
+          NPY_FLOAT);
+      }
+      if (_v) {
+        {
+          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = is_array(argv[3]) || PySequence_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_int(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_int(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_int(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_int(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    {
+                      int res = SWIG_AsVal_int(argv[8], NULL);
+                      _v = SWIG_CheckState(res);
+                    }
+                    if (_v) {
+                      {
+                        int res = SWIG_AsVal_int(argv[9], NULL);
+                        _v = SWIG_CheckState(res);
+                      }
+                      if (_v) {
+                        {
+                          int res = SWIG_AsVal_int(argv[10], NULL);
+                          _v = SWIG_CheckState(res);
+                        }
+                        if (_v) {
+                          return _wrap_CalcSolarAngleMaskFunc__SWIG_0(self, argc, argv);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'CalcSolarAngleMaskFunc'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CalcSolarAngleMaskFunc(float *,int,int,float *,int,int,float *,int,float *,int,int,int,int,int,int,int,int)\n"
+    "    CalcSolarAngleMaskFunc(float *,int,int,float *,int,int,float *,int,float *,int,int,int,int,int,int,int)\n"
+    "    CalcSolarAngleMaskFunc(float *,int,int,float *,int,int,float *,int,float *,int,int,int,int,int,int)\n"
+    "    CalcSolarAngleMaskFunc(float *,int,int,float *,int,int,float *,int,float *,int,int,int,int,int)\n"
+    "    CalcSolarAngleMaskFunc(float *,int,int,float *,int,int,float *,int,float *,int,int,int,int)\n");
+  return 0;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { "SWIG_PyInstanceMethod_New", SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { "CalcSolarAngleFunc", _wrap_CalcSolarAngleFunc, METH_VARARGS, NULL},
+	 { "CalcSolarAngleMaskFunc", _wrap_CalcSolarAngleMaskFunc, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
